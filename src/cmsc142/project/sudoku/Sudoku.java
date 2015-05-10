@@ -11,18 +11,7 @@ public class Sudoku {
 		try {
 			ArrayList<SudokuBoard> puzzles = fileAccess.readBoard();
 			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
+			SudokuUtils.findSolutions(puzzles);
 			
 			
 			
