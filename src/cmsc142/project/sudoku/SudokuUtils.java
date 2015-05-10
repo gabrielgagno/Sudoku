@@ -31,8 +31,7 @@ public abstract class SudokuUtils {
 		}
 	}
 
-	public static void checkColumn(List<Integer> candidates, int[][] puzzle,
-			int puzzleSize, int column) {
+	public static void checkColumn(List<Integer> candidates, int[][] puzzle, int puzzleSize, int column) {
 		for (int i = 0; i < puzzleSize; i++) {
 			if (puzzle[i][column] != 0) {
 				candidates.remove(new Integer(puzzle[i][column]));
@@ -41,12 +40,14 @@ public abstract class SudokuUtils {
 	}
 	
 	public static void checkX(List<Integer> candidates, int[][] puzzle,int puzzleSize, int row, int column) {
+		System.out.println("Checking X");
 		if (row == column || column == (puzzleSize-1)-row) {
 			for (int i = 0; i < puzzleSize; i++) {
 				for (int j = 0; j < puzzleSize; j++) {
-					if(puzzle[i][j] != 0)
-						if (i == j || j == (puzzleSize-1)-i)
-							candidates.remove(new Integer(puzzle[i][j]));
+					if(puzzle[i][j] != 0 && ((i == j && row == column) || (j == (puzzleSize-1)-i && column == (puzzleSize-1)-row))){	
+						System.out.println("hello");
+						candidates.remove(new Integer(puzzle[i][j]));
+					}
 				}
 			}
 		}
@@ -58,22 +59,39 @@ public abstract class SudokuUtils {
 			for(int i=0; i<puzzleSize; i++){
 				for(int j=0; j<puzzleSize; j++){
 					if(puzzle[i][j] != 0){
-						if(i < center){
-							if(i == j || j == puzzleSize-1-i){
-								candidates.remove(new Integer(puzzle[i][j]));
-							}
-						}else if(j == center){
-							for(int k=center; k<puzzleSize; k++){
-								candidates.remove(new Integer(puzzle[k][center]));
-							}
+						
+						// Always check the center
+						if(i >= center && (j == center)){
+							candidates.remove(new Integer(puzzle[i][j]));
 						}
+						
+						// Left Wing of Y
+						if (i < center && i == j && row == column){
+							candidates.remove(new Integer(puzzle[i][j]));
+						}
+						
+						// Right Wing of Y
+						else if (i < center && j == puzzleSize-1-i && column == puzzleSize-1-row){
+							candidates.remove(new Integer(puzzle[i][j]));
+						}
+						
+						
+//						if(i < center){
+//							if(i == j || j == puzzleSize-1-i){
+//								candidates.remove(new Integer(puzzle[i][j]));
+//							}
+//						}else if(j == center){
+//							for(int k=center; k<puzzleSize; k++){
+//								candidates.remove(new Integer(puzzle[k][center]));
+//							}
+//						}
 					}
 				}
 			}
 		}
 	}
 
-	private static void solveUsingBacktracking(SudokuBoard sudokuBoard) {
+	private static void solveUsingBacktracking(SudokuBoard sudokuBoard, boolean xSudoku, boolean ySudoku) {
 		int puzzleSize = sudokuBoard.getSize();
 		int start = 0;
 		int move = 0;
@@ -115,7 +133,20 @@ public abstract class SudokuUtils {
 					System.out.println("Solution found!");
 					int[][] solution = new int[puzzleSize][puzzleSize];
 					copyPuzzle(solution, tempPuzzle);
-					sudokuBoard.getNormalSolution().add(solution);
+					
+					if(xSudoku){
+						if(ySudoku){
+							sudokuBoard.getxYSolution().add(solution);
+						} else {
+							sudokuBoard.getxSolution().add(solution);
+						}
+					} else {
+						if(ySudoku){
+							sudokuBoard.getySolution().add(solution);
+						} else {
+							sudokuBoard.getNormalSolution().add(solution);
+						}
+					}
 				}
 
 				// Populate
@@ -125,13 +156,13 @@ public abstract class SudokuUtils {
 						System.out.println("not a fix value");
 						populateOptions(options.get(move), puzzleSize);
 
-						checkGrid(options.get(move), tempPuzzle, puzzleSize,
-								row, column);
+						if(xSudoku) checkX(options.get(move), tempPuzzle, puzzleSize, row, column);
+						if(ySudoku) checkY(options.get(move), tempPuzzle, puzzleSize, row, column);
+						checkGrid(options.get(move), tempPuzzle, puzzleSize, row, column);
 						checkRow(options.get(move), tempPuzzle, puzzleSize, row);
-						checkColumn(options.get(move), tempPuzzle, puzzleSize,
-								column);
-						System.out.println("Possible values: "
-								+ options.get(move));
+						checkColumn(options.get(move), tempPuzzle, puzzleSize, column);
+						
+						System.out.println("Possible values: " + options.get(move));
 
 						nopts[move] = options.get(move).size() - 2;
 
@@ -146,8 +177,7 @@ public abstract class SudokuUtils {
 					// If there is fixed value in the cell
 					else {
 						System.out.println("fix");
-						System.out.println("Skipping " + row + " " + column
-								+ " = " + puzzle[row][column]);
+						System.out.println("Skipping " + row + " " + column + " = " + puzzle[row][column]);
 						nopts[move] = 1;
 						options.get(move).clear();
 						options.get(move).add(0);
@@ -225,7 +255,11 @@ public abstract class SudokuUtils {
 
 	public static void findSolutions(List<SudokuBoard> sudokuBoards) {
 		for (int i = 0; i < sudokuBoards.size(); i++) {
-			solveUsingBacktracking(sudokuBoards.get(i));
+			System.out.println("Solving puzzle #" + (i+1));
+			solveUsingBacktracking(sudokuBoards.get(i), false, false);
+			solveUsingBacktracking(sudokuBoards.get(i), true, false);
+			solveUsingBacktracking(sudokuBoards.get(i), false, true);
+			solveUsingBacktracking(sudokuBoards.get(i), true, true);
 
 		}
 	}

@@ -69,11 +69,11 @@ public class SudokuBoard {
 		this.xYSolution = xYSolution;
 	}
 	
-	public void printNormalSolutions(){
-		for(int i = 0; i < normalSolution.size(); i++){
+	public void printSolutions(List<int[][]> solution){
+		for(int i = 0; i < solution.size(); i++){
 			System.out.println("Solution #" + (i+1));
 			for (int j = 0; j < size; j++) {
-				System.out.println(Arrays.toString(normalSolution.get(i)[j]));
+				System.out.println(Arrays.toString(solution.get(i)[j]));
 			}
 		}
 	}

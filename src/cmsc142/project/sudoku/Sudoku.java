@@ -13,8 +13,20 @@ public class Sudoku {
 			
 			SudokuUtils.findSolutions(puzzles);
 			for(int i = 0; i < puzzles.size(); i++){
+				System.out.println("---------------------------------------------------------------");
 				System.out.println("Puzzle #" + (i+1));
-				puzzles.get(i).printNormalSolutions();
+				System.out.println("Normal Solutions");
+				puzzles.get(i).printSolutions(puzzles.get(i).getNormalSolution());
+				
+				System.out.println("X Solutions");
+				puzzles.get(i).printSolutions(puzzles.get(i).getxSolution());
+				
+				System.out.println("Y Solutions");
+				puzzles.get(i).printSolutions(puzzles.get(i).getySolution());
+				
+				System.out.println("XY Solutions");
+				puzzles.get(i).printSolutions(puzzles.get(i).getxYSolution());
+				
 				System.out.println();
 			}
 			
