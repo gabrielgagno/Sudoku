@@ -12,9 +12,11 @@ public class Sudoku {
 			ArrayList<SudokuBoard> puzzles = fileAccess.readBoard();
 			
 			SudokuUtils.findSolutions(puzzles);
-			
-			
-			
+			for(int i = 0; i < puzzles.size(); i++){
+				System.out.println("Puzzle #" + (i+1));
+				puzzles.get(i).printNormalSolutions();
+				System.out.println();
+			}
 			
 //			for(int i = 0; i < puzzles.size(); i++){
 //				int puzzleSize = puzzles.get(i).getSize();

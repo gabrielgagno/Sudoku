@@ -1,18 +1,26 @@
 package cmsc142.project.sudoku;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class SudokuBoard {
 	int size;
 	private int[][] puzzle;
-	private int[][] normalSolution;
-	private int[][] xSolution;
-	private int[][] ySolution;
-	private int[][] xYSolution;
-	
-	public SudokuBoard(int size, int[][] puzzle){
+	private List<int[][]> normalSolution;
+	private List<int[][]> xSolution;
+	private List<int[][]> ySolution;
+	private List<int[][]> xYSolution;
+
+	public SudokuBoard(int size, int[][] puzzle) {
 		this.size = size;
 		this.puzzle = puzzle;
+		this.normalSolution = new ArrayList<>();
+		this.xSolution = new ArrayList<>();
+		this.ySolution = new ArrayList<>();
+		this.xYSolution = new ArrayList<>();
 	}
-		
+
 	public int getSize() {
 		return size;
 	}
@@ -29,36 +37,45 @@ public class SudokuBoard {
 		this.puzzle = puzzle;
 	}
 
-	public int[][] getNormalSolution() {
+	public List<int[][]> getNormalSolution() {
 		return normalSolution;
 	}
 
-	public void setNormalSolution(int[][] normalSolution) {
+	public void setNormalSolution(List<int[][]> normalSolution) {
 		this.normalSolution = normalSolution;
 	}
 
-	public int[][] getxSolution() {
+	public List<int[][]> getxSolution() {
 		return xSolution;
 	}
 
-	public void setxSolution(int[][] xSolution) {
+	public void setxSolution(List<int[][]> xSolution) {
 		this.xSolution = xSolution;
 	}
 
-	public int[][] getySolution() {
+	public List<int[][]> getySolution() {
 		return ySolution;
 	}
 
-	public void setySolution(int[][] ySolution) {
+	public void setySolution(List<int[][]> ySolution) {
 		this.ySolution = ySolution;
 	}
 
-	public int[][] getxYSolution() {
+	public List<int[][]> getxYSolution() {
 		return xYSolution;
 	}
 
-	public void setxYSolution(int[][] xYSolution) {
+	public void setxYSolution(List<int[][]> xYSolution) {
 		this.xYSolution = xYSolution;
+	}
+	
+	public void printNormalSolutions(){
+		for(int i = 0; i < normalSolution.size(); i++){
+			System.out.println("Solution #" + (i+1));
+			for (int j = 0; j < size; j++) {
+				System.out.println(Arrays.toString(normalSolution.get(i)[j]));
+			}
+		}
 	}
 
 }
