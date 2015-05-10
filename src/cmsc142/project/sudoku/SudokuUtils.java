@@ -53,6 +53,27 @@ public abstract class SudokuUtils {
 		}
 	}
 
+	public static void checkY(List<Integer> candidates, int[][] puzzle, int puzzleSize, int row, int column){
+		int center = (int) (Math.sqrt(puzzleSize)+1);
+		if(puzzleSize%2 == 1 && ((row < center && (row == column || column == puzzleSize-1-row)) || (row >= center && (column == center)))){
+			for(int i=0; i<puzzleSize; i++){
+				for(int j=0; j<puzzleSize; j++){
+					if(puzzle[i][j] != 0){
+						if(i < center){
+							if(i == j || j == puzzleSize-1-i){
+								candidates.remove(new Integer(puzzle[i][j]));
+							}
+						}else if(j == center){
+							for(int k=center; k<puzzleSize; k++){
+								candidates.remove(new Integer(puzzle[k][center]));
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
 	private static void solveUsingBacktracking(SudokuBoard sudokuBoard){
 		int puzzleSize = sudokuBoard.getSize();
 		int start = 0;
