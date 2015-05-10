@@ -27,8 +27,7 @@ public abstract class SudokuUtils {
 
 	public static void checkColumn(List<Integer> candidates, int[][] puzzle, int puzzleSize, int column){
 		for(int i=0; i<puzzleSize;i++){
-			if(puzzle[i][column] !=0)
-					candidates.remove(puzzle[i][column]);
+			candidates.remove(puzzle[i][column]);
 		}
 	}
 }
