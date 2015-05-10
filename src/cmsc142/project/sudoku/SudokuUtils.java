@@ -21,12 +21,7 @@ public abstract class SudokuUtils {
 	
 	public static void checkRow(List<Integer> candidates, int[][] puzzle, int puzzleSize, int row){
 		for(int i=0; i<puzzleSize; i++){
-			if(puzzle[row][i] != 0){
-				int index = candidates.indexOf(puzzle[row][i]);
-				if(index != -1){
-					candidates.remove(index);
-				}
-			}
+			candidates.remove(puzzle[row][i]);
 		}
 	}
 
