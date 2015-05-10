@@ -40,6 +40,18 @@ public abstract class SudokuUtils {
 			}
 		}
 	}
+	
+	public static void checkX(List<Integer> candidates, int[][] puzzle,int puzzleSize, int row, int column) {
+		if (row == column || column == (puzzleSize-1)-row) {
+			for (int i = 0; i < puzzleSize; i++) {
+				for (int j = 0; j < puzzleSize; j++) {
+					if(puzzle[i][j] != 0)
+						if (i == j || j == (puzzleSize-1)-i)
+							candidates.remove(new Integer(puzzle[i][j]));
+				}
+			}
+		}
+	}
 
 	private static void solveUsingBacktracking(SudokuBoard sudokuBoard){
 		int puzzleSize = sudokuBoard.getSize();
