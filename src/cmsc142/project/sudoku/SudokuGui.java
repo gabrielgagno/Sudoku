@@ -1,6 +1,7 @@
 package cmsc142.project.sudoku;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.KeyEvent;
 
 import javax.swing.JFrame;
@@ -9,6 +10,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.table.TableColumn;
 
 public class SudokuGui extends JFrame {
 	private JPanel sudokuPanel;
@@ -39,12 +41,10 @@ public class SudokuGui extends JFrame {
 		this.setJMenuBar(menu);
 		
 		this.sudokuPanel = new JPanel();
-		this.sudokuTable = new JTable(4, 4);
-		this.sudokuTable.setPreferredSize(new Dimension(400, 400));
+		this.initializeTable(4, 4);
 		
 		this.menu.add(fileMenu);
 		this.fileMenu.add(openFileMenu);
-		this.sudokuPanel.add(sudokuTable);
 		this.add(sudokuPanel);
 	}
 
@@ -88,5 +88,11 @@ public class SudokuGui extends JFrame {
 		this.sudokuTable = sudokuTable;
 	}
 	
-	
+	public void initializeTable(int row, int column){
+		this.sudokuTable = new JTable(row, column);
+		this.sudokuTable.setPreferredSize(new Dimension(400, 400));
+		this.sudokuTable.setRowHeight((int) this.sudokuTable.getPreferredSize().getWidth()/this.sudokuTable.getRowCount());
+//		this.sudokuTable.setFont(new Font("Serif", Font.BOLD, 50));
+		this.sudokuPanel.add(sudokuTable);
+	}
 }

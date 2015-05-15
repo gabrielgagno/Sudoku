@@ -35,18 +35,13 @@ public class SudokuGuiController implements ActionListener {
 					sudokuBoards = fileAccess.readBoard(file.getAbsolutePath());
 					
 					SudokuBoard currentBoard = sudokuBoards.get(0);
-					JTable newSudokuTable = new JTable(currentBoard.getPuzzleSize(), currentBoard.getPuzzleSize());
-					newSudokuTable.setPreferredSize(new Dimension(400, 400));
-					
-					System.out.println(currentBoard.getPuzzleSize());
 					
 					sudokuGui.getSudokuPanel().remove(sudokuGui.getSudokuTable());
-					sudokuGui.getSudokuPanel().repaint();
-					sudokuGui.getSudokuPanel().add(newSudokuTable);
-					sudokuGui.getSudokuPanel().validate();
-					sudokuGui.getSudokuPanel().repaint();
 					
-					sudokuGui.setSudokuTable(newSudokuTable);					
+					sudokuGui.initializeTable(currentBoard.getPuzzleSize(), currentBoard.getPuzzleSize());
+					
+					sudokuGui.getSudokuPanel().validate();
+					sudokuGui.getSudokuPanel().repaint();						
 				} catch (IOException e) {
 					System.out.println("[ Error accessing file! ]" + e.getMessage());
 				}
