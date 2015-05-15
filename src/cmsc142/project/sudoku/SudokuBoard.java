@@ -6,15 +6,15 @@ import java.util.Arrays;
 import java.util.List;
 
 public class SudokuBoard {
-	int size;
+	int puzzleSize;
 	private int[][] puzzle;
 	private List<int[][]> normalSolution;
 	private List<int[][]> xSolution;
 	private List<int[][]> ySolution;
 	private List<int[][]> xYSolution;
-
+	
 	public SudokuBoard(int size, int[][] puzzle) {
-		this.size = size;
+		this.puzzleSize = size;
 		this.puzzle = puzzle;
 		this.normalSolution = new ArrayList<>();
 		this.xSolution = new ArrayList<>();
@@ -22,12 +22,12 @@ public class SudokuBoard {
 		this.xYSolution = new ArrayList<>();
 	}
 
-	public int getSize() {
-		return size;
+	public int getPuzzleSize() {
+		return puzzleSize;
 	}
 
-	public void setSize(int size) {
-		this.size = size;
+	public void setPuzzleSize(int puzzleSize) {
+		this.puzzleSize = puzzleSize;
 	}
 
 	public int[][] getPuzzle() {
@@ -70,13 +70,30 @@ public class SudokuBoard {
 		this.xYSolution = xYSolution;
 	}
 	
-	public void printSolutions(List<int[][]> solution){
+	public void printAllSolutions(){
+		System.out.println("Solutions for Normal Sudoku");
+		printSolution(normalSolution);
+		
+		System.out.println("Solutions for X Sudoku");
+		printSolution(xSolution);
+		
+		System.out.println("Solutions for Y Sudoku");
+		printSolution(ySolution);
+		
+		System.out.println("Solutions for XY Sudoku");
+		printSolution(xYSolution);
+	}
+	
+	private void printSolution(List<int[][]> solution){
 		for(int i = 0; i < solution.size(); i++){
 			System.out.println("Solution #" + (i+1));
-			for (int j = 0; j < size; j++) {
+			for (int j = 0; j < puzzleSize; j++) {
 				System.out.println(Arrays.toString(solution.get(i)[j]));
 			}
 		}
 	}
-
+	
+	public int getTotalNoOfSolutions(){
+		return this.normalSolution.size() + this.xSolution.size() + this.ySolution.size() + this.xYSolution.size();
+	}
 }
