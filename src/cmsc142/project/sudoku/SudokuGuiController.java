@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 public class SudokuGuiController implements ActionListener {
 	private SudokuGui sudokuGui;
@@ -38,7 +39,31 @@ public class SudokuGuiController implements ActionListener {
 					
 					sudokuGui.getSudokuPanel().remove(sudokuGui.getSudokuTable());
 					
-					sudokuGui.initializeTable(currentBoard.getPuzzleSize(), currentBoard.getPuzzleSize());
+					int puzzleSize = currentBoard.getPuzzleSize();
+					sudokuGui.initializeTable(puzzleSize, puzzleSize);
+					String data[][] = new String[puzzleSize][puzzleSize];
+					String col[] = new String[puzzleSize];
+					for(int i=0; i<puzzleSize; i++){
+						for(int j=0; j<puzzleSize; j++){
+							if(currentBoard.getPuzzle()[i][j] == 0){
+								data[i][j] = "";
+							}else{
+								data[i][j] = String.valueOf(currentBoard.getPuzzle()[i][j]);
+							}
+						}
+						col[i] = "";
+					}
+					
+					DefaultTableModel model = new DefaultTableModel(data, col) {
+			            @Override
+			            public boolean isCellEditable(int row, int col) {
+			                return false;
+			            }
+			        };
+			        sudokuGui.getSudokuTable().setModel(model);
+			        sudokuGui.getSudokuTable().setCellSelectionEnabled(true);
+			        sudokuGui.getSudokuTable().setColumnSelectionAllowed(false);
+			        sudokuGui.getSudokuTable().setRowSelectionAllowed(false);
 					
 					sudokuGui.getSudokuPanel().validate();
 					sudokuGui.getSudokuPanel().repaint();						
