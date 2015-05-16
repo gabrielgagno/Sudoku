@@ -18,6 +18,7 @@ import javax.swing.table.DefaultTableModel;
 public class SudokuGuiController implements ActionListener, KeyListener{
 	private SudokuGui sudokuGui;
 	private List<SudokuBoard> sudokuBoards;
+	private SudokuBoard currentBoard;
 	
 	public SudokuGuiController(){
 		this.sudokuBoards = new ArrayList<>();
@@ -38,7 +39,7 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 				try {
 					sudokuBoards = fileAccess.readBoard(file.getAbsolutePath());
 					
-					SudokuBoard currentBoard = sudokuBoards.get(0);
+					currentBoard = sudokuBoards.get(0);
 					
 					sudokuGui.getSudokuPanel().remove(sudokuGui.getSudokuTable());
 					
@@ -90,7 +91,7 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 		if(event.getKeyCode() <= 57 && event.getKeyCode() > 48 && sudokuGui.getSudokuTable().getSelectedRowCount() == 1 && sudokuGui.getSudokuTable().getSelectedColumnCount() == 1){
 			int row = sudokuGui.getSudokuTable().getSelectedRow();
 			int column = sudokuGui.getSudokuTable().getSelectedColumn();
-			if(sudokuGui.getSudokuTable().getValueAt(row, column) == ""){
+			if(currentBoard.getPuzzle()[row][column] == 0){
 				sudokuGui.getSudokuTable().setValueAt(event.getKeyChar(), row, column);
 			}
 		}
