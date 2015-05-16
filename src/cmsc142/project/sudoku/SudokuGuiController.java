@@ -1,7 +1,7 @@
 package cmsc142.project.sudoku;
 
-import java.awt.Dimension;
-import java.awt.Font;
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.swing.JFileChooser;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class SudokuGuiController implements ActionListener, KeyListener{
@@ -68,6 +69,9 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 			        sudokuGui.getSudokuTable().setCellSelectionEnabled(true);
 			        sudokuGui.getSudokuTable().setColumnSelectionAllowed(false);
 			        sudokuGui.getSudokuTable().setRowSelectionAllowed(false);
+			        MyRenderer myRenderer = new MyRenderer();   // See below
+			        sudokuGui.getSudokuTable().setDefaultRenderer(Object.class, myRenderer);
+			        
 			        sudokuGui.getSudokuTable().addKeyListener(this);
 					sudokuGui.getSudokuPanel().validate();
 					sudokuGui.getSudokuPanel().repaint();						
@@ -102,4 +106,19 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 		// TODO Auto-generated method stub
 	}
 	
+	public class MyRenderer extends DefaultTableCellRenderer  
+	{ 
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column) 
+	{ 
+	    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
+	    if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+	    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1))
+	        c.setBackground(new Color(210, 210, 210)); 
+	    else
+	    	c.setBackground(new Color(240,240,240));
+
+	    return c; 
+	} 
+
+	} 	
 }
