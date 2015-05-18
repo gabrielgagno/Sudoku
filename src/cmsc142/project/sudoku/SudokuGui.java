@@ -6,7 +6,7 @@ import javax.swing.JFrame;
 
 public class SudokuGui extends JFrame {
 	private HighScorePanel highScorePanel;
-	private MenuPanel menuPanel;
+	private StartPanel startPanel;
 	
 	public SudokuGui(){
 		this.setSize(new Dimension(700, 700));
@@ -21,7 +21,7 @@ public class SudokuGui extends JFrame {
 		this.highScorePanel = new HighScorePanel();
 		this.add(highScorePanel);
 		
-		this.menuPanel = new MenuPanel();
-		this.add(menuPanel);
+		this.startPanel = new StartPanel();
+		this.add(startPanel);
 	}
 }
