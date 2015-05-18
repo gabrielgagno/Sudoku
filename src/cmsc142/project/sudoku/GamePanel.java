@@ -31,18 +31,22 @@ public class GamePanel extends JPanel{
 		
 		backMenuButton = new JButton("Back");
 		timerLabel = new JLabel("00:00:00");
+		
 		typeLabel = new JLabel("Type:");
 		typeComboBox = new JComboBox();
 		typeComboBox.addItem(new String("Normal"));
 		typeComboBox.addItem(new String("X"));
 		typeComboBox.addItem(new String("Y"));
 		typeComboBox.addItem(new String("XY"));
+		
 		activateSpecialButton = new JButton("Activate Special Sudoku");
 		prevPuzzleButton = new JButton("<");
 		nextPuzzleButton = new JButton(">");
+		
 		sudokuTable = new JTable(4, 4);
 		sudokuTable.setPreferredSize(new Dimension(400, 400));
 		sudokuTable.setRowHeight((int) this.sudokuTable.getPreferredSize().getWidth()/this.sudokuTable.getRowCount());
+		
 		prevSolutionButton = new JButton("<<");
 		nextSolutionButton = new JButton(">>");
 		checkerButton = new JButton("Check");
