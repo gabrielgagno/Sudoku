@@ -21,7 +21,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 	private List<SudokuBoard> sudokuBoards;
 	private SudokuBoard currentBoard;
 	private HashSet<Point> errorCells;
-
+	int currentPuzzle=0;
 	
 	public GamePanelController(){
 		this.gamePanel = new GamePanel();
@@ -38,13 +38,45 @@ public class GamePanelController implements ActionListener, KeyListener{
 		this.errorCells = new HashSet<>(); 
 		errorCells.add(new Point(1, 2));
 //		
-		currentBoard = sudokuBoards.get(0);
+		if(sudokuBoards.size() > 0){
+			currentBoard = sudokuBoards.get(currentPuzzle);	
+			int puzzleSize = currentBoard.getPuzzleSize();
+			drawTable(puzzleSize);
+			
+			if(sudokuBoards.size() > 1) gamePanel.getNextPuzzleButton().setEnabled(true);
+		}
+        
+        gamePanel.getSudokuTable().addKeyListener(this);
+        gamePanel.getNextPuzzleButton().addActionListener(this);
+        gamePanel.getPrevPuzzleButton().addActionListener(this);
+        gamePanel.validate();
+        gamePanel.repaint();						
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent event) {
+		if(event.getSource() == gamePanel.getNextPuzzleButton()){
+			currentPuzzle++;
+			currentBoard = sudokuBoards.get(currentPuzzle);
+			drawTable(currentBoard.getPuzzleSize());
+			
+			if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
+			if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
+		}
 		
-		gamePanel.remove(gamePanel.getSudokuTable());
-		
-		int puzzleSize = currentBoard.getPuzzleSize();
-//		sudokuGui.initializeTable(puzzleSize, puzzleSize);
-		
+		if(event.getSource() == gamePanel.getPrevPuzzleButton()){	
+			currentPuzzle--;
+			currentBoard = sudokuBoards.get(currentPuzzle);
+			drawTable(currentBoard.getPuzzleSize());
+			
+			if(currentPuzzle <= 0) gamePanel.getPrevPuzzleButton().setEnabled(false);
+			if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);
+			
+		}
+	
+	}
+	
+	public void drawTable(int puzzleSize){
 		String data[][] = new String[puzzleSize][puzzleSize];
 		String col[] = new String[puzzleSize];
 		for(int i=0; i<puzzleSize; i++){
@@ -73,15 +105,6 @@ public class GamePanelController implements ActionListener, KeyListener{
         CellRender cellRenderer = new CellRender();   // See below
         cellRenderer.setHorizontalAlignment(JLabel.CENTER);
         gamePanel.getSudokuTable().setDefaultRenderer(Object.class, cellRenderer);
-        
-        gamePanel.getSudokuTable().addKeyListener(this);
-        gamePanel.validate();
-        gamePanel.repaint();						
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-	
 	}
 
 	public GamePanel getGamePanel() {
