@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -146,14 +147,53 @@ public class GamePanelController implements ActionListener, KeyListener{
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
 		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
 		    errorCells.add(new Point(table.getSelectedRow(), table.getSelectedColumn()));
+ 
+		    if(currentType.equals("Normal")){
+			    if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
+			        c.setBackground(new Color(210, 210, 210)); 
+			    } else {
+			    	c.setBackground(new Color(240,240,240));
+			    }
+		    }else if(currentType.equals("X")){
+		    	if(row==column || column == currentBoard.getPuzzleSize()-1-row){	
+					c.setBackground(new Color(0,255,0));
+				}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
+			        c.setBackground(new Color(210, 210, 210)); 
+			    } 
+		    	 else {
+			    	c.setBackground(new Color(240,240,240));
+			    }		
+		    }else if(currentType.equals("Y")){
+		    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
+		    	if( (row < center && (row==column || column == currentBoard.getPuzzleSize()-1-row)) || (row >= center && column == center)){
+		    		c.setBackground(new Color(0,255,0));	
+		    	}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
+			        c.setBackground(new Color(210, 210, 210)); 
+			    } 
+		    	 else {
+			    	c.setBackground(new Color(240,240,240));
+			    }		
+		    }else if(currentType.equals("XY")){
+		    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
+		    	if( row==column || column == currentBoard.getPuzzleSize()-1-row || (column == center && row >= center)) {	
+		    		c.setBackground(new Color(0,255,0));
+		    	}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
+			        c.setBackground(new Color(210, 210, 210)); 
+			    } 
+		    	 else {
+			    	c.setBackground(new Color(240,240,240));
+			    }		
+		    }
+		    
 		    if(errorCells.contains(new Point(row, column))){
 		    	c.setBackground(new Color(210, 0, 0));
-		    } else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-		    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-		        c.setBackground(new Color(210, 210, 210)); 
-		    } else {
-		    	c.setBackground(new Color(240,240,240));
-		    }
+		    } 
+		    
+		    gamePanel.getSudokuTable().repaint();
 		    return c; 
 		}
 
