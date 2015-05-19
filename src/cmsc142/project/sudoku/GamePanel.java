@@ -128,6 +128,28 @@ public class GamePanel extends JPanel{
 			.addGap(75)
 		);
 	}
+	
+	public String computeDuration(int timeLength) {
+		// TODO Auto-generated method stub
+		int hour, min, sec;
+		sec = timeLength%60;
+		timeLength /= 60;
+		min = timeLength%60;
+		timeLength /= 60;
+		hour = timeLength;
+		String duration = "";
+		if(hour < 10)
+			duration += 0;
+		duration += hour + ":";
+		if(min < 10)
+			duration += 0;
+		duration += min + ":";
+		if(sec < 10)
+			duration += 0;
+		duration += sec;
+		return duration;
+	}
+
 
 	public JButton getBackMenuButton() {
 		return backMenuButton;

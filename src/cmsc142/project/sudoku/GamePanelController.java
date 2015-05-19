@@ -12,10 +12,10 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
@@ -26,9 +26,13 @@ public class GamePanelController implements ActionListener, KeyListener{
 	private HashSet<Point> errorCells;
 	int currentPuzzle=0;
 	String currentType;
+	int tickCount = 0;
 	
 	public GamePanelController(){
 		this.gamePanel = new GamePanel();
+		Timer timer = new Timer(1000, this);
+		gamePanel.setTimer(timer);
+		
 		gamePanel.getBackMenuButton().addActionListener(this);
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
@@ -103,6 +107,10 @@ public class GamePanelController implements ActionListener, KeyListener{
 			}
 			
 			errorCells = SudokuUtils.checkPuzzle(currentBoard, xSudoku, ySudoku, true);
+		}
+		if(event.getSource() == gamePanel.getTimer()){
+			tickCount++;
+			gamePanel.getTimerLabel().setText(gamePanel.computeDuration(tickCount));
 		}
 	}
 	
@@ -250,6 +258,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 			drawTable(puzzleSize);
 			
 			if(sudokuBoards.size() > 1) gamePanel.getNextPuzzleButton().setEnabled(true);
+			gamePanel.getTimer().start();
 		}
         
 	}
