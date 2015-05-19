@@ -98,7 +98,7 @@ public class GamePanel extends JPanel{
 		);
 		
 		layout.setVerticalGroup(layout.createSequentialGroup()
-			.addGap(75)
+			.addGap(50)
 			.addGroup(layout.createParallelGroup(Alignment.CENTER)
 				.addGroup(layout.createSequentialGroup()
 					.addComponent(backMenuButton)
