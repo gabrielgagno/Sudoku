@@ -47,6 +47,8 @@ public class GamePanel extends JPanel{
 		activateSpecialButton = new JButton("Activate Special Sudoku");
 		prevPuzzleButton = new JButton("<");
 		nextPuzzleButton = new JButton(">");
+		prevPuzzleButton.setEnabled(false);
+		nextPuzzleButton.setEnabled(false);
 		
 		sudokuTable = new JTable(4, 4);
 		sudokuTable.setPreferredSize(new Dimension(400, 400));

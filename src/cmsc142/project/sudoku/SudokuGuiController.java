@@ -16,7 +16,7 @@ public class SudokuGuiController implements ActionListener {
 		this.startPanelController = new StartPanelController();
 		this.gamePanelController = new GamePanelController();
 		
-		this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
+		this.sudokuGui.changePanel(this.gamePanelController.getGamePanel());
 		
 		/*
 		 * Adds action listener for the transition of panels

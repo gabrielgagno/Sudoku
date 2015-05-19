@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -22,10 +23,13 @@ public class GamePanelController implements ActionListener, KeyListener{
 	private SudokuBoard currentBoard;
 	private HashSet<Point> errorCells;
 	int currentPuzzle=0;
+	String currentType;
 	
 	public GamePanelController(){
 		this.gamePanel = new GamePanel();
 		gamePanel.getBackMenuButton().addActionListener(this);
+		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
+		gamePanel.getTypeComboBox().addActionListener(this);
 		
 		FileAccess fileAccess = new FileAccess();
 		try {
@@ -72,6 +76,14 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(currentPuzzle <= 0) gamePanel.getPrevPuzzleButton().setEnabled(false);
 			if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);
 			
+		}
+		if(event.getSource() == gamePanel.getTypeComboBox()){
+			int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to change the puzzle type?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
+			if(response == JOptionPane.OK_OPTION){
+				currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
+			}else if(response == JOptionPane.CANCEL_OPTION){
+				gamePanel.getTypeComboBox().setSelectedItem((Object)currentType);
+			}
 		}
 	
 	}
