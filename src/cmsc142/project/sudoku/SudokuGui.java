@@ -8,6 +8,7 @@ public class SudokuGui extends JFrame {
 	private HighScorePanel highScorePanel;
 	private StartPanel startPanel;
 	private GamePanel gamePanel;
+	private GamePanelController gamePanelController; 
 	
 	public SudokuGui(){
 		this.setSize(new Dimension(700, 700));
@@ -25,6 +26,8 @@ public class SudokuGui extends JFrame {
 		this.startPanel = new StartPanel();
 		this.add(startPanel);
 		
-		this.gamePanel = new GamePanel();
+		this.gamePanelController = new GamePanelController();
+		this.add(gamePanelController.gamePanel);
+//		this.gamePanel = new GamePanel();
 	}
 }

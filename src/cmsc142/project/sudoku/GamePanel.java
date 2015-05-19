@@ -12,7 +12,7 @@ import javax.swing.JTable;
 
 public class GamePanel extends JPanel{
 	private static JButton backMenuButton, checkerButton, solverButton, activateSpecialButton;
-		private static JButton prevPuzzleButton, nextPuzzleButton, prevSolutionButton, nextSolutionButton;
+	private static JButton prevPuzzleButton, nextPuzzleButton, prevSolutionButton, nextSolutionButton;
 	private static JLabel typeLabel, timerLabel;
 	private static JComboBox typeComboBox;
 	private static JTable sudokuTable;
