@@ -19,8 +19,8 @@ public class SudokuGui extends JFrame {
 	}
 
 	private void setComponents() {
-		this.highScorePanel = new HighScorePanel();
-		this.add(highScorePanel);
+//		this.highScorePanel = new HighScorePanel();
+//		this.add(highScorePanel);
 		
 		this.startPanel = new StartPanel();
 		this.add(startPanel);
