@@ -29,7 +29,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 		
 		FileAccess fileAccess = new FileAccess();
 		try {
-			sudokuBoards = fileAccess.readBoard("C:/Users/annemuriel/Desktop/input.in");
+			sudokuBoards = fileAccess.readBoard("resources/input.in");
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
