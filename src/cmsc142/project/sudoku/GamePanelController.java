@@ -57,7 +57,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
-				tickCount = 0;
+
 				if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
 				if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
 			}
@@ -70,7 +70,6 @@ public class GamePanelController implements ActionListener, KeyListener{
 				
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
-				tickCount = 0;
 				
 				if(currentPuzzle <= 0) gamePanel.getPrevPuzzleButton().setEnabled(false);
 				if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);
@@ -81,7 +80,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to change the puzzle type?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 				if(response == JOptionPane.OK_OPTION){
 					currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
-					tickCount = 0;
+					drawTable(currentBoard.getPuzzleSize());
 				} else if(response == JOptionPane.CANCEL_OPTION){
 					gamePanel.getTypeComboBox().setSelectedItem(currentType);
 				}
@@ -134,6 +133,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 	}
 	
 	public void drawTable(int puzzleSize){
+		tickCount = 0;
+		errorCells.clear();
 		String data[][] = new String[puzzleSize][puzzleSize];
 		String col[] = new String[puzzleSize];
 		for(int i=0; i<puzzleSize; i++){
@@ -186,6 +187,12 @@ public class GamePanelController implements ActionListener, KeyListener{
 			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
 			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
 				gamePanel.getSudokuTable().getModel().setValueAt(String.valueOf(event.getKeyCode()-48), rowIndex, colIndex);
+			}
+		}else if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE || event.getKeyCode() == KeyEvent.VK_DELETE){
+			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
+			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
+			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
+				gamePanel.getSudokuTable().getModel().setValueAt("", rowIndex, colIndex);
 			}
 		}
 	}
