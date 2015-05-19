@@ -3,16 +3,18 @@ package cmsc142.project.sudoku;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StartPanel extends JPanel {
+public class StartPanel extends JPanel implements ActionListener{
 	private JLabel sudoku;
-	private JButton newGame;
-	private JButton highScore;
-	private JButton exit;
+	JButton newGame;
+	JButton highScore;
+	JButton exit;
 	
 	public StartPanel(){
 		this.setPreferredSize(new Dimension(600,600));
@@ -34,12 +36,19 @@ public class StartPanel extends JPanel {
 		highScore.setPreferredSize(new Dimension(200,50));
 		exit.setPreferredSize(new Dimension(200,50));
 		
+		newGame.addActionListener(this);
 		this.add(sudoku);
 		this.add(newGame);
 		this.add(highScore);
-		this.add(exit);
-		
+		this.add(exit);	
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
+
+
 }
 
