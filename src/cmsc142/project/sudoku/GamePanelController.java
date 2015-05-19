@@ -57,7 +57,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
-				
+				tickCount = 0;
 				if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
 				if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
 			}
@@ -70,6 +70,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
+				tickCount = 0;
 				
 				if(currentPuzzle <= 0) gamePanel.getPrevPuzzleButton().setEnabled(false);
 				if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);
@@ -80,6 +81,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to change the puzzle type?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 				if(response == JOptionPane.OK_OPTION){
 					currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
+					tickCount = 0;
 				} else if(response == JOptionPane.CANCEL_OPTION){
 					gamePanel.getTypeComboBox().setSelectedItem(currentType);
 				}
