@@ -2,6 +2,10 @@ package cmsc142.project.sudoku;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.util.ArrayList;
+
+import javax.swing.JFileChooser;
 
 public class SudokuGuiController implements ActionListener {
 	private SudokuGui sudokuGui;
@@ -16,7 +20,7 @@ public class SudokuGuiController implements ActionListener {
 		this.startPanelController = new StartPanelController();
 		this.gamePanelController = new GamePanelController();
 		
-		this.sudokuGui.changePanel(this.gamePanelController.getGamePanel());
+		this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
 		
 		/*
 		 * Adds action listener for the transition of panels
@@ -32,8 +36,14 @@ public class SudokuGuiController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource().equals(this.startPanelController.getStartPanel().newGame)){
-			this.sudokuGui.changePanel(gamePanelController.getGamePanel());
-			
+			JFileChooser fileChooser = new JFileChooser();
+			int response = fileChooser.showOpenDialog(sudokuGui);
+			if(response == JFileChooser.APPROVE_OPTION){
+				ArrayList<File> fileList = new ArrayList<File>();
+				File file = fileChooser.getSelectedFile();
+				gamePanelController.initialize(file.getAbsolutePath());
+				this.sudokuGui.changePanel(gamePanelController.getGamePanel());
+			}
 		} else if (event.getSource().equals(this.startPanelController.getStartPanel().highScore)){
 			this.sudokuGui.changePanel(highScorePanelController.getHighScorePanel());
 			

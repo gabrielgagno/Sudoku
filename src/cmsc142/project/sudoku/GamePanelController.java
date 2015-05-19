@@ -31,25 +31,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
 		
-		FileAccess fileAccess = new FileAccess();
-		try {
-			sudokuBoards = fileAccess.readBoard("resources/input.in");
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
-		this.errorCells = new HashSet<>(); 
-		errorCells.add(new Point(1, 2));
-//		
-		if(sudokuBoards.size() > 0){
-			currentBoard = sudokuBoards.get(currentPuzzle);	
-			int puzzleSize = currentBoard.getPuzzleSize();
-			drawTable(puzzleSize);
-			
-			if(sudokuBoards.size() > 1) gamePanel.getNextPuzzleButton().setEnabled(true);
-		}
-        
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
         gamePanel.getPrevPuzzleButton().addActionListener(this);
@@ -160,6 +142,29 @@ public class GamePanelController implements ActionListener, KeyListener{
 		    return c; 
 		}
 
+	}
+
+	public void initialize(String filePath) {
+		// TODO Auto-generated method stub
+		FileAccess fileAccess = new FileAccess();
+		try {
+			sudokuBoards = fileAccess.readBoard(filePath);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		this.errorCells = new HashSet<>(); 
+		errorCells.add(new Point(1, 2));
+//		
+		if(sudokuBoards.size() > 0){
+			currentBoard = sudokuBoards.get(currentPuzzle);	
+			int puzzleSize = currentBoard.getPuzzleSize();
+			drawTable(puzzleSize);
+			
+			if(sudokuBoards.size() > 1) gamePanel.getNextPuzzleButton().setEnabled(true);
+		}
+        
 	}
 
 }
