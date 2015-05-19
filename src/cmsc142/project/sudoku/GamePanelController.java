@@ -32,7 +32,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 		gamePanel.getBackMenuButton().addActionListener(this);
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
-		
+		gamePanel.getSudokuTable().addKeyListener(this);
 		
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
@@ -133,9 +133,15 @@ public class GamePanelController implements ActionListener, KeyListener{
 	}
 
 	@Override
-	public void keyReleased(KeyEvent arg0) {
+	public void keyReleased(KeyEvent event) {
 		// TODO Auto-generated method stub
-		
+		if(event.getKeyCode() >= 49 && event.getKeyCode() < currentBoard.getPuzzleSize()+49){
+			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
+			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
+			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
+				gamePanel.getSudokuTable().getModel().setValueAt(event.getKeyCode()-48, rowIndex, colIndex);
+			}
+		}
 	}
 
 	@Override
