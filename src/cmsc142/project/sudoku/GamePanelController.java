@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -297,11 +298,17 @@ public class GamePanelController implements ActionListener, KeyListener{
 			}
 			if(errorCells.isEmpty()){
 				int [][] checkComplete = this.getCurrentPuzzle();
-				int empty = 0;
+				boolean flag = true;
 				for(int i=0;i<checkComplete.length;i++){
 					for(int j=0;j<checkComplete[i].length;j++){
-						if(checkComplete[i][j]==0) empty++;
+						if(checkComplete[i][j]==0) flag = false;
 					}
+				}
+				if(flag){
+					JTextField playerNameField = new JTextField("");
+					playerNameField.setText("");
+					String response  = JOptionPane.showInputDialog(gamePanel, "Input player name: ", playerNameField);
+					System.out.println(response);
 				}
 			}
 		}else if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE || event.getKeyCode() == KeyEvent.VK_DELETE){
