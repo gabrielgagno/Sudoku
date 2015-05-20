@@ -44,6 +44,7 @@ public class GamePanelController implements ActionListener, KeyListener{
         gamePanel.getNextPuzzleButton().addActionListener(this);
         gamePanel.getPrevPuzzleButton().addActionListener(this);
         gamePanel.getCheckerButton().addActionListener(this);
+        gamePanel.getResetButton().addActionListener(this);
         gamePanel.validate();
         gamePanel.repaint();						
 	}
@@ -134,6 +135,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 			
 			SudokuBoard currentStateOfBoard = new SudokuBoard(currentBoard.getPuzzleSize(), getCurrentPuzzle());
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
+		} else if(event.getSource() == gamePanel.getResetButton()){
+			drawTable(currentBoard.getPuzzleSize());
 		}
 		if(event.getSource() == gamePanel.getTimer()){
 			tickCount++;
@@ -239,46 +242,24 @@ public class GamePanelController implements ActionListener, KeyListener{
 		    	c.setFont(new Font("Verdana", Font.PLAIN, fontSize));
 		    }
 		    
-		    if(currentType.equals("Normal")){
-			    if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-			        c.setBackground(new Color(210, 210, 210)); 
-			    } else {
-			    	c.setBackground(new Color(240,240,240));
-			    }
-		    }else if(currentType.equals("X")){
+	        if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+		    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
+		        c.setBackground(new Color(210, 210, 210)); 
+		    } else {
+		    	c.setBackground(new Color(240,240,240));
+		    }
+	        
+		    if(currentType.equals("X") || currentType.equals("XY")){
 		    	if(row==column || column == currentBoard.getPuzzleSize()-1-row){	
 					c.setBackground(new Color(0,255,0));
-				}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-			        c.setBackground(new Color(210, 210, 210)); 
-			    } 
-		    	 else {
-			    	c.setBackground(new Color(240,240,240));
-			    }		
-		    }else if(currentType.equals("Y")){
+		    	}
+			}
+		    if(currentType.equals("Y") || currentType.equals("XY")){
 		    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
 		    	if( (row < center && (row==column || column == currentBoard.getPuzzleSize()-1-row)) || (row >= center && column == center)){
 		    		c.setBackground(new Color(0,255,0));	
-		    	}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-			        c.setBackground(new Color(210, 210, 210)); 
-			    } 
-		    	 else {
-			    	c.setBackground(new Color(240,240,240));
-			    }		
-		    }else if(currentType.equals("XY")){
-		    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
-		    	if( row==column || column == currentBoard.getPuzzleSize()-1-row || (column == center && row >= center)) {	
-		    		c.setBackground(new Color(0,255,0));
-		    	}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-			        c.setBackground(new Color(210, 210, 210)); 
-			    } 
-		    	 else {
-			    	c.setBackground(new Color(240,240,240));
-			    }		
-		    }
+		    	}
+			}
 		    
 		    if(errorCells.contains(new Point(row, column))){
 		    	c.setBackground(new Color(210, 0, 0));
