@@ -225,7 +225,15 @@ public class GamePanelController implements ActionListener, KeyListener{
 			}else if(currentType.equals("XY")){
 				errorCells = SudokuUtils.checkPuzzle(currentBoard, true, true, true);
 			}
-//			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
+			if(errorCells.isEmpty()){
+				int [][] checkComplete = this.getCurrentPuzzle();
+				int empty = 0;
+				for(int i=0;i<checkComplete.length;i++){
+					for(int j=0;j<checkComplete[i].length;j++){
+						if(checkComplete[i][j]==0) empty++;
+					}
+				}
+			}
 		}else if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE || event.getKeyCode() == KeyEvent.VK_DELETE){
 			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
 			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
