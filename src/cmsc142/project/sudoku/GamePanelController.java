@@ -213,6 +213,16 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
 				gamePanel.getSudokuTable().getModel().setValueAt(String.valueOf(event.getKeyCode()-48), rowIndex, colIndex);
 			}
+			if(currentType.equals("Normal")){
+				errorCells = SudokuUtils.checkPuzzle(currentBoard, false, false, true);
+			}else if(currentType.equals("X")){
+				errorCells = SudokuUtils.checkPuzzle(currentBoard, true, false, true);
+			}else if(currentType.equals("Y")){
+				errorCells = SudokuUtils.checkPuzzle(currentBoard, false, true, true);
+			}else if(currentType.equals("XY")){
+				errorCells = SudokuUtils.checkPuzzle(currentBoard, true, true, true);
+			}
+//			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
 		}else if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE || event.getKeyCode() == KeyEvent.VK_DELETE){
 			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
 			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
