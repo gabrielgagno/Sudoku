@@ -15,6 +15,7 @@ import java.util.List;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -98,6 +99,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 						solution = currentBoard.getNormalSolution();
 					}
 				}				
+				
+				drawTable(solution.get(0));
 			}
 			
 		} else if(event.getSource() == gamePanel.getNextPuzzleButton()){
@@ -105,7 +108,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(response == JOptionPane.OK_OPTION){
 				currentPuzzle++;
 				currentBoard = sudokuBoards.get(currentPuzzle);
-				drawTable(currentBoard.getPuzzleSize());
+				drawTable(currentBoard.getPuzzle());
 				
 				this.errorCells = new HashSet<>();
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
@@ -119,7 +122,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(response == JOptionPane.OK_OPTION){
 				currentPuzzle--;
 				currentBoard = sudokuBoards.get(currentPuzzle);
-				drawTable(currentBoard.getPuzzleSize());
+				drawTable(currentBoard.getPuzzle());
 				
 				this.errorCells = new HashSet<>(); 
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
@@ -173,7 +176,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				if(response == JOptionPane.OK_OPTION){
 					currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 
-					drawTable(currentBoard.getPuzzleSize());
+					drawTable(currentBoard.getPuzzle());
 					
 				} else if(response == JOptionPane.CANCEL_OPTION){
 					gamePanel.getTypeComboBox().setSelectedItem(currentType);
@@ -204,7 +207,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 			SudokuBoard currentStateOfBoard = new SudokuBoard(currentBoard.getPuzzleSize(), getCurrentPuzzle());
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
 		} else if(event.getSource() == gamePanel.getResetButton()){
-			drawTable(currentBoard.getPuzzleSize());
+			drawTable(currentBoard.getPuzzle());
 		}
 		
 		if(event.getSource() == gamePanel.getTimer()){
@@ -229,23 +232,22 @@ public class GamePanelController implements ActionListener, KeyListener{
 		return puzzle;
 	}
 	
-	public void drawTable(int puzzleSize){
-		tickCount = 0;
-		errorCells.clear();
+	public void drawTable(int[][] puzzle){
+		int puzzleSize = puzzle.length;
 		String data[][] = new String[puzzleSize][puzzleSize];
-		String col[] = new String[puzzleSize];
-		for(int i=0; i<puzzleSize; i++){
-			for(int j=0; j<puzzleSize; j++){
-				if(currentBoard.getPuzzle()[i][j] == 0){
+		String header[] = new String[puzzleSize];
+		for(int i = 0; i < puzzleSize; i++){
+			for(int j = 0;  j < puzzleSize; j++){
+				if(puzzle[i][j] == 0){
 					data[i][j] = "";
-				}else{
-					data[i][j] = String.valueOf(currentBoard.getPuzzle()[i][j]);
+				} else{
+					data[i][j] = String.valueOf(puzzle[i][j]);
 				}
 			}
-			col[i] = "";
+			header[i] = "";
 		}
 		
-		DefaultTableModel model = new DefaultTableModel(data, col) {
+		DefaultTableModel model = new DefaultTableModel(data, header) {
             @Override
             public boolean isCellEditable(int row, int col) {
                 return false;
@@ -296,11 +298,17 @@ public class GamePanelController implements ActionListener, KeyListener{
 			}
 			if(errorCells.isEmpty()){
 				int [][] checkComplete = this.getCurrentPuzzle();
-				int empty = 0;
+				boolean flag = true;
 				for(int i=0;i<checkComplete.length;i++){
 					for(int j=0;j<checkComplete[i].length;j++){
-						if(checkComplete[i][j]==0) empty++;
+						if(checkComplete[i][j]==0) flag = false;
 					}
+				}
+				if(flag){
+					JTextField playerNameField = new JTextField("");
+					playerNameField.setText("");
+					String response  = JOptionPane.showInputDialog(gamePanel, "Input player name: ", playerNameField);
+					System.out.println(response);
 				}
 			}
 		}else if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE || event.getKeyCode() == KeyEvent.VK_DELETE){
@@ -370,12 +378,12 @@ public class GamePanelController implements ActionListener, KeyListener{
 		if(sudokuBoards.size() > 0){
 			currentBoard = sudokuBoards.get(currentPuzzle);	
 			int puzzleSize = currentBoard.getPuzzleSize();
-			drawTable(puzzleSize);
+			drawTable(currentBoard.getPuzzle());
 			
 			if(sudokuBoards.size() > 1) gamePanel.getNextPuzzleButton().setEnabled(true);
 			gamePanel.getTimer().start();
 		}
         
 	}
-
+	
 }
