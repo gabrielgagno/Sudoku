@@ -43,7 +43,7 @@ public class StartPanel extends JPanel implements ActionListener{
 	}
 	
 	private void setComponents(){
-		sudoku = new JLabel(new ImageIcon("./resources/sudoku1.png"));
+		sudoku = new JLabel(new ImageIcon("./resources/sudoku.png"));
 		newGame = new JButton("New Game");
 		highScore = new JButton("High Score");
 		exit = new JButton("Exit");
