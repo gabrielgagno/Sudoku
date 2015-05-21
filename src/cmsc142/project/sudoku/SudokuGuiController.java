@@ -71,6 +71,7 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 			                return false;
 			            }
 			        };
+			        
 			        sudokuGui.getSudokuTable().setModel(model);
 			        sudokuGui.getSudokuTable().setCellSelectionEnabled(true);
 			        sudokuGui.getSudokuTable().setColumnSelectionAllowed(false);
@@ -97,7 +98,6 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
 		if(event.getKeyCode() <= 57 && event.getKeyCode() > 48 && sudokuGui.getSudokuTable().getSelectedRowCount() == 1 && sudokuGui.getSudokuTable().getSelectedColumnCount() == 1){
 			int row = sudokuGui.getSudokuTable().getSelectedRow();
 			int column = sudokuGui.getSudokuTable().getSelectedColumn();
