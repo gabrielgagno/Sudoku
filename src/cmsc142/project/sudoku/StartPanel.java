@@ -49,7 +49,7 @@ public class StartPanel extends JPanel implements ActionListener{
 		exit = new JButton("Exit");
 		
 		sudoku.setFont(new Font("Serif", Font.BOLD, 100));
-		sudoku.setPreferredSize(new Dimension(500,250));
+//		sudoku.setPreferredSize(new Dimension(500,250));
 		sudoku.setBounds(0, 0, 500, 250);
 		newGame.setPreferredSize(new Dimension(200,50));
 		highScore.setPreferredSize(new Dimension(200,50));
