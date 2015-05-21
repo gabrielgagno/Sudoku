@@ -76,8 +76,8 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 			        sudokuGui.getSudokuTable().setCellSelectionEnabled(true);
 			        sudokuGui.getSudokuTable().setColumnSelectionAllowed(false);
 			        sudokuGui.getSudokuTable().setRowSelectionAllowed(false);
-			        MyRenderer myRenderer = new MyRenderer();   // See below
-			        sudokuGui.getSudokuTable().setDefaultRenderer(Object.class, myRenderer);
+			        CellRender cellRenderer = new CellRender();   // See below
+			        sudokuGui.getSudokuTable().setDefaultRenderer(Object.class, cellRenderer);
 			        
 			        sudokuGui.getSudokuTable().addKeyListener(this);
 					sudokuGui.getSudokuPanel().validate();
@@ -111,5 +111,21 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 	public void keyTyped(KeyEvent event) {
 		// TODO Auto-generated method stub
 	}
-		
+	
+	public class CellRender extends DefaultTableCellRenderer  { 
+	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
+		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
+		    errorCells.add(new Point(table.getSelectedRow(), table.getSelectedColumn()));
+		    if(errorCells.contains(new Point(row, column))){
+		    	c.setBackground(new Color(210, 0, 0));
+		    } else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+		    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
+		        c.setBackground(new Color(210, 210, 210)); 
+		    } else {
+		    	c.setBackground(new Color(240,240,240));
+		    }
+		    return c; 
+		}
+
+	} 	
 }
