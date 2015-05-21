@@ -1,10 +1,14 @@
 package cmsc142.project.sudoku;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class SudokuUtils {
+	public final static int NORMAL_SUDOKU_INDEX = 0;
+	public final static int X_SUDOKU_INDEX = 1;
+	public final static int Y_SUDOKU_INDEX = 2;
+	public final static int XY_SUDOKU_INDEX = 3;
+	
 	public static void checkGrid(List<Integer> candidates, int[][] puzzle,
 			int puzzleSize, int row, int column) {
 		int subGridSize = (int) Math.sqrt(puzzleSize);

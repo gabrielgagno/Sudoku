@@ -7,9 +7,62 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 
 public class FileAccess {
+	
+	public HashMap<String, ArrayList<ArrayList<String[]>>> readScoreData(String fileName) throws IOException{
+		File file = new File(fileName);
+		
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
+		
+		HashMap<String, ArrayList<ArrayList<String[]>>> highscores = new HashMap<>();
+		
+		while(bufferedReader.ready()){
+			String line = bufferedReader.readLine();
+			
+			String[] tokens = line.split("\\s+");
+			
+			if(!highscores.containsKey(tokens[2])){
+				ArrayList<ArrayList<String[]>> typeList = new ArrayList<>();
+				for(int i = 0; i < 4; i++){
+					typeList.add(new ArrayList<String[]>());
+				}
+				highscores.put(tokens[2], typeList);
+			
+			} 
+			
+			ArrayList<ArrayList<String[]>> typeList = highscores.get(tokens[2]);
+			int index = 0;
+			
+			switch (tokens[3]) {
+				case "N":
+					index = 0;
+					break;
+
+				case "X":
+					index = 1;
+					break;
+				
+				case "Y":
+					index = 2;
+					break;
+				
+				case "XY":
+					index = 3;
+					break;
+			}
+			
+			String[] names = {tokens[0], tokens[1]};
+			typeList.get(index).add(names);
+
+		}
+		
+		bufferedReader.close();
+		return highscores;
+	}
 	
 	public ArrayList<SudokuBoard> readBoard(String fileName) throws IOException{
 		File file = new File(fileName);
