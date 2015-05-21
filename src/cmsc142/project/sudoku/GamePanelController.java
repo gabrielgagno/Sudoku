@@ -46,7 +46,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
 		
-		gamePanel.getActivateSpecialButton().addActionListener(this);
+//		*************SURPRISE*************
+//		gamePanel.getActivateSpecialButton().addActionListener(this);
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getSolverButton().addActionListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
@@ -108,19 +109,26 @@ public class GamePanelController implements ActionListener, KeyListener{
 					}
 				}				
 				
+				currentSolutionPointer = 0;
 				if(solution.size() == 0){
 					JOptionPane.showMessageDialog(gamePanel, new JLabel("There is no solution for the puzzle's current state."));
+				}else{
+					gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
+					gamePanel.getSolutionCountLabel().setVisible(true);
 				}
 				
-				currentSolutionPointer = 0;
 				drawTable(solution.get(currentSolutionPointer));
-				if(solution.size() > 1)
+				if(solution.size() > 1){
 					gamePanel.getNextSolutionButton().setEnabled(true);
+				}
 				gamePanel.getTimer().stop();
+				gamePanel.getSolverButton().setEnabled(false);
+				gamePanel.getCheckerButton().setEnabled(false);
 			}
 			
 		} else if(event.getSource().equals(gamePanel.getNextSolutionButton())){
 			currentSolutionPointer++;
+			gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
 			drawTable(solution.get(currentSolutionPointer));
 			if(currentSolutionPointer+1 == solution.size())
 				gamePanel.getNextSolutionButton().setEnabled(false);
@@ -128,6 +136,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				
 		} else if(event.getSource().equals(gamePanel.getPrevSolutionButton())){
 			currentSolutionPointer--;
+			gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
 			drawTable(solution.get(currentSolutionPointer));
 			if(currentSolutionPointer == 0)
 				gamePanel.getPrevSolutionButton().setEnabled(false);
@@ -441,6 +450,10 @@ public class GamePanelController implements ActionListener, KeyListener{
 		try {
 			sudokuBoards = fileAccess.readBoard(filePath);
 			SudokuUtils.findSolutions(sudokuBoards);
+			for(int i=sudokuBoards.size()-1; i>=0; i--){
+				if(sudokuBoards.get(i).getTotalNoOfSolutions() == 0)
+					sudokuBoards.remove(i);
+			}
 		} catch (IOException e) {
 			System.out.println("[ Error reading input sudoku file! ]");
 		}
@@ -458,9 +471,14 @@ public class GamePanelController implements ActionListener, KeyListener{
 	
 	public void resetPuzzle(){
 		tickCount = 0;
+		gamePanel.getTimer().start();
+		currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());
 		drawTable(currentBoard.getPuzzle());
 		gamePanel.getNextSolutionButton().setEnabled(false);
 		gamePanel.getPrevSolutionButton().setEnabled(false);
+		gamePanel.getSolutionCountLabel().setVisible(false);
+		gamePanel.getSolverButton().setEnabled(true);
+		gamePanel.getCheckerButton().setEnabled(true);
 		errorCells.clear();
 	}
 }
