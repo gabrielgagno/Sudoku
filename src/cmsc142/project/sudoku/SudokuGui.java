@@ -1,6 +1,10 @@
 package cmsc142.project.sudoku;
 
+import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Toolkit;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -16,7 +20,15 @@ public class SudokuGui extends JFrame {
 		this.setVisible(true);
 		this.setFocusable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		 Toolkit toolkit = Toolkit.getDefaultToolkit();
+		  Image image = toolkit.getImage("resources/images/instructors/1.png");
+		  Cursor c = toolkit.createCustomCursor(image , new Point(getContentPane().getX(),
+		     getContentPane().getY()), "img");
+		  setCursor (c);
+		
 		this.add(activePanel);
+
 	}
 	
 	public JPanel getActivePanel() {
