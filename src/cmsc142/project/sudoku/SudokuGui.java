@@ -1,11 +1,8 @@
 package cmsc142.project.sudoku;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Insets;
 import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultCellEditor;
@@ -16,7 +13,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -41,31 +37,12 @@ public class SudokuGui extends JFrame {
 	}
 
 	private void setComponents() {
-		this.menu = new JMenuBar();
-		this.fileMenu = new JMenu("File");
-		this.fileMenu.setMnemonic(KeyEvent.VK_F);
-		this.openFileMenu = new JMenuItem("Open File...");
 		
-		this.setJMenuBar(menu);
-		
-		this.sudokuPanel = new JPanel();
-		this.initializeTable(4, 4);
-		sudokuTable.setFont(new Font("Verdana", Font.BOLD, 50));
-		
-		JTextField textField = new JTextField();
-		textField.setFont(new Font("Verdana", Font.BOLD, 50));
-		textField.setBorder(new LineBorder(Color.YELLOW));
-		DefaultCellEditor dce = new DefaultCellEditor( textField );
-		DefaultTableCellRenderer dcr = new DefaultTableCellRenderer();
-		dcr.setFont(new Font("Verdana", Font.BOLD, 50));
-		dcr.setBackground(Color.YELLOW);
-		sudokuTable.getColumnModel().getColumn(1).setCellEditor(dce);
-		sudokuTable.getColumnModel().getColumn(1).setCellRenderer(dcr);
-		this.menu.add(fileMenu);
-		this.fileMenu.add(openFileMenu);
-		this.add(sudokuPanel);
 	}
 	
+	private void createHighScorePanel(){
+		
+	}
 
 	public JPanel getSudokuPanel() {
 		return sudokuPanel;
