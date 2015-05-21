@@ -65,6 +65,7 @@ public class SudokuGui extends JFrame {
 		this.fileMenu.add(openFileMenu);
 		this.add(sudokuPanel);
 	}
+	
 
 	public JPanel getSudokuPanel() {
 		return sudokuPanel;
