@@ -32,61 +32,61 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(event.getSource() == sudokuGui.getOpenFileMenu()){
-			JFileChooser fileChooser = new JFileChooser();
-			int response = fileChooser.showOpenDialog(this.sudokuGui);
-			if(response == JFileChooser.APPROVE_OPTION){
-				File file = fileChooser.getSelectedFile();
-				FileAccess fileAccess = new FileAccess();
-				
-				try {
-					errorCells.add(new Point(1, 2));
-					
-					sudokuBoards = fileAccess.readBoard(file.getAbsolutePath());
-					
-					currentBoard = sudokuBoards.get(0);
-					
-					sudokuGui.getSudokuPanel().remove(sudokuGui.getSudokuTable());
-					
-					int puzzleSize = currentBoard.getPuzzleSize();
-					sudokuGui.initializeTable(puzzleSize, puzzleSize);
-					
-					String data[][] = new String[puzzleSize][puzzleSize];
-					String col[] = new String[puzzleSize];
-					for(int i=0; i<puzzleSize; i++){
-						for(int j=0; j<puzzleSize; j++){
-							if(currentBoard.getPuzzle()[i][j] == 0){
-								data[i][j] = "";
-							}else{
-								data[i][j] = String.valueOf(currentBoard.getPuzzle()[i][j]);
-							}
-						}
-						col[i] = "";
-					}
-					
-					DefaultTableModel model = new DefaultTableModel(data, col) {
-			            @Override
-			            public boolean isCellEditable(int row, int col) {
-			                return false;
-			            }
-			        };
-			        
-			        sudokuGui.getSudokuTable().setModel(model);
-			        sudokuGui.getSudokuTable().setCellSelectionEnabled(true);
-			        sudokuGui.getSudokuTable().setColumnSelectionAllowed(false);
-			        sudokuGui.getSudokuTable().setRowSelectionAllowed(false);
-			        CellRender cellRenderer = new CellRender();   // See below
-			        sudokuGui.getSudokuTable().setDefaultRenderer(Object.class, cellRenderer);
-			        
-			        sudokuGui.getSudokuTable().addKeyListener(this);
-					sudokuGui.getSudokuPanel().validate();
-					sudokuGui.getSudokuPanel().repaint();						
-				} catch (IOException e) {
-					System.out.println("[ Error accessing file! ]" + e.getMessage());
-				}
-
-			}
-		}
+//		if(event.getSource() == sudokuGui.getOpenFileMenu()){
+//			JFileChooser fileChooser = new JFileChooser();
+//			int response = fileChooser.showOpenDialog(this.sudokuGui);
+//			if(response == JFileChooser.APPROVE_OPTION){
+//				File file = fileChooser.getSelectedFile();
+//				FileAccess fileAccess = new FileAccess();
+//				
+//				try {
+//					errorCells.add(new Point(1, 2));
+//					
+//					sudokuBoards = fileAccess.readBoard(file.getAbsolutePath());
+//					
+//					currentBoard = sudokuBoards.get(0);
+//					
+//					sudokuGui.getSudokuPanel().remove(sudokuGui.getSudokuTable());
+//					
+//					int puzzleSize = currentBoard.getPuzzleSize();
+//					sudokuGui.initializeTable(puzzleSize, puzzleSize);
+//					
+//					String data[][] = new String[puzzleSize][puzzleSize];
+//					String col[] = new String[puzzleSize];
+//					for(int i=0; i<puzzleSize; i++){
+//						for(int j=0; j<puzzleSize; j++){
+//							if(currentBoard.getPuzzle()[i][j] == 0){
+//								data[i][j] = "";
+//							}else{
+//								data[i][j] = String.valueOf(currentBoard.getPuzzle()[i][j]);
+//							}
+//						}
+//						col[i] = "";
+//					}
+//					
+//					DefaultTableModel model = new DefaultTableModel(data, col) {
+//			            @Override
+//			            public boolean isCellEditable(int row, int col) {
+//			                return false;
+//			            }
+//			        };
+//			        
+//			        sudokuGui.getSudokuTable().setModel(model);
+//			        sudokuGui.getSudokuTable().setCellSelectionEnabled(true);
+//			        sudokuGui.getSudokuTable().setColumnSelectionAllowed(false);
+//			        sudokuGui.getSudokuTable().setRowSelectionAllowed(false);
+//			        CellRender cellRenderer = new CellRender();   // See below
+//			        sudokuGui.getSudokuTable().setDefaultRenderer(Object.class, cellRenderer);
+//			        
+//			        sudokuGui.getSudokuTable().addKeyListener(this);
+//					sudokuGui.getSudokuPanel().validate();
+//					sudokuGui.getSudokuPanel().repaint();						
+//				} catch (IOException e) {
+//					System.out.println("[ Error accessing file! ]" + e.getMessage());
+//				}
+//
+//			}
+//		}
 	}
 
 	@Override
@@ -97,13 +97,13 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		if(event.getKeyCode() <= 57 && event.getKeyCode() > 48 && sudokuGui.getSudokuTable().getSelectedRowCount() == 1 && sudokuGui.getSudokuTable().getSelectedColumnCount() == 1){
-			int row = sudokuGui.getSudokuTable().getSelectedRow();
-			int column = sudokuGui.getSudokuTable().getSelectedColumn();
-			if(currentBoard.getPuzzle()[row][column] == 0){
-				sudokuGui.getSudokuTable().setValueAt(event.getKeyChar(), row, column);
-			}
-		}
+//		if(event.getKeyCode() <= 57 && event.getKeyCode() > 48 && sudokuGui.getSudokuTable().getSelectedRowCount() == 1 && sudokuGui.getSudokuTable().getSelectedColumnCount() == 1){
+//			int row = sudokuGui.getSudokuTable().getSelectedRow();
+//			int column = sudokuGui.getSudokuTable().getSelectedColumn();
+//			if(currentBoard.getPuzzle()[row][column] == 0){
+//				sudokuGui.getSudokuTable().setValueAt(event.getKeyChar(), row, column);
+//			}
+//		}
 	}
 
 	@Override
