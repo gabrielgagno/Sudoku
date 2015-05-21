@@ -50,6 +50,8 @@ public class GamePanelController implements ActionListener, KeyListener{
         gamePanel.getSolverButton().addActionListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
         gamePanel.getPrevPuzzleButton().addActionListener(this);
+        gamePanel.getNextSolutionButton().addActionListener(this);
+        gamePanel.getPrevSolutionButton().addActionListener(this);
         gamePanel.getCheckerButton().addActionListener(this);
         gamePanel.getResetButton().addActionListener(this);
         gamePanel.validate();
@@ -467,5 +469,9 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(sudokuBoards.size() > 1) gamePanel.getNextPuzzleButton().setEnabled(true);
 			gamePanel.getTimer().start();
 		}
+	}
+	
+	public void resetPuzzle(){
+		
 	}
 }
