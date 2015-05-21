@@ -24,7 +24,7 @@ public class StartPanel extends JPanel implements ActionListener{
 	JButton exit;
 	private BufferedImage image;
 	public StartPanel(){
-		this.setPreferredSize(new Dimension(600,600));
+		this.setPreferredSize(new Dimension(700,600));
 		this.setComponents();
 		this.setVisible(true);
 		this.setFocusable(true);
@@ -43,7 +43,7 @@ public class StartPanel extends JPanel implements ActionListener{
 	}
 	
 	private void setComponents(){
-		sudoku = new JLabel(new ImageIcon("./resources/sudoku.png"));
+		sudoku = new JLabel(new ImageIcon("./resources/sudoku1.png"));
 		newGame = new JButton("New Game");
 		highScore = new JButton("High Score");
 		exit = new JButton("Exit");
