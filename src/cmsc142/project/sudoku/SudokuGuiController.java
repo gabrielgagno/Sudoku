@@ -28,7 +28,6 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 		this.sudokuBoards = new ArrayList<>();
 		this.errorCells = new HashSet<>(); 
 		this.sudokuGui = new SudokuGui();
-		this.sudokuGui.getOpenFileMenu().addActionListener(this);
 	}
 	
 	@Override

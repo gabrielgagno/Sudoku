@@ -2,19 +2,14 @@ package cmsc142.project.sudoku;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.event.KeyEvent;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.border.LineBorder;
-import javax.swing.table.DefaultTableCellRenderer;
 
 public class SudokuGui extends JFrame {
 	private JPanel sudokuPanel;
@@ -27,6 +22,12 @@ public class SudokuGui extends JFrame {
 	
 	private JTable sudokuTable;
 	
+	private JPanel highScorePanel;
+	private JLabel highScoreLabel;
+	private JLabel highScoreSize;
+	private JLabel highScoreType;
+	private JTable highScoreTable;
+	
 	public SudokuGui(){
 		this.setSize(new Dimension(700, 700));
 		this.setComponents();
@@ -37,11 +38,21 @@ public class SudokuGui extends JFrame {
 	}
 
 	private void setComponents() {
-		
+		createHighScorePanel();
+		this.add(highScorePanel);
 	}
 	
 	private void createHighScorePanel(){
+		this.highScorePanel = new JPanel();
+		this.highScorePanel.setPreferredSize(new Dimension(600, 600));
 		
+		this.highScoreLabel = new JLabel("Sudoku Highscores");
+		this.highScoreSize = new JLabel("Puzzle Size");
+		this.highScoreType = new JLabel("Puzzle Type");
+		
+		
+		
+		this.highScorePanel.setBackground(Color.YELLOW);
 	}
 
 	public JPanel getSudokuPanel() {
