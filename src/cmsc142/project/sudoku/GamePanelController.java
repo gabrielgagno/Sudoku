@@ -38,7 +38,6 @@ public class GamePanelController implements ActionListener, KeyListener{
 	public GamePanelController(){
 		this.gamePanel = new GamePanel();
 		this.errorCells = new HashSet<>(); 
-		this.currentStateOfTable = new int[currentBoard.puzzleSize][currentBoard.puzzleSize];
 		Timer timer = new Timer(1000, this);
 		gamePanel.setTimer(timer);
 		
@@ -134,9 +133,9 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(response == JOptionPane.OK_OPTION){
 				currentPuzzle++;
 				currentBoard = sudokuBoards.get(currentPuzzle);
+				isSpecialSudokuActivated = false;
 				drawTable(currentBoard.getPuzzle());
 				tickCount = 0;
-				
 				errorCells.clear();
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
@@ -149,9 +148,9 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(response == JOptionPane.OK_OPTION){
 				currentPuzzle--;
 				currentBoard = sudokuBoards.get(currentPuzzle);
+				isSpecialSudokuActivated = false;
 				drawTable(currentBoard.getPuzzle());
 				tickCount = 0;
-				
 				errorCells.clear();
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
@@ -203,7 +202,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 				int response = JOptionPane.showConfirmDialog(gamePanel, new JLabel("Previous changes will not be saved. Do you really want to change the puzzle type?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 				if(response == JOptionPane.OK_OPTION){
 					currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
-
+					
+					isSpecialSudokuActivated = false;
 					drawTable(currentBoard.getPuzzle());
 					tickCount = 0;
 					
@@ -240,9 +240,23 @@ public class GamePanelController implements ActionListener, KeyListener{
 			tickCount = 0;
 		} else if (event.getSource().equals(gamePanel.getActivateSpecialButton())){
 			isSpecialSudokuActivated = !isSpecialSudokuActivated;
-			ImageIcon imageIcon = new ImageIcon("resources/load.png");
-			gamePanel.getSudokuTable().setValueAt(imageIcon, 0, 0);
+			
 			tickCount = 0;
+			
+			for (int i = 0; i < currentStateOfTable.length; i++) {
+				for (int j = 0; j < currentStateOfTable[i].length; j++) {
+					Object value = "";
+					if(currentStateOfTable[i][j] != 0){
+						value = currentStateOfTable[i][j] + "";
+					}
+					
+					if(isSpecialSudokuActivated){
+						value = new ImageIcon("resources/images/instructors/" + currentStateOfTable[i][j] + ".png");
+					}
+					
+					gamePanel.getSudokuTable().getModel().setValueAt(value, i, j);
+				}
+			}
 		}
 		
 		if(event.getSource() == gamePanel.getTimer()){
@@ -253,15 +267,20 @@ public class GamePanelController implements ActionListener, KeyListener{
 		
 	public void drawTable(int[][] puzzle){
 		int puzzleSize = puzzle.length;
-		String data[][] = new String[puzzleSize][puzzleSize];
+		Object data[][] = new Object[puzzleSize][puzzleSize];
 		String header[] = new String[puzzleSize];
 		for(int i = 0; i < puzzleSize; i++){
 			for(int j = 0;  j < puzzleSize; j++){
+				Object value = String.valueOf(puzzle[i][j]);
 				if(puzzle[i][j] == 0){
-					data[i][j] = "";
-				} else{
-					data[i][j] = String.valueOf(puzzle[i][j]);
+					value = "";
+				} 
+				
+				if(isSpecialSudokuActivated){
+					value = new ImageIcon("resources/images/instructors/" + puzzle[i][j] + ".png");
 				}
+				
+				data[i][j] = value;
 			}
 			header[i] = "";
 		}
@@ -441,6 +460,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 		
 		if(sudokuBoards.size() > 0){
 			currentBoard = sudokuBoards.get(currentPuzzle);	
+			currentStateOfTable = currentBoard.getPuzzle();
 			
 			drawTable(currentBoard.getPuzzle());
 			
