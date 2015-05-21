@@ -122,6 +122,13 @@ public class GamePanelController implements ActionListener, KeyListener{
 				gamePanel.getNextSolutionButton().setEnabled(false);
 			gamePanel.getPrevSolutionButton().setEnabled(true);
 				
+		} else if(event.getSource().equals(gamePanel.getPrevSolutionButton())){
+			currentSolutionPointer--;
+			drawTable(solution.get(currentSolutionPointer));
+			if(currentSolutionPointer == 0)
+				gamePanel.getPrevSolutionButton().setEnabled(false);
+			gamePanel.getNextSolutionButton().setEnabled(true);
+				
 		} else if(event.getSource().equals(gamePanel.getNextPuzzleButton())){
 			int response = JOptionPane.showConfirmDialog(gamePanel, new JLabel("Previous changes will not be saved. Do you really want to proceed to the next puzzle?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 			if(response == JOptionPane.OK_OPTION){
@@ -230,6 +237,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
 		} else if(event.getSource() == gamePanel.getResetButton()){
 			drawTable(currentBoard.getPuzzle());
+			tickCount = 0;
 		} else if (event.getSource().equals(gamePanel.getActivateSpecialButton())){
 			isSpecialSudokuActivated = !isSpecialSudokuActivated;
 			ImageIcon imageIcon = new ImageIcon("resources/load.png");
