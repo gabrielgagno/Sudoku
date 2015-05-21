@@ -13,11 +13,18 @@ public class HighScorePanelController implements ActionListener {
 	private HashMap<String, ArrayList<ArrayList<String[]>>> highscores;
 	
 	public HighScorePanelController(){
+		updateHighScore();
+		this.highScorePanel.getHighScoreSizeComboBox().addActionListener(this);
+		this.highScorePanel.getHighScoreTypeComboBox().addActionListener(this);
+	}
+	
+	public void updateHighScore() {
+		FileAccess fileAccess = new FileAccess();
+		ArrayList<ArrayList<String[]>> highScorePerPuzzleType = null;
+		
 		String[] typeList = SudokuType.getValues();
 		String[] sizeList = null;
 		
-		FileAccess fileAccess = new FileAccess();
-		ArrayList<ArrayList<String[]>> highScorePerPuzzleType = null;
 		try {
 			highscores = fileAccess.readScoreData("resources/highscores.dat");
 			
@@ -29,28 +36,14 @@ public class HighScorePanelController implements ActionListener {
 				sizeList[i] = (String) keys[i];
 			}
 			
-//			for (int i = 0; i < keys.length; i++) {
-//				System.out.println(keys[i]);
-//				highScorePerPuzzleType = highscores.get(keys[i]);
-//				
-//				for(int j = 0; j < highScorePerPuzzleType.size(); j++){
-//					System.out.println("Puzzle Type " + j);
-//					for(int k = 0; k < highScorePerPuzzleType.get(j).size(); k++){
-//						System.out.println(highScorePerPuzzleType.get(j).get(k));
-//					}
-//				}
-//			}
-			
 		} catch (IOException e) {
 			System.out.println("Error reading file! " + e.getMessage());
 		}
 		
-		this.highScorePanel = new HighScorePanel(typeList, sizeList);
-		
-		this.highScorePanel.getHighScoreSizeComboBox().addActionListener(this);
-		this.highScorePanel.getHighScoreTypeComboBox().addActionListener(this);
+		this.highScorePanel = new HighScorePanel(typeList, sizeList);		
+		updateTable();
 	}
-	
+
 	private void updateTable(){
 		String sizeSelected = this.highScorePanel.getHighScoreSizeComboBox().getSelectedItem().toString();
 		String typeSelected = this.highScorePanel.getHighScoreTypeComboBox().getSelectedItem().toString();
@@ -76,11 +69,9 @@ public class HighScorePanelController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
 		if(event.getSource().equals(this.highScorePanel.getHighScoreSizeComboBox()) || event.getSource().equals(this.highScorePanel.getHighScoreTypeComboBox())){
 			updateTable();
 		}
-		
 	}
 
 	
