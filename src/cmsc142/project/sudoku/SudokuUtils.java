@@ -75,7 +75,33 @@ public abstract class SudokuUtils {
 			}
 		}
 	}
+	
+	private static boolean checkPuzzle(SudokuBoard sudokuBoard, boolean xSudoku, boolean ySudoku){
+		int puzzleSize = sudokuBoard.getPuzzleSize();
+		int[][] puzzle = sudokuBoard.getPuzzle();
+		
+		for(int i = 0; i < puzzleSize; i++){
+			for(int j = 0; j < puzzleSize; j++){
+				List<Integer> value = new ArrayList<Integer>();
+				if(puzzle[i][j] != 0){
+					value.add(new Integer(puzzle[i][j]));
+					if(xSudoku) checkX(value, puzzle, puzzleSize, i, j);
+					if(ySudoku) checkY(value, puzzle, puzzleSize, i, j);
+					
+					checkGrid(value, puzzle, puzzleSize, i, j);
+					checkRow(value, puzzle, puzzleSize, i, j);
+					checkColumn(value, puzzle, puzzleSize, i, j);
 
+					if(value.size() == 0){
+						return false;
+					}
+				}
+			}
+		}
+		
+		return true;
+	}
+	
 	private static void solveUsingBacktracking(SudokuBoard sudokuBoard, boolean xSudoku, boolean ySudoku) {
 		int puzzleSize = sudokuBoard.getPuzzleSize();
 		int start = 0;
@@ -86,36 +112,9 @@ public abstract class SudokuUtils {
 		int[] nopts = new int[(puzzleSize * puzzleSize) + 2]; // array top of
 																// stacks
 
-		List<ArrayList<Integer>> options = new ArrayList<ArrayList<Integer>>(); // array
-																				// stacks
-																				// of
-																				// options
-		boolean flag = true;
-		for(int i=0; i<puzzleSize; i++){
-			for(int j=0; j<puzzleSize; j++){
-				ArrayList<Integer> value = new ArrayList<Integer>();
-				if(puzzle[i][j] != 0){
-					value.add(new Integer(puzzle[i][j]));
-//					System.out.println(value);
-					if(xSudoku) checkX(value, puzzle, puzzleSize, i, j);
-					if(ySudoku) checkY(value, puzzle, puzzleSize, i, j);
-					
-					checkGrid(value, puzzle, puzzleSize, i, j);
-					checkRow(value, puzzle, puzzleSize, i, j);
-					checkColumn(value, puzzle, puzzleSize, i, j);
-//					System.out.println(value);
-					if(value.size() == 0){
-						flag = false;
-						break;
-					}
-				}
-			}
-			if(!flag){
-				break;
-			}
-		}
+		List<ArrayList<Integer>> options = new ArrayList<ArrayList<Integer>>(); // array stacks of options
 		
-		if(flag){
+		if(checkPuzzle(sudokuBoard, xSudoku, ySudoku)){
 			System.out.println("Proceed");
 			for (int i = 0; i < (puzzleSize * puzzleSize) + 2; i++) {
 				options.add(new ArrayList<Integer>());
