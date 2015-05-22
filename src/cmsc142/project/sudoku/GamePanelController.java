@@ -42,32 +42,47 @@ public class GamePanelController implements ActionListener, KeyListener{
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource() == gamePanel.getNextPuzzleButton()){
-			currentPuzzle++;
-			currentBoard = sudokuBoards.get(currentPuzzle);
-			drawTable(currentBoard.getPuzzleSize());
-			
-			if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
-			if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
+			int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to proceed to the next puzzle?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
+			if(response == JOptionPane.OK_OPTION){
+				currentPuzzle++;
+				currentBoard = sudokuBoards.get(currentPuzzle);
+				drawTable(currentBoard.getPuzzleSize());
+				
+				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
+				gamePanel.getTypeComboBox().setSelectedItem(currentType);
+				
+				if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
+				if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
+			}
 		}
 		
 		if(event.getSource() == gamePanel.getPrevPuzzleButton()){	
-			currentPuzzle--;
-			currentBoard = sudokuBoards.get(currentPuzzle);
-			drawTable(currentBoard.getPuzzleSize());
-			
-			if(currentPuzzle <= 0) gamePanel.getPrevPuzzleButton().setEnabled(false);
-			if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);
-			
-		}
-		if(event.getSource() == gamePanel.getTypeComboBox()){
-			int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to change the puzzle type?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
+			int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to proceed to the previous puzzle?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 			if(response == JOptionPane.OK_OPTION){
-				currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
-			}else if(response == JOptionPane.CANCEL_OPTION){
-				gamePanel.getTypeComboBox().setSelectedItem((Object)currentType);
+				currentPuzzle--;
+				currentBoard = sudokuBoards.get(currentPuzzle);
+				drawTable(currentBoard.getPuzzleSize());
+				
+				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
+				gamePanel.getTypeComboBox().setSelectedItem(currentType);
+				
+				if(currentPuzzle <= 0) gamePanel.getPrevPuzzleButton().setEnabled(false);
+				if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);
+				
 			}
 		}
-	
+		
+		if(event.getSource() == gamePanel.getTypeComboBox()){
+			if(!gamePanel.getTypeComboBox().getSelectedItem().toString().equals(currentType)){
+				int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to change the puzzle type?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
+				if(response == JOptionPane.OK_OPTION){
+					currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
+				} else if(response == JOptionPane.CANCEL_OPTION){
+					gamePanel.getTypeComboBox().setSelectedItem(currentType);
+				}
+		
+			}
+		}
 	}
 	
 	public void drawTable(int puzzleSize){
