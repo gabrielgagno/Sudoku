@@ -9,6 +9,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.Timer;
 
 public class GamePanel extends JPanel{
 	private JButton backMenuButton;
@@ -22,6 +23,7 @@ public class GamePanel extends JPanel{
 	private JLabel typeLabel, timerLabel;
 	private JComboBox<String> typeComboBox;
 	private JTable sudokuTable;
+	private Timer timer;
 	
 	public GamePanel(){
 		this.setPreferredSize(new Dimension(600,600));
@@ -56,6 +58,9 @@ public class GamePanel extends JPanel{
 		
 		prevSolutionButton = new JButton("<<");
 		nextSolutionButton = new JButton(">>");
+		prevSolutionButton.setEnabled(false);
+		nextSolutionButton.setEnabled(false);
+		
 		checkerButton = new JButton("Check");
 		solverButton = new JButton("Solve");
 
@@ -123,6 +128,28 @@ public class GamePanel extends JPanel{
 			.addGap(75)
 		);
 	}
+	
+	public String computeDuration(int timeLength) {
+		// TODO Auto-generated method stub
+		int hour, min, sec;
+		sec = timeLength%60;
+		timeLength /= 60;
+		min = timeLength%60;
+		timeLength /= 60;
+		hour = timeLength;
+		String duration = "";
+		if(hour < 10)
+			duration += 0;
+		duration += hour + ":";
+		if(min < 10)
+			duration += 0;
+		duration += min + ":";
+		if(sec < 10)
+			duration += 0;
+		duration += sec;
+		return duration;
+	}
+
 
 	public JButton getBackMenuButton() {
 		return backMenuButton;
@@ -218,5 +245,13 @@ public class GamePanel extends JPanel{
 
 	public void setSudokuTable(JTable sudokuTable) {
 		this.sudokuTable = sudokuTable;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public void setTimer(Timer timer) {
+		this.timer = timer;
 	}
 }
