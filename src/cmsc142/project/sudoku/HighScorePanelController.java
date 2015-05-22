@@ -49,11 +49,19 @@ public class HighScorePanelController implements ActionListener {
 		this.highScorePanel.getHighScoreTypeComboBox().addActionListener(this);
 	}
 	
+	private void updateTable(){
+		String sizeSelected = this.highScorePanel.getHighScoreSizeComboBox().getSelectedItem().toString();
+		String typeSelected = this.highScorePanel.getHighScoreTypeComboBox().getSelectedItem().toString();
+		
+		
+		
+	}
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		
 		if(event.getSource().equals(this.highScorePanel.getHighScoreSizeComboBox())){
-			this.highScorePanel.getHighScoreSizeComboBox().getSelectedItem();
+			
 			
 		} else if(event.getSource().equals(this.highScorePanel.getHighScoreTypeComboBox())){
 			
@@ -61,6 +69,7 @@ public class HighScorePanelController implements ActionListener {
 		
 	}
 
+	
 	public HighScorePanel getHighScorePanel() {
 		return highScorePanel;
 	}
