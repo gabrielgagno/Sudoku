@@ -2,6 +2,7 @@ package cmsc142.project.sudoku;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -147,7 +148,13 @@ public class GamePanelController implements ActionListener, KeyListener{
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
 		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
 		    errorCells.add(new Point(table.getSelectedRow(), table.getSelectedColumn()));
- 
+		   int fontSize = (int) ((gamePanel.getSudokuTable().getPreferredSize().getWidth()/gamePanel.getSudokuTable().getRowCount())*0.50);
+		    if(currentBoard.getPuzzle()[row][column] != 0){
+		    	c.setFont(new Font("Verdana", Font.BOLD, fontSize));
+		    } else {
+		    	c.setFont(new Font("Verdana", Font.PLAIN, fontSize));
+		    }
+		    
 		    if(currentType.equals("Normal")){
 			    if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
 			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
