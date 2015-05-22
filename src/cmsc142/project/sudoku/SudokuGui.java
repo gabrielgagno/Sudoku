@@ -23,6 +23,7 @@ public class SudokuGui extends JFrame {
 		return activePanel;
 	}
 
+
 	public void setActivePanel(JPanel activePanel) {
 		this.activePanel = activePanel;
 	}
