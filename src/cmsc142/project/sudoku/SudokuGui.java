@@ -32,5 +32,7 @@ public class SudokuGui extends JFrame {
 		this.activePanel = newPanel;
 		this.add(this.activePanel);
 		this.pack();
+		this.validate();
+		this.repaint();
 	}
 }

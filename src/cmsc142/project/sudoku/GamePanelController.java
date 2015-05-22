@@ -5,17 +5,16 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 
-public class GamePanelController implements ActionListener{
+public class GamePanelController implements ActionListener {
 	private GamePanel gamePanel;
-	
-	public GamePanelController(){
+
+	public GamePanelController() {
 		this.gamePanel = new GamePanel();
-		
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		
+
 	}
 
 	public GamePanel getGamePanel() {

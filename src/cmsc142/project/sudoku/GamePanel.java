@@ -11,11 +11,17 @@ import javax.swing.JPanel;
 import javax.swing.JTable;
 
 public class GamePanel extends JPanel{
-	private static JButton backMenuButton, checkerButton, solverButton, activateSpecialButton;
-		private static JButton prevPuzzleButton, nextPuzzleButton, prevSolutionButton, nextSolutionButton;
-	private static JLabel typeLabel, timerLabel;
-	private static JComboBox typeComboBox;
-	private static JTable sudokuTable;
+	private JButton backMenuButton;
+	private JButton checkerButton;
+	private JButton solverButton;
+	private JButton activateSpecialButton;
+	private JButton prevPuzzleButton;
+	private JButton nextPuzzleButton;
+	private JButton prevSolutionButton;
+	private JButton nextSolutionButton;
+	private JLabel typeLabel, timerLabel;
+	private JComboBox<String> typeComboBox;
+	private JTable sudokuTable;
 	
 	public GamePanel(){
 		this.setPreferredSize(new Dimension(600,600));
@@ -25,7 +31,6 @@ public class GamePanel extends JPanel{
 	}
 
 	private void setComponents() {
-		// TODO Auto-generated method stub
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		
@@ -33,7 +38,7 @@ public class GamePanel extends JPanel{
 		timerLabel = new JLabel("00:00:00");
 		
 		typeLabel = new JLabel("Type:");
-		typeComboBox = new JComboBox();
+		typeComboBox = new JComboBox<String>();
 		typeComboBox.addItem(new String("Normal"));
 		typeComboBox.addItem(new String("X"));
 		typeComboBox.addItem(new String("Y"));
@@ -116,102 +121,100 @@ public class GamePanel extends JPanel{
 			.addGap(75)
 		);
 	}
-	
-	public static JButton getBackMenuButton() {
+
+	public JButton getBackMenuButton() {
 		return backMenuButton;
 	}
 
-	public static void setBackMenuButton(JButton backMenuButton) {
-		GamePanel.backMenuButton = backMenuButton;
+	public void setBackMenuButton(JButton backMenuButton) {
+		this.backMenuButton = backMenuButton;
 	}
 
-	public static JButton getCheckerButton() {
+	public JButton getCheckerButton() {
 		return checkerButton;
 	}
 
-	public static void setCheckerButton(JButton checkerButton) {
-		GamePanel.checkerButton = checkerButton;
+	public void setCheckerButton(JButton checkerButton) {
+		this.checkerButton = checkerButton;
 	}
 
-	public static JButton getSolverButton() {
+	public JButton getSolverButton() {
 		return solverButton;
 	}
 
-	public static void setSolverButton(JButton solverButton) {
-		GamePanel.solverButton = solverButton;
+	public void setSolverButton(JButton solverButton) {
+		this.solverButton = solverButton;
 	}
 
-	public static JButton getActivateSpecialButton() {
+	public JButton getActivateSpecialButton() {
 		return activateSpecialButton;
 	}
 
-	public static void setActivateSpecialButton(JButton activateSpecialButton) {
-		GamePanel.activateSpecialButton = activateSpecialButton;
+	public void setActivateSpecialButton(JButton activateSpecialButton) {
+		this.activateSpecialButton = activateSpecialButton;
 	}
 
-	public static JButton getPrevPuzzleButton() {
+	public JButton getPrevPuzzleButton() {
 		return prevPuzzleButton;
 	}
 
-	public static void setPrevPuzzleButton(JButton prevPuzzleButton) {
-		GamePanel.prevPuzzleButton = prevPuzzleButton;
+	public void setPrevPuzzleButton(JButton prevPuzzleButton) {
+		this.prevPuzzleButton = prevPuzzleButton;
 	}
 
-	public static JButton getNextPuzzleButton() {
+	public JButton getNextPuzzleButton() {
 		return nextPuzzleButton;
 	}
 
-	public static void setNextPuzzleButton(JButton nextPuzzleButton) {
-		GamePanel.nextPuzzleButton = nextPuzzleButton;
+	public void setNextPuzzleButton(JButton nextPuzzleButton) {
+		this.nextPuzzleButton = nextPuzzleButton;
 	}
 
-	public static JButton getPrevSolutionButton() {
+	public JButton getPrevSolutionButton() {
 		return prevSolutionButton;
 	}
 
-	public static void setPrevSolutionButton(JButton prevSolutionButton) {
-		GamePanel.prevSolutionButton = prevSolutionButton;
+	public void setPrevSolutionButton(JButton prevSolutionButton) {
+		this.prevSolutionButton = prevSolutionButton;
 	}
 
-	public static JButton getNextSolutionButton() {
+	public JButton getNextSolutionButton() {
 		return nextSolutionButton;
 	}
 
-	public static void setNextSolutionButton(JButton nextSolutionButton) {
-		GamePanel.nextSolutionButton = nextSolutionButton;
+	public void setNextSolutionButton(JButton nextSolutionButton) {
+		this.nextSolutionButton = nextSolutionButton;
 	}
 
-	public static JLabel getTypeLabel() {
+	public JLabel getTypeLabel() {
 		return typeLabel;
 	}
 
-	public static void setTypeLabel(JLabel typeLabel) {
-		GamePanel.typeLabel = typeLabel;
+	public void setTypeLabel(JLabel typeLabel) {
+		this.typeLabel = typeLabel;
 	}
 
-	public static JLabel getTimerLabel() {
+	public JLabel getTimerLabel() {
 		return timerLabel;
 	}
 
-	public static void setTimerLabel(JLabel timerLabel) {
-		GamePanel.timerLabel = timerLabel;
+	public void setTimerLabel(JLabel timerLabel) {
+		this.timerLabel = timerLabel;
 	}
 
-	public static JComboBox getTypeComboBox() {
+	public JComboBox<String> getTypeComboBox() {
 		return typeComboBox;
 	}
 
-	public static void setTypeComboBox(JComboBox typeComboBox) {
-		GamePanel.typeComboBox = typeComboBox;
+	public void setTypeComboBox(JComboBox<String> typeComboBox) {
+		this.typeComboBox = typeComboBox;
 	}
 
-	public static JTable getSudokuTable() {
+	public JTable getSudokuTable() {
 		return sudokuTable;
 	}
 
-	public static void setSudokuTable(JTable sudokuTable) {
-		GamePanel.sudokuTable = sudokuTable;
+	public void setSudokuTable(JTable sudokuTable) {
+		this.sudokuTable = sudokuTable;
 	}
-
-
 }

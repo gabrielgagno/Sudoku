@@ -6,8 +6,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import javax.swing.JFrame;
-
 public class HighScorePanelController implements ActionListener {
 	private HighScorePanel highScorePanel;
 	
@@ -70,6 +68,4 @@ public class HighScorePanelController implements ActionListener {
 	public void setHighScorePanel(HighScorePanel highScorePanel) {
 		this.highScorePanel = highScorePanel;
 	}
-	
-	
 }
