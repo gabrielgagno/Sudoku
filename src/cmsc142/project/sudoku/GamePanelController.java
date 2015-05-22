@@ -30,6 +30,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 	
 	public GamePanelController(){
 		this.gamePanel = new GamePanel();
+		this.errorCells = new HashSet<>(); 
+		
 		Timer timer = new Timer(1000, this);
 		gamePanel.setTimer(timer);
 		
@@ -55,9 +57,11 @@ public class GamePanelController implements ActionListener, KeyListener{
 				currentBoard = sudokuBoards.get(currentPuzzle);
 				drawTable(currentBoard.getPuzzleSize());
 				
+				this.errorCells = new HashSet<>();
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
 				tickCount = 0;
+				
 				if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
 				if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
 			}
@@ -68,20 +72,41 @@ public class GamePanelController implements ActionListener, KeyListener{
 				currentBoard = sudokuBoards.get(currentPuzzle);
 				drawTable(currentBoard.getPuzzleSize());
 				
+				this.errorCells = new HashSet<>(); 
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
 				tickCount = 0;
 				
 				if(currentPuzzle <= 0) gamePanel.getPrevPuzzleButton().setEnabled(false);
-				if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);
-				
+				if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);			
 			}
 		} else if(event.getSource() == gamePanel.getTypeComboBox()){
+			if(gamePanel.getTypeComboBox().getSelectedItem().toString().equals("X")){
+				if(SudokuUtils.checkPuzzle(currentBoard, true, false, false).size() != 0){
+					JOptionPane.showMessageDialog(gamePanel, "Puzzle not applicable for X Sudoku");
+					gamePanel.getTypeComboBox().setSelectedItem(currentType);
+					return;
+				}
+			} else if(gamePanel.getTypeComboBox().getSelectedItem().toString().equals("Y")){
+				if(currentBoard.getPuzzleSize()%2 == 0 || SudokuUtils.checkPuzzle(currentBoard, false, true, false).size() != 0){
+					JOptionPane.showMessageDialog(gamePanel, "Puzzle not applicable for Y Sudoku");
+					gamePanel.getTypeComboBox().setSelectedItem(currentType);
+					return;
+				}
+			} else if(gamePanel.getTypeComboBox().getSelectedItem().toString().equals("XY")){
+				if(currentBoard.getPuzzleSize()%2 == 0 || SudokuUtils.checkPuzzle(currentBoard, true, true, false).size() != 0){
+					JOptionPane.showMessageDialog(gamePanel, "Puzzle not applicable for XY Sudoku");
+					gamePanel.getTypeComboBox().setSelectedItem(currentType);
+					return;
+				}
+			}
+		
 			if(!gamePanel.getTypeComboBox().getSelectedItem().toString().equals(currentType)){
 				int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to change the puzzle type?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 				if(response == JOptionPane.OK_OPTION){
 					currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 					tickCount = 0;
+					this.errorCells = new HashSet<>(); 
 				} else if(response == JOptionPane.CANCEL_OPTION){
 					gamePanel.getTypeComboBox().setSelectedItem(currentType);
 				}
@@ -268,7 +293,6 @@ public class GamePanelController implements ActionListener, KeyListener{
 			e.printStackTrace();
 		}
 		
-		this.errorCells = new HashSet<>(); 
 		
 //		
 		if(sudokuBoards.size() > 0){
