@@ -1,6 +1,8 @@
 package cmsc142.project.sudoku;
 
+import java.awt.Point;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 public abstract class SudokuUtils {
@@ -80,7 +82,8 @@ public abstract class SudokuUtils {
 		}
 	}
 	
-	private static boolean checkPuzzle(SudokuBoard sudokuBoard, boolean xSudoku, boolean ySudoku){
+	public static HashSet<Point> checkPuzzle(SudokuBoard sudokuBoard, boolean xSudoku, boolean ySudoku, boolean searchAll){
+		HashSet<Point> errorCells = new HashSet<>();
 		int puzzleSize = sudokuBoard.getPuzzleSize();
 		int[][] puzzle = sudokuBoard.getPuzzle();
 		
@@ -95,15 +98,18 @@ public abstract class SudokuUtils {
 					checkGrid(value, puzzle, puzzleSize, i, j);
 					checkRow(value, puzzle, puzzleSize, i, j);
 					checkColumn(value, puzzle, puzzleSize, i, j);
-
+					
 					if(value.size() == 0){
-						return false;
+						errorCells.add(new Point(i, j));
+						if(!searchAll){
+							return errorCells;
+						}
 					}
 				}
 			}
 		}
 		
-		return true;
+		return errorCells;
 	}
 	
 	private static void solveUsingBacktracking(SudokuBoard sudokuBoard, boolean xSudoku, boolean ySudoku) {
@@ -118,7 +124,7 @@ public abstract class SudokuUtils {
 
 		List<ArrayList<Integer>> options = new ArrayList<ArrayList<Integer>>(); // array stacks of options
 		
-		if(checkPuzzle(sudokuBoard, xSudoku, ySudoku)){
+		if(checkPuzzle(sudokuBoard, xSudoku, ySudoku, false).size() == 0){
 			System.out.println("Proceed");
 			for (int i = 0; i < (puzzleSize * puzzleSize) + 2; i++) {
 				options.add(new ArrayList<Integer>());

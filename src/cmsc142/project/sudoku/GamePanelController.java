@@ -37,6 +37,7 @@ public class GamePanelController implements ActionListener, KeyListener{
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
         gamePanel.getPrevPuzzleButton().addActionListener(this);
+        gamePanel.getCheckerButton().addActionListener(this);
         gamePanel.validate();
         gamePanel.repaint();						
 	}
@@ -56,9 +57,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
 				if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
 			}
-		}
-		
-		if(event.getSource() == gamePanel.getPrevPuzzleButton()){	
+		} else if(event.getSource() == gamePanel.getPrevPuzzleButton()){	
 			int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to proceed to the previous puzzle?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 			if(response == JOptionPane.OK_OPTION){
 				currentPuzzle--;
@@ -72,9 +71,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				if(currentPuzzle < sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(true);
 				
 			}
-		}
-		
-		if(event.getSource() == gamePanel.getTypeComboBox()){
+		} else if(event.getSource() == gamePanel.getTypeComboBox()){
 			if(!gamePanel.getTypeComboBox().getSelectedItem().toString().equals(currentType)){
 				int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to change the puzzle type?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 				if(response == JOptionPane.OK_OPTION){
@@ -84,6 +81,28 @@ public class GamePanelController implements ActionListener, KeyListener{
 				}
 		
 			}
+		} else if (event.getSource().equals(gamePanel.getCheckerButton())){
+			boolean xSudoku = false;
+			boolean ySudoku = false;
+			
+			switch (currentType) {
+				case "X":
+					xSudoku = true;
+					ySudoku = false;
+					break;
+	
+				case "Y":
+					xSudoku = false;
+					ySudoku = true;
+					break;
+				
+				case "XY":
+					xSudoku = true;
+					ySudoku = true;
+					break;
+			}
+			
+			errorCells = SudokuUtils.checkPuzzle(currentBoard, xSudoku, ySudoku, true);
 		}
 	}
 	
@@ -147,8 +166,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 	public class CellRender extends DefaultTableCellRenderer  { 
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
 		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
-		    errorCells.add(new Point(table.getSelectedRow(), table.getSelectedColumn()));
-		   int fontSize = (int) ((gamePanel.getSudokuTable().getPreferredSize().getWidth()/gamePanel.getSudokuTable().getRowCount())*0.50);
+		    
+		    int fontSize = (int) ((gamePanel.getSudokuTable().getPreferredSize().getWidth()/gamePanel.getSudokuTable().getRowCount())*0.50);
 		    if(currentBoard.getPuzzle()[row][column] != 0){
 		    	c.setFont(new Font("Verdana", Font.BOLD, fontSize));
 		    } else {
@@ -217,7 +236,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 		}
 		
 		this.errorCells = new HashSet<>(); 
-		errorCells.add(new Point(1, 2));
+		
 //		
 		if(sudokuBoards.size() > 0){
 			currentBoard = sudokuBoards.get(currentPuzzle);	
