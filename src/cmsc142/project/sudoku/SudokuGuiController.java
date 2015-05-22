@@ -1,24 +1,10 @@
 package cmsc142.project.sudoku;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
-import javax.swing.JFileChooser;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
-public class SudokuGuiController implements ActionListener, KeyListener{
+public class SudokuGuiController implements ActionListener {
 	private SudokuGui sudokuGui;
 	private StartPanelController startPanelController;
 	private HighScorePanelController highScorePanelController;
@@ -27,14 +13,34 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 	public SudokuGuiController(){
 		this.sudokuGui = new SudokuGui();
 		
-		this.highScorePanelController = new HighScorePanelController(sudokuGui);
-		this.startPanelController = new StartPanelController(sudokuGui);
-		this.gamePanelController = new GamePanelController(sudokuGui);
+		this.highScorePanelController = new HighScorePanelController();
+		this.startPanelController = new StartPanelController();
+		this.gamePanelController = new GamePanelController();
 		
+		this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
+		
+		/*
+		 * Adds action listener for the transition of panels
+		 */
+		this.startPanelController.getStartPanel().newGame.addActionListener(this);
+		this.startPanelController.getStartPanel().highScore.addActionListener(this);
+		this.startPanelController.getStartPanel().exit.addActionListener(this);
+		
+//		this.highScorePanelController.getHighScorePanel().addAction();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
+		if (event.getSource().equals(this.startPanelController.getStartPanel().newGame)){
+			this.sudokuGui.changePanel(gamePanelController.getGamePanel());
+			
+		} else if (event.getSource().equals(this.startPanelController.getStartPanel().highScore)){
+			this.sudokuGui.changePanel(highScorePanelController.getHighScorePanel());
+			
+		} else if (event.getSource().equals(this.startPanelController.getStartPanel().exit)){
+			
+		}
+		
 //		if(event.getSource() == sudokuGui.getOpenFileMenu()){
 //			JFileChooser fileChooser = new JFileChooser();
 //			int response = fileChooser.showOpenDialog(this.sudokuGui);
@@ -92,27 +98,27 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 //		}
 	}
 
-	@Override
-	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void keyReleased(KeyEvent event) {
-//		if(event.getKeyCode() <= 57 && event.getKeyCode() > 48 && sudokuGui.getSudokuTable().getSelectedRowCount() == 1 && sudokuGui.getSudokuTable().getSelectedColumnCount() == 1){
-//			int row = sudokuGui.getSudokuTable().getSelectedRow();
-//			int column = sudokuGui.getSudokuTable().getSelectedColumn();
-//			if(currentBoard.getPuzzle()[row][column] == 0){
-//				sudokuGui.getSudokuTable().setValueAt(event.getKeyChar(), row, column);
-//			}
-//		}
-	}
-
-	@Override
-	public void keyTyped(KeyEvent event) {
-		// TODO Auto-generated method stub
-	}
+//	@Override
+//	public void keyPressed(KeyEvent arg0) {
+//		// TODO Auto-generated method stub
+//		
+//	}
+//
+//	@Override
+//	public void keyReleased(KeyEvent event) {
+////		if(event.getKeyCode() <= 57 && event.getKeyCode() > 48 && sudokuGui.getSudokuTable().getSelectedRowCount() == 1 && sudokuGui.getSudokuTable().getSelectedColumnCount() == 1){
+////			int row = sudokuGui.getSudokuTable().getSelectedRow();
+////			int column = sudokuGui.getSudokuTable().getSelectedColumn();
+////			if(currentBoard.getPuzzle()[row][column] == 0){
+////				sudokuGui.getSudokuTable().setValueAt(event.getKeyChar(), row, column);
+////			}
+////		}
+//	}
+//
+//	@Override
+//	public void keyTyped(KeyEvent event) {
+//		// TODO Auto-generated method stub
+//	}
 	
 //	public class CellRender extends DefaultTableCellRenderer  { 
 //	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 

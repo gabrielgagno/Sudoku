@@ -9,11 +9,9 @@ import java.util.HashMap;
 import javax.swing.JFrame;
 
 public class HighScorePanelController implements ActionListener {
-	private JFrame frame;
 	private HighScorePanel highScorePanel;
 	
-	public HighScorePanelController(JFrame frame){
-		this.frame = frame;
+	public HighScorePanelController(){
 		String[] typeList = {"Normal Sudoku", "X Sudoku", "Y Sudoku", "XY Sudoku"};
 		String[] sizeList = {};
 		
@@ -65,4 +63,13 @@ public class HighScorePanelController implements ActionListener {
 		
 	}
 
+	public HighScorePanel getHighScorePanel() {
+		return highScorePanel;
+	}
+
+	public void setHighScorePanel(HighScorePanel highScorePanel) {
+		this.highScorePanel = highScorePanel;
+	}
+	
+	
 }

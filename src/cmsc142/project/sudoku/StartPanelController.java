@@ -2,31 +2,37 @@ package cmsc142.project.sudoku;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
 
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-
-public class StartPanelController implements ActionListener{
-	private StartPanel start;
-	private SudokuGui sudokuGui;
-	private JFrame frame;
-	public StartPanelController(JFrame frame){
-//		this.sudokuGui = new SudokuGui();
-		this.start = new StartPanel();
+public class StartPanelController implements ActionListener {
+	private StartPanel startPanel;
 	
+	public StartPanelController() {
+		this.startPanel = new StartPanel();
+		
+		this.startPanel.newGame.addActionListener(this);
 	}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {
+	public void actionPerformed(ActionEvent event) {
 		// TODO Auto-generated method stub
-		if(e.getSource()==start.newGame){
-			JFileChooser fileChooser = new JFileChooser();
-			int response = fileChooser.showOpenDialog(this.start);
-			if(response == JFileChooser.APPROVE_OPTION){
-				File file = fileChooser.getSelectedFile();
-				FileAccess fileAccess = new FileAccess();
-			}
-		}
+//		if (event.getSource() == startPanel.newGame) {
+//			JFileChooser fileChooser = new JFileChooser();
+//			int response = fileChooser.showOpenDialog(this.startPanel);
+//			if (response == JFileChooser.APPROVE_OPTION) {
+//				File file = fileChooser.getSelectedFile();
+//				FileAccess fileAccess = new FileAccess();
+//			}
+//		} else 
+//			
+			
 	}
+
+	public StartPanel getStartPanel() {
+		return startPanel;
+	}
+
+	public void setStartPanel(StartPanel startPanel) {
+		this.startPanel = startPanel;
+	}
+
 }

@@ -7,21 +7,23 @@ import javax.swing.JFrame;
 
 public class GamePanelController implements ActionListener{
 	private GamePanel gamePanel;
-	private JFrame frame;
 	
-	public GamePanelController(JFrame frame){
-		this.frame = frame;
+	public GamePanelController(){
 		this.gamePanel = new GamePanel();
-		gamePanel.getBackMenuButton().addActionListener(this);
+		
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		// TODO Auto-generated method stub
 		
-		if(event.getSource() == gamePanel.getBackMenuButton()){
-			
-		}
+	}
+
+	public GamePanel getGamePanel() {
+		return gamePanel;
+	}
+
+	public void setGamePanel(GamePanel gamePanel) {
+		this.gamePanel = gamePanel;
 	}
 
 }
