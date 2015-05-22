@@ -20,14 +20,17 @@ import javax.swing.table.DefaultTableModel;
 
 public class SudokuGuiController implements ActionListener, KeyListener{
 	private SudokuGui sudokuGui;
-	private List<SudokuBoard> sudokuBoards;
-	private SudokuBoard currentBoard;
-	private HashSet<Point> errorCells;
+	private StartPanelController startPanelController;
+	private HighScorePanelController highScorePanelController;
+	private GamePanelController gamePanelController;
 	
 	public SudokuGuiController(){
-		this.sudokuBoards = new ArrayList<>();
-		this.errorCells = new HashSet<>(); 
 		this.sudokuGui = new SudokuGui();
+		
+		this.highScorePanelController = new HighScorePanelController(sudokuGui);
+		this.startPanelController = new StartPanelController(sudokuGui);
+		this.gamePanelController = new GamePanelController(sudokuGui);
+		
 	}
 	
 	@Override
@@ -111,20 +114,20 @@ public class SudokuGuiController implements ActionListener, KeyListener{
 		// TODO Auto-generated method stub
 	}
 	
-	public class CellRender extends DefaultTableCellRenderer  { 
-	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
-		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
-		    errorCells.add(new Point(table.getSelectedRow(), table.getSelectedColumn()));
-		    if(errorCells.contains(new Point(row, column))){
-		    	c.setBackground(new Color(210, 0, 0));
-		    } else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-		    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-		        c.setBackground(new Color(210, 210, 210)); 
-		    } else {
-		    	c.setBackground(new Color(240,240,240));
-		    }
-		    return c; 
-		}
-
-	} 	
+//	public class CellRender extends DefaultTableCellRenderer  { 
+//	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
+//		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
+//		    errorCells.add(new Point(table.getSelectedRow(), table.getSelectedColumn()));
+//		    if(errorCells.contains(new Point(row, column))){
+//		    	c.setBackground(new Color(210, 0, 0));
+//		    } else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+//		    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
+//		        c.setBackground(new Color(210, 210, 210)); 
+//		    } else {
+//		    	c.setBackground(new Color(240,240,240));
+//		    }
+//		    return c; 
+//		}
+//
+//	} 	
 }

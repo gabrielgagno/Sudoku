@@ -4,14 +4,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 
+import javax.swing.JFrame;
+
 public class HighScorePanelController implements ActionListener {
-	
+	private JFrame frame;
 	private HighScorePanel highScorePanel;
 	
-	public HighScorePanelController(){
+	public HighScorePanelController(JFrame frame){
+		this.frame = frame;
 		String[] typeList = {"Normal Sudoku", "X Sudoku", "Y Sudoku", "XY Sudoku"};
 		String[] sizeList = {};
 		

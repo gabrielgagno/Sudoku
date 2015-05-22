@@ -4,27 +4,14 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+@SuppressWarnings("serial")
 public class SudokuGui extends JFrame {
-	private HighScorePanel highScorePanel;
-	private StartPanel startPanel;
-	private GamePanel gamePanel;
 	
 	public SudokuGui(){
 		this.setSize(new Dimension(700, 700));
-		this.setComponents();
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setFocusable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	}
-
-	private void setComponents() {
-//		this.highScorePanel = new HighScorePanel();
-//		this.add(highScorePanel);
-		
-		this.startPanel = new StartPanel();
-		this.add(startPanel);
-		
-		this.gamePanel = new GamePanel();
 	}
 }

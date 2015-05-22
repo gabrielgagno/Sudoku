@@ -5,14 +5,16 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 
 public class StartPanelController implements ActionListener{
 	private StartPanel start;
-//	private SudokuGui sudokuGui;
-	
-	public StartPanelController(){
+	private SudokuGui sudokuGui;
+	private JFrame frame;
+	public StartPanelController(JFrame frame){
 //		this.sudokuGui = new SudokuGui();
 		this.start = new StartPanel();
+	
 	}
 
 	@Override

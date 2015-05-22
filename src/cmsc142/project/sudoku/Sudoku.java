@@ -1,7 +1,5 @@
 package cmsc142.project.sudoku;
 
-
-
 public class Sudoku {
 
 	private static final String OUTPUT_FILE = "resources/solution.out";
@@ -9,22 +7,6 @@ public class Sudoku {
 
 	public static void main(String[] args) {
 		SudokuGuiController sudokuGuiController = new SudokuGuiController();
-		
-		
-		
-//		try {
-//			ArrayList<SudokuBoard> puzzles = fileAccess.readBoard(INPUT_FILE);
-//
-//			SudokuUtils.findSolutions(puzzles);
-//			fileAccess.writeSolutions(puzzles, OUTPUT_FILE);
-//
-////			for (int i = 0; i < puzzles.size(); i++) {
-////				puzzles.get(i).printAllSolutions();
-////			}
-//		} catch (IOException e) {
-//			System.out.println("[ Error accessing file! ]" + e.getMessage());
-//		}
-
 	}
 
 }
