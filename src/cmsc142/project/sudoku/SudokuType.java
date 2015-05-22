@@ -1,10 +1,10 @@
 package cmsc142.project.sudoku;
 
 public enum SudokuType {
-	NORMAL_SUDOKU(0),
-	X_SUDOKU(1),
-	Y_SUDOKU(2),
-	XY_SUDOKU(3);
+	Normal(0),
+	X(1),
+	Y(2),
+	XY(3);
 	
 	private int value;
 	
@@ -19,21 +19,51 @@ public enum SudokuType {
 	@Override
 	public String toString(){
 		switch (this) {
-			case NORMAL_SUDOKU:
-				return "Normal Sudoku";
+			case Normal:
+				return "Normal";
 			
-			case X_SUDOKU:
-				return "X Sudoku";
+			case X:
+				return "X";
 			
-			case Y_SUDOKU:
-				return "Y Sudoku";
+			case Y:
+				return "Y";
 			
-			case XY_SUDOKU:
-				return "XY Sudoku";
+			case XY:
+				return "XY";
+			
+			default:
+				return "";
+		}
+	}
+	
+	public String toStringAbbrev(){
+		switch (this) {
+			case Normal:
+				return "N";
+			
+			case X:
+				return "X";
+			
+			case Y:
+				return "Y";
+			
+			case XY:
+				return "XY";
 			
 			default:
 				return "";
 		}
 	}
 
+	public static String[] getValues() {
+		String[] values = new String[values().length];
+		
+		for(int i = 0; i < values().length; i++){
+			values[i] = values()[i].toString();
+		}
+		return values;
+		
+	}
+	
+	
 }
