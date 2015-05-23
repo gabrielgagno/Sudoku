@@ -1,9 +1,19 @@
 package cmsc142.project.sudoku;
 
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.font.TextAttribute;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -33,25 +43,57 @@ public class GamePanel extends JPanel{
 		this.setVisible(true);
 		this.setFocusable(true);
 	}
-
+	
+	private JButton createButtonImage(ImageIcon imageIcon){
+		JButton button = new JButton(imageIcon);
+		button.setBorderPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setContentAreaFilled(false);
+		
+		return button;
+	}
+	
+	private JButton createButton(String title, Font font){
+		JButton button = new JButton(title);
+		button.setBorderPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setContentAreaFilled(false);
+		button.setFont(font);
+		return button;
+	}
+	
+	private JLabel createLabel(String title, Font font){
+		JLabel label = new JLabel(title);
+		label.setBorder(BorderFactory.createEmptyBorder());
+		label.setFont(font);
+		return label;
+	}
+	
 	private void setComponents() {
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		
-		backMenuButton = new JButton("Back");
-		timerLabel = new JLabel("00:00:00");
+		backMenuButton = createButton("Back to Menu", new Font("A Year Without Rain", Font.PLAIN, 20));
+		Font font = backMenuButton.getFont();
+		Map attributes = font.getAttributes();
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		backMenuButton.setFont(font.deriveFont(attributes));
 		
-		typeLabel = new JLabel("Type:");
+		timerLabel = createLabel("00:00:00", new Font("A Year Without Rain", Font.PLAIN, 16));
+		
+		typeLabel = createLabel("Type", new Font("A Year Without Rain", Font.BOLD, 16));
 		typeComboBox = new JComboBox<String>();
+		typeComboBox.setFont(new Font("A Year Without Rain", Font.PLAIN, 16));
 		typeComboBox.addItem(new String("Normal"));
 		typeComboBox.addItem(new String("X"));
 		typeComboBox.addItem(new String("Y"));
 		typeComboBox.addItem(new String("XY"));
 		
-		activateSpecialButton = new JButton("Activate Special Sudoku");
-		activateSpecialButton.setVisible(false);
-		prevPuzzleButton = new JButton("<");
-		nextPuzzleButton = new JButton(">");
+		activateSpecialButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+		
+		prevPuzzleButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Left.png"));
+		nextPuzzleButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Right.png"));
+		
 		prevPuzzleButton.setEnabled(false);
 		nextPuzzleButton.setEnabled(false);
 		
@@ -59,30 +101,30 @@ public class GamePanel extends JPanel{
 		sudokuTable.setPreferredSize(new Dimension(400, 400));
 		sudokuTable.setRowHeight((int) this.sudokuTable.getPreferredSize().getWidth()/this.sudokuTable.getRowCount());
 		
-		prevSolutionButton = new JButton("<<");
-		nextSolutionButton = new JButton(">>");
+		prevSolutionButton = createButton("<< Prev", new Font("A Year Without Rain", Font.PLAIN, 20));
+		nextSolutionButton = createButton("Next >>", new Font("A Year Without Rain", Font.PLAIN, 20));
 		prevSolutionButton.setEnabled(false);
 		nextSolutionButton.setEnabled(false);
 		
 		solutionCountLabel = new JLabel("");
 		solutionCountLabel.setVisible(false);
 		
-		checkerButton = new JButton("Check");
-		resetButton = new JButton("Reset");
-		solverButton = new JButton("Solve");
+		checkerButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Check.png"));
+		resetButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Reset.png"));
+		solverButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
 
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
 		
 		layout.setHorizontalGroup(layout.createSequentialGroup()
 			.addGroup(layout.createParallelGroup()
+				.addComponent(backMenuButton)
 				.addGroup(layout.createSequentialGroup()
-					.addGroup(layout.createParallelGroup(Alignment.CENTER)
-						.addComponent(backMenuButton)
-						.addComponent(timerLabel)
-					)
+					.addComponent(timerLabel)
+					.addGap(20)
 					.addComponent(typeLabel)
 					.addComponent(typeComboBox)
+					.addGap(20)
 					.addComponent(activateSpecialButton)
 				)
 				.addGroup(layout.createSequentialGroup()
@@ -106,12 +148,10 @@ public class GamePanel extends JPanel{
 		);
 		
 		layout.setVerticalGroup(layout.createSequentialGroup()
-			.addGap(50)
+			.addGap(10)
+			.addComponent(backMenuButton)
 			.addGroup(layout.createParallelGroup(Alignment.CENTER)
-				.addGroup(layout.createSequentialGroup()
-					.addComponent(backMenuButton)
-					.addComponent(timerLabel)
-				)
+				.addComponent(timerLabel)
 				.addComponent(typeLabel)
 				.addComponent(typeComboBox)
 				.addComponent(activateSpecialButton)
@@ -139,8 +179,17 @@ public class GamePanel extends JPanel{
 		);
 	}
 	
+	public void paintComponent(Graphics g){
+		try {
+			super.paintComponent(g);
+			BufferedImage image = ImageIO.read(new File("./resources/images/BG_1.jpg"));
+			g.drawImage(image, 0, 0, this);
+		} catch (IOException e) {
+			System.out.println("[ Error reading background.png ]");
+		}
+	}
+	
 	public String computeDuration(int timeLength) {
-		// TODO Auto-generated method stub
 		int hour, min, sec;
 		sec = timeLength%60;
 		timeLength /= 60;

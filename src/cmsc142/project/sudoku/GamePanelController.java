@@ -47,7 +47,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 		gamePanel.getTypeComboBox().addActionListener(this);
 		
 //		*************SURPRISE*************
-//		gamePanel.getActivateSpecialButton().addActionListener(this);
+		gamePanel.getActivateSpecialButton().addActionListener(this);
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getSolverButton().addActionListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
@@ -113,11 +113,12 @@ public class GamePanelController implements ActionListener, KeyListener{
 				if(solution.size() == 0){
 					JOptionPane.showMessageDialog(gamePanel, new JLabel("There is no solution for the puzzle's current state."));
 				}else{
+					currentStateOfTable = solution.get(currentSolutionPointer);
 					gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
 					gamePanel.getSolutionCountLabel().setVisible(true);
 				}
 				
-				drawTable(solution.get(currentSolutionPointer));
+				drawTable(currentStateOfTable);
 				if(solution.size() > 1){
 					gamePanel.getNextSolutionButton().setEnabled(true);
 				}
@@ -128,16 +129,18 @@ public class GamePanelController implements ActionListener, KeyListener{
 			
 		} else if(event.getSource().equals(gamePanel.getNextSolutionButton())){
 			currentSolutionPointer++;
+			currentStateOfTable = solution.get(currentSolutionPointer);
 			gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
-			drawTable(solution.get(currentSolutionPointer));
+			drawTable(currentStateOfTable);
 			if(currentSolutionPointer+1 == solution.size())
 				gamePanel.getNextSolutionButton().setEnabled(false);
 			gamePanel.getPrevSolutionButton().setEnabled(true);
 				
 		} else if(event.getSource().equals(gamePanel.getPrevSolutionButton())){
 			currentSolutionPointer--;
+			currentStateOfTable = solution.get(currentSolutionPointer);
 			gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
-			drawTable(solution.get(currentSolutionPointer));
+			drawTable(currentStateOfTable);
 			if(currentSolutionPointer == 0)
 				gamePanel.getPrevSolutionButton().setEnabled(false);
 			gamePanel.getNextSolutionButton().setEnabled(true);
