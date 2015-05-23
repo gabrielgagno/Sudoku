@@ -12,11 +12,13 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -60,6 +62,7 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		this.gamePanel.getResetButton().addMouseListener(this);
 		this.gamePanel.getSolverButton().addMouseListener(this);
 		this.gamePanel.getActivateSpecialButton().addMouseListener(this);
+		this.gamePanel.getBackMenuButton().addMouseListener(this);
 		
 //		*************SURPRISE*************
 		gamePanel.getActivateSpecialButton().addActionListener(this);
@@ -626,13 +629,16 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		}else if(event.getSource().equals(this.gamePanel.getCheckerButton())){
 			this.gamePanel.getCheckerButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Check_Hover.png"));
 		}else if(event.getSource().equals(this.gamePanel.getResetButton())){
-			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve_Hover.png"));
+			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Reset_Hover.png"));
 		}else if(event.getSource().equals(this.gamePanel.getSolverButton())){
 			this.gamePanel.getSolverButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve_Hover.png"));
 		}else if(event.getSource().equals(this.gamePanel.getActivateSpecialButton())){
 			if(isSpecialSudokuActivated) this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate_Hover.png"));
 			else this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getBackMenuButton())){
+			this.gamePanel.getBackMenuButton().setFont(new Font("A Year Without Rain", Font.PLAIN, 20));
 		}
+		
 		
 	}
 
@@ -649,12 +655,18 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		}else if(event.getSource().equals(this.gamePanel.getCheckerButton())){
 			this.gamePanel.getCheckerButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Check.png"));
 		}else if(event.getSource().equals(this.gamePanel.getResetButton())){
-			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
+			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Reset.png"));
 		}else if(event.getSource().equals(this.gamePanel.getSolverButton())){
 			this.gamePanel.getSolverButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
 		}else if(event.getSource().equals(this.gamePanel.getActivateSpecialButton())){
 			if(isSpecialSudokuActivated) this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate.png"));
 			else this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+		}else if(event.getSource().equals(this.gamePanel.getBackMenuButton())){
+			Font font = this.gamePanel.getBackMenuButton().getFont();
+			Map attributes = font.getAttributes();
+			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+			this.gamePanel.getBackMenuButton().setFont(font.deriveFont(attributes));
+
 		}
 		
 	}
@@ -672,12 +684,17 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		}else if(event.getSource().equals(this.gamePanel.getCheckerButton())){
 			this.gamePanel.getCheckerButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Check.png"));
 		}else if(event.getSource().equals(this.gamePanel.getResetButton())){
-			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
+			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Reset.png"));
 		}else if(event.getSource().equals(this.gamePanel.getSolverButton())){
 			this.gamePanel.getSolverButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
 		}else if(event.getSource().equals(this.gamePanel.getActivateSpecialButton())){
 			if(isSpecialSudokuActivated) this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate.png"));
 			else this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+		}else if(event.getSource().equals(this.gamePanel.getBackMenuButton())){
+			Font font = this.gamePanel.getBackMenuButton().getFont();
+			Map attributes = font.getAttributes();
+			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+			this.gamePanel.getBackMenuButton().setFont(font.deriveFont(attributes));
 		}
 		
 	}
@@ -695,12 +712,14 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		}else if(event.getSource().equals(this.gamePanel.getCheckerButton())){
 			this.gamePanel.getCheckerButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Check_Hover.png"));
 		}else if(event.getSource().equals(this.gamePanel.getResetButton())){
-			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve_Hover.png"));
+			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Reset_Hover.png"));
 		}else if(event.getSource().equals(this.gamePanel.getSolverButton())){
 			this.gamePanel.getSolverButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve_Hover.png"));
 		}else if(event.getSource().equals(this.gamePanel.getActivateSpecialButton())){
 			if(isSpecialSudokuActivated) this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate_Hover.png"));
 			else this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getBackMenuButton())){
+			this.gamePanel.getBackMenuButton().setFont(new Font("A Year Without Rain", Font.PLAIN, 20));
 		}
 		
 	}

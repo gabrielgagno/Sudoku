@@ -21,13 +21,14 @@ public class SudokuGui extends JFrame {
 		this.setFocusable(true);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-//		 Toolkit toolkit = Toolkit.getDefaultToolkit();
-//		  Image image = toolkit.getImage("resources/images/instructors/1.png");
-//		  Cursor c = toolkit.createCustomCursor(image , new Point(getContentPane().getX(),
-//		     getContentPane().getY()), "img");
-//		  setCursor (c);
-//		
 		centerFrame();
+		 Toolkit toolkit = Toolkit.getDefaultToolkit();
+		  Image image = toolkit.getImage("resources/images/cursor.png");
+		  Cursor c = toolkit.createCustomCursor(image , new Point(getContentPane().getX(),
+		     getContentPane().getY()), "img");
+		  setCursor (c);
+		
+
 		this.add(activePanel);
 
 	}
