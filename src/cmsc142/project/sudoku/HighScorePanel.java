@@ -4,9 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
@@ -28,7 +30,7 @@ public class HighScorePanel extends JPanel {
 	private JComboBox<String> highScoreTypeComboBox;
 	private JComboBox<String> highScoreSizeComboBox;
 	private JButton backButton;
-	private Font newFont;
+	Font newFont;
 	
 	public HighScorePanel(String[] typeList, String[] sizeList) {
 		this.setPreferredSize(new Dimension(600, 600));
@@ -52,8 +54,11 @@ public class HighScorePanel extends JPanel {
 		layout.setAutoCreateContainerGaps(true);
 	
 		this.backButton = new JButton("Back to Menu");
-		newFont = new Font("A Year Without Rain", Font.PLAIN, 20);
-		this.backButton.setFont(newFont);
+		newFont = new Font("A Year Without Rain", Font.PLAIN, 18);
+		Map attributes = newFont.getAttributes();
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		
+		this.backButton.setFont(newFont.deriveFont(attributes));	
 		this.backButton.setForeground(new Color(65,65,65));
 		this.backButton.setBorderPainted(false);
 		this.backButton.setBorder(BorderFactory.createEmptyBorder());
@@ -68,13 +73,18 @@ public class HighScorePanel extends JPanel {
 		this.highScoreType.setForeground(new Color(65,65,65));
 		
 		this.highScoreTable = new JTable(10, 2);
+		this.highScoreTable.setFont(newFont);
+		
+		this.highScoreTable.setFont(newFont);
 		this.highScoreSizeComboBox = new JComboBox<>(sizeList);
-		this.highScoreTypeComboBox = new JComboBox<>(typeList);
 		this.highScoreSizeComboBox.setPreferredSize(new Dimension(10, 10));
-		this.highScoreTypeComboBox.setFont(newFont);
-		this.highScoreTypeComboBox.setForeground(new Color(65,65,65));
 		this.highScoreSizeComboBox.setFont(newFont);
 		this.highScoreSizeComboBox.setForeground(new Color(65,65,65));
+		
+		this.highScoreTypeComboBox = new JComboBox<>(typeList);
+		this.highScoreTypeComboBox.setFont(newFont);
+		this.highScoreTypeComboBox.setForeground(new Color(65,65,65));
+		
 		this.tableScrollPane = new JScrollPane(highScoreTable);
 		
 		tableScrollPane.setPreferredSize(new Dimension(550, 500));
@@ -173,6 +183,10 @@ public class HighScorePanel extends JPanel {
 
 	public void setBackButton(JButton backButton) {
 		this.backButton = backButton;
+	}
+	
+	public Font getNewFont() {
+		return newFont;
 	}
 	
 	
