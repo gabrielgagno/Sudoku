@@ -101,12 +101,12 @@ public class GamePanel extends JPanel{
 		sudokuTable.setPreferredSize(new Dimension(400, 400));
 		sudokuTable.setRowHeight((int) this.sudokuTable.getPreferredSize().getWidth()/this.sudokuTable.getRowCount());
 		
-		prevSolutionButton = createButton("<< Prev", new Font("A Year Without Rain", Font.PLAIN, 20));
-		nextSolutionButton = createButton("Next >>", new Font("A Year Without Rain", Font.PLAIN, 20));
+		prevSolutionButton = createButton("<< Prev", new Font("A Year Without Rain", Font.PLAIN, 14));
+		nextSolutionButton = createButton("Next >>", new Font("A Year Without Rain", Font.PLAIN, 14));
 		prevSolutionButton.setEnabled(false);
 		nextSolutionButton.setEnabled(false);
 		
-		solutionCountLabel = new JLabel("");
+		solutionCountLabel = createLabel("", new Font("A Year Without Rain", Font.BOLD, 14));
 		solutionCountLabel.setVisible(false);
 		
 		checkerButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Check.png"));

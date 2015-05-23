@@ -439,9 +439,9 @@ public class GamePanelController implements ActionListener, KeyListener{
 		    
 		    int fontSize = (int) ((gamePanel.getSudokuTable().getPreferredSize().getWidth()/gamePanel.getSudokuTable().getRowCount())*0.50);
 		    if(currentBoard.getPuzzle()[row][column] != 0){
-		    	component.setFont(new Font("Verdana", Font.BOLD, fontSize));
+		    	component.setFont(new Font("A Year Without Rain", Font.BOLD, fontSize));
 		    } else {
-		    	component.setFont(new Font("Verdana", Font.PLAIN, fontSize));
+		    	component.setFont(new Font("A Year Without Rain", Font.PLAIN, fontSize));
 		    }
 		    
 			if (((row / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0 && (column / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0)
