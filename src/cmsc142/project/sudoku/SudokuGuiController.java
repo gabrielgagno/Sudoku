@@ -1,5 +1,6 @@
 package cmsc142.project.sudoku;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
@@ -62,6 +63,10 @@ public class SudokuGuiController implements ActionListener {
 			startPanelController.getStartPanel().getHighScore().setIcon(new ImageIcon("./resources/images/Buttons/Button_Score.png"));
 			this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
 		} else if(event.getSource().equals(this.gamePanelController.getGamePanel().getBackMenuButton())){
+			Font font = new Font("A Year Without Rain", Font.PLAIN, 20);
+			Map attributes = font.getAttributes();
+			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);	
+			this.gamePanelController.getGamePanel().getBackMenuButton().setFont(font.deriveFont(attributes));	
 			startPanelController.getStartPanel().getNewGame().setIcon(new ImageIcon("./resources/images/Buttons/Button_New.png"));
 			this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
 		}

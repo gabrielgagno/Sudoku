@@ -73,6 +73,7 @@ public class HighScorePanel extends JPanel {
 		this.highScoreType.setForeground(new Color(65,65,65));
 		
 		this.highScoreTable = new JTable(10, 2);
+		highScoreTable.setRowHeight(30);
 		this.highScoreTable.setFont(newFont);
 		
 		this.highScoreTable.setFont(newFont);
@@ -114,7 +115,7 @@ public class HighScorePanel extends JPanel {
 				.addComponent(highScoreSize)
 				.addComponent(highScoreSizeComboBox)
 			)
-			.addGap(50)
+			.addGap(30)
 			.addComponent(tableScrollPane)
 		);
 

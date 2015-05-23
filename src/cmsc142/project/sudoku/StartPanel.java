@@ -77,12 +77,10 @@ public class StartPanel extends JPanel {
 		highScore.setBorderPainted(false);
 		highScore.setBorder(BorderFactory.createEmptyBorder());
 		highScore.setContentAreaFilled(false);
-		highScore.setPreferredSize(new Dimension(280,50));
 		
 		exit.setBorderPainted(false);
 		exit.setBorder(BorderFactory.createEmptyBorder());
 		exit.setContentAreaFilled(false);
-		exit.setPreferredSize(new Dimension(280,50));
 		
 		this.add(blank);
 		this.add(newGame);
