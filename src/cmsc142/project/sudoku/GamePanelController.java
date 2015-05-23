@@ -386,6 +386,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				}
 				
 				if(areInputsComplete){
+					gamePanel.getTimer().stop();
 					String[] options = {"OK"};
 					JPanel panel = new JPanel();
 					JLabel label = new JLabel("Enter Your name : ");
@@ -393,7 +394,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 					panel.add(label);
 					panel.add(textField);
 					JOptionPane.showOptionDialog(null, panel, "You solved the puzzle in " + tickCount + " seconds!", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
-				
+					
 					FileAccess fileAccess = new FileAccess();
 					try {
 						String[] data = new String[]{textField.getText(), tickCount + "", currentBoard.getPuzzleSize() + "", currentType};

@@ -4,9 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.font.TextAttribute;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
@@ -34,6 +40,7 @@ public class SudokuGuiController implements ActionListener {
 		
 		this.highScorePanelController.getHighScorePanel().getBackButton().addActionListener(this);
 		this.gamePanelController.getGamePanel().getBackMenuButton().addActionListener(this);
+		playSound();
 	}
 	
 	@Override
@@ -65,5 +72,24 @@ public class SudokuGuiController implements ActionListener {
 			startPanelController.getStartPanel().getNewGame().setIcon(new ImageIcon("./resources/images/Buttons/Button_New.png"));
 			this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
 		}
+	}
+	
+	private void playSound() {
+	    String soundName = "./resources/audio/mp3/bg.wav";    
+	    AudioInputStream audioInputStream;
+		try {
+			audioInputStream = AudioSystem.getAudioInputStream(new File(soundName));
+			Clip clip = AudioSystem.getClip();
+		    clip.open(audioInputStream);
+		    clip.loop(Clip.LOOP_CONTINUOUSLY);
+		} catch (UnsupportedAudioFileException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (LineUnavailableException e) {
+			e.printStackTrace();
+		}
+	    
+  
 	}
 }
