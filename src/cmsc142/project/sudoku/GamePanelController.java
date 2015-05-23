@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,7 +30,7 @@ import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class GamePanelController implements ActionListener, KeyListener{
+public class GamePanelController implements ActionListener, KeyListener, MouseListener{
 	GamePanel gamePanel;
 	private List<SudokuBoard> sudokuBoards;
 	private SudokuBoard currentBoard;
@@ -48,6 +51,15 @@ public class GamePanelController implements ActionListener, KeyListener{
 		gamePanel.getBackMenuButton().addActionListener(this);
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
+		
+		this.gamePanel.getNextPuzzleButton().addMouseListener(this);
+		this.gamePanel.getPrevPuzzleButton().addMouseListener(this);
+		this.gamePanel.getNextSolutionButton().addMouseListener(this);
+		this.gamePanel.getPrevSolutionButton().addMouseListener(this);
+		this.gamePanel.getCheckerButton().addMouseListener(this);
+		this.gamePanel.getResetButton().addMouseListener(this);
+		this.gamePanel.getSolverButton().addMouseListener(this);
+		this.gamePanel.getActivateSpecialButton().addMouseListener(this);
 		
 //		*************SURPRISE*************
 		gamePanel.getActivateSpecialButton().addActionListener(this);
@@ -515,5 +527,103 @@ public class GamePanelController implements ActionListener, KeyListener{
 		gamePanel.getSolverButton().setEnabled(true);
 		gamePanel.getCheckerButton().setEnabled(true);
 		errorCells.clear();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent event) {
+		if(event.getSource().equals(this.gamePanel.getNextPuzzleButton())){
+			this.gamePanel.getNextPuzzleButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Right_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getPrevPuzzleButton())){
+			this.gamePanel.getPrevPuzzleButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Left_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getNextSolutionButton())){
+			this.gamePanel.getNextSolutionButton().setForeground(new Color(255,0,0));
+		}else if(event.getSource().equals(this.gamePanel.getPrevSolutionButton())){
+			this.gamePanel.getPrevSolutionButton().setForeground(new Color(255,0,0));
+		}else if(event.getSource().equals(this.gamePanel.getCheckerButton())){
+			this.gamePanel.getCheckerButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Check_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getResetButton())){
+			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getSolverButton())){
+			this.gamePanel.getSolverButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getActivateSpecialButton())){
+			if(isSpecialSudokuActivated) this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate_Hover.png"));
+			else this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate_Hover.png"));
+		}
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent event) {
+		if(event.getSource().equals(this.gamePanel.getNextPuzzleButton())){
+			this.gamePanel.getNextPuzzleButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Right.png"));
+		}else if(event.getSource().equals(this.gamePanel.getPrevPuzzleButton())){
+			this.gamePanel.getPrevPuzzleButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Left.png"));
+		}else if(event.getSource().equals(this.gamePanel.getNextSolutionButton())){
+			this.gamePanel.getNextSolutionButton().setForeground(new Color(65,65,65));
+		}else if(event.getSource().equals(this.gamePanel.getPrevSolutionButton())){
+			this.gamePanel.getPrevSolutionButton().setForeground(new Color(65,65,65));
+		}else if(event.getSource().equals(this.gamePanel.getCheckerButton())){
+			this.gamePanel.getCheckerButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Check.png"));
+		}else if(event.getSource().equals(this.gamePanel.getResetButton())){
+			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
+		}else if(event.getSource().equals(this.gamePanel.getSolverButton())){
+			this.gamePanel.getSolverButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
+		}else if(event.getSource().equals(this.gamePanel.getActivateSpecialButton())){
+			if(isSpecialSudokuActivated) this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate.png"));
+			else this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent event) {
+		if(event.getSource().equals(this.gamePanel.getNextPuzzleButton())){
+			this.gamePanel.getNextPuzzleButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Right.png"));
+		}else if(event.getSource().equals(this.gamePanel.getPrevPuzzleButton())){
+			this.gamePanel.getPrevPuzzleButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Left.png"));
+		}else if(event.getSource().equals(this.gamePanel.getNextSolutionButton())){
+			this.gamePanel.getNextSolutionButton().setForeground(new Color(65,65,65));
+		}else if(event.getSource().equals(this.gamePanel.getPrevSolutionButton())){
+			this.gamePanel.getPrevSolutionButton().setForeground(new Color(65,65,65));
+		}else if(event.getSource().equals(this.gamePanel.getCheckerButton())){
+			this.gamePanel.getCheckerButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Check.png"));
+		}else if(event.getSource().equals(this.gamePanel.getResetButton())){
+			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
+		}else if(event.getSource().equals(this.gamePanel.getSolverButton())){
+			this.gamePanel.getSolverButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
+		}else if(event.getSource().equals(this.gamePanel.getActivateSpecialButton())){
+			if(isSpecialSudokuActivated) this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate.png"));
+			else this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+		}
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		if(event.getSource().equals(this.gamePanel.getNextPuzzleButton())){
+			this.gamePanel.getNextPuzzleButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Right_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getPrevPuzzleButton())){
+			this.gamePanel.getPrevPuzzleButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Left_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getNextSolutionButton())){
+			this.gamePanel.getNextSolutionButton().setForeground(new Color(255,0,0));
+		}else if(event.getSource().equals(this.gamePanel.getPrevSolutionButton())){
+			this.gamePanel.getPrevSolutionButton().setForeground(new Color(255,0,0));
+		}else if(event.getSource().equals(this.gamePanel.getCheckerButton())){
+			this.gamePanel.getCheckerButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Check_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getResetButton())){
+			this.gamePanel.getResetButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getSolverButton())){
+			this.gamePanel.getSolverButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Solve_Hover.png"));
+		}else if(event.getSource().equals(this.gamePanel.getActivateSpecialButton())){
+			if(isSpecialSudokuActivated) this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate_Hover.png"));
+			else this.gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate_Hover.png"));
+		}
+		
 	}
 }

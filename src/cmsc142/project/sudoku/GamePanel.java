@@ -54,7 +54,7 @@ public class GamePanel extends JPanel{
 		return button;
 	}
 	
-	private JButton createButton(String title, Font font){
+	JButton createButton(String title, Font font){
 		JButton button = new JButton(title);
 		button.setBorderPainted(false);
 		button.setBorder(BorderFactory.createEmptyBorder());
