@@ -2,6 +2,7 @@ package cmsc142.project.sudoku;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
@@ -20,7 +21,6 @@ import java.util.List;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -259,6 +259,7 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 			
 			SudokuBoard currentStateOfBoard = new SudokuBoard(currentBoard.getPuzzleSize(), currentStateOfTable);
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
+			drawTable(currentStateOfTable);
 		} else if(event.getSource() == gamePanel.getResetButton()){
 			resetPuzzle();
 		} else if (event.getSource().equals(gamePanel.getActivateSpecialButton())){
@@ -291,7 +292,31 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 				
 				if(isSpecialSudokuActivated){
 					try {
-						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/" + puzzle[i][j] + ".png"));
+						String extension = "";
+						if (((i / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0 && (j / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0)
+								|| ((i / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 1 && (j / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 1)) {
+					        extension = "_dark";
+					    } else {
+					    	extension = "_light";
+					    }
+				        
+						if (currentType.equals("X") || currentType.equals("XY")) {
+							if (i == j || j == currentBoard.getPuzzleSize()-1-i) {
+								extension = "_green";
+							}
+						}
+					    
+						if(currentType.equals("Y") || currentType.equals("XY")){
+					    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
+					    	if( (i < center && (i==j || j == currentBoard.getPuzzleSize()-1-i)) || (i >= center && j == center)){
+					    		extension = "_green";	
+					    	}
+						}
+					    
+					    if(errorCells.contains(new Point(i, j))){
+					    	extension = "_red";
+					    }
+						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/" + puzzle[i][j] + extension + ".png"));
 						Image image = buff.getScaledInstance(gamePanel.getSudokuTable().getRowHeight(), gamePanel.getSudokuTable().getRowHeight(), Image.SCALE_SMOOTH);
 						ImageIcon icon = new ImageIcon(image);
 						value = icon;
@@ -303,7 +328,7 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 				
 				data[i][j] = value;
 			}
-			header[i] = "";
+			header[i] = String.valueOf(i);
 		}
 		
 		DefaultTableModel model = new DefaultTableModel(data, header) {
@@ -323,7 +348,12 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
         };
         
         gamePanel.getSudokuTable().setModel(model);
-        gamePanel.getSudokuTable().setRowHeight((int) gamePanel.getSudokuTable().getPreferredSize().getWidth()/gamePanel.getSudokuTable().getRowCount());
+        for(int i=0; i<currentBoard.getPuzzleSize(); i++){
+	        gamePanel.getSudokuTable().getColumn(String.valueOf(i)).setMaxWidth(400/currentBoard.getPuzzleSize());
+	        gamePanel.getSudokuTable().getColumn(String.valueOf(i)).setMinWidth(400/currentBoard.getPuzzleSize());
+        }
+        
+        gamePanel.getSudokuTable().setRowHeight(400/currentBoard.getPuzzleSize());
         gamePanel.getSudokuTable().setCellSelectionEnabled(true);
         gamePanel.getSudokuTable().setColumnSelectionAllowed(false);
         gamePanel.getSudokuTable().setRowSelectionAllowed(false);
@@ -360,7 +390,31 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 				
 				if(isSpecialSudokuActivated){
 					try {
-						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/" + (keyCode-48) + ".png"));
+						String extension = "";
+						if (((row / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0 && (column / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0)
+								|| ((row / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 1 && (column / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 1)) {
+					        extension = "_dark";
+					    } else {
+					    	extension = "_light";
+					    }
+				        
+						if (currentType.equals("X") || currentType.equals("XY")) {
+							if (row == column || column == currentBoard.getPuzzleSize()-1-row) {
+								extension = "_green";
+							}
+						}
+					    
+						if(currentType.equals("Y") || currentType.equals("XY")){
+					    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
+					    	if( (row < center && (row==column || column == currentBoard.getPuzzleSize()-1-row)) || (row >= center && column == center)){
+					    		extension = "_green";	
+					    	}
+						}
+					    
+					    if(errorCells.contains(new Point(row, column))){
+					    	extension = "_red";
+					    }
+						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/" + (keyCode-48) + extension + ".png"));
 						Image image = buff.getScaledInstance(gamePanel.getSudokuTable().getRowHeight(), gamePanel.getSudokuTable().getRowHeight(), Image.SCALE_SMOOTH);
 						ImageIcon icon = new ImageIcon(image);
 						value = icon;
@@ -427,7 +481,31 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 				
 				if(isSpecialSudokuActivated){
 					try {
-						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/0.png"));
+						String extension = "";
+						if (((row / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0 && (column / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0)
+								|| ((row / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 1 && (column / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 1)) {
+					        extension = "_dark";
+					    } else {
+					    	extension = "_light";
+					    }
+				        
+						if (currentType.equals("X") || currentType.equals("XY")) {
+							if (row == column || column == currentBoard.getPuzzleSize()-1-row) {
+								extension = "_green";
+							}
+						}
+					    
+						if(currentType.equals("Y") || currentType.equals("XY")){
+					    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
+					    	if( (row < center && (row==column || column == currentBoard.getPuzzleSize()-1-row)) || (row >= center && column == center)){
+					    		extension = "_green";	
+					    	}
+						}
+					    
+					    if(errorCells.contains(new Point(row, column))){
+					    	extension = "_red";
+					    }
+						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/0"+extension+".png"));
 						Image image = buff.getScaledInstance(gamePanel.getSudokuTable().getRowHeight(), gamePanel.getSudokuTable().getRowHeight(), Image.SCALE_SMOOTH);
 						ImageIcon icon = new ImageIcon(image);
 						value = icon;
