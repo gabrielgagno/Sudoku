@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -27,7 +29,7 @@ import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
-public class GamePanelController implements ActionListener, KeyListener{
+public class GamePanelController implements ActionListener, KeyListener, MouseListener{
 	GamePanel gamePanel;
 	private List<SudokuBoard> sudokuBoards;
 	private SudokuBoard currentBoard;
@@ -48,6 +50,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 		gamePanel.getBackMenuButton().addActionListener(this);
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
+		
+		this.gamePanel.getNextPuzzleButton().addMouseListener(this);
 		
 //		*************SURPRISE*************
 		gamePanel.getActivateSpecialButton().addActionListener(this);
@@ -514,5 +518,37 @@ public class GamePanelController implements ActionListener, KeyListener{
 		gamePanel.getSolverButton().setEnabled(true);
 		gamePanel.getCheckerButton().setEnabled(true);
 		errorCells.clear();
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent event) {
+		if(event.getSource().equals(this.highScorePanel.getBackButton())){
+			
+		}
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		// TODO Auto-generated method stub
+		
 	}
 }
