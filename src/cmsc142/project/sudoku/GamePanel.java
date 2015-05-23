@@ -49,7 +49,6 @@ public class GamePanel extends JPanel{
 		typeComboBox.addItem(new String("XY"));
 		
 		activateSpecialButton = new JButton("Activate Special Sudoku");
-		activateSpecialButton.setVisible(false);
 		prevPuzzleButton = new JButton("<");
 		nextPuzzleButton = new JButton(">");
 		prevPuzzleButton.setEnabled(false);
