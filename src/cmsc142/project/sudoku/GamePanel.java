@@ -135,6 +135,7 @@ public class GamePanel extends JPanel{
 					.addGap(40)
 				)
 				.addGroup(layout.createSequentialGroup()
+					.addGap(50)
 					.addComponent(prevPuzzleButton)
 					.addGroup(layout.createParallelGroup(Alignment.CENTER)
 						.addComponent(sudokuTable)
