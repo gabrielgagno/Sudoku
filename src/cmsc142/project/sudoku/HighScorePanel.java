@@ -50,8 +50,6 @@ public class HighScorePanel extends JPanel {
 		layout.setAutoCreateContainerGaps(true);
 	
 		this.backButton = new JButton("Back to Menu");
-		this.highScoreLabel = new JLabel("Sudoku Highscores");
-		highScoreLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		this.highScoreSize = new JLabel("Puzzle Size");
 		this.highScoreType = new JLabel("Puzzle Type");
 		this.highScoreTable = new JTable(10, 2);
@@ -66,7 +64,6 @@ public class HighScorePanel extends JPanel {
 		horizontalGroup.addGap(100);
 		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.CENTER)
 				.addComponent(backButton, Alignment.LEADING)
-				.addComponent(highScoreLabel)
 				.addGroup(layout.createSequentialGroup()
 					.addGap(100)
 					.addComponent(highScoreType)
@@ -81,7 +78,6 @@ public class HighScorePanel extends JPanel {
 		layout.setVerticalGroup(layout.createSequentialGroup()
 			.addComponent(backButton)
 			.addGap(30)
-			.addComponent(highScoreLabel)
 			.addGap(50)
 			.addGroup(layout.createParallelGroup()
 				.addComponent(highScoreType)
