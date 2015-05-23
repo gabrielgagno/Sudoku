@@ -116,7 +116,7 @@ public class HighScorePanelController implements ActionListener, MouseListener {
 	@Override
 	public void mouseExited(MouseEvent event) {
 		if(event.getSource().equals(this.highScorePanel.getBackButton())){
-			Map attributes = this.highScorePanel.getFont().getAttributes();
+			Map attributes = this.highScorePanel.getNewFont().getAttributes();
 			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);	
 			this.highScorePanel.getBackButton().setFont(this.highScorePanel.getNewFont().deriveFont(attributes));	
 		}
@@ -126,7 +126,7 @@ public class HighScorePanelController implements ActionListener, MouseListener {
 	@Override
 	public void mousePressed(MouseEvent event) {
 		if(event.getSource().equals(this.highScorePanel.getBackButton())){
-			Map attributes = this.highScorePanel.getFont().getAttributes();
+			Map attributes = this.highScorePanel.getNewFont().getAttributes();
 			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);	
 			this.highScorePanel.getBackButton().setFont(this.highScorePanel.getNewFont().deriveFont(attributes));	
 		}
