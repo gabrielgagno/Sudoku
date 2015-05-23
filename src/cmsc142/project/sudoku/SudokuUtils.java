@@ -136,19 +136,15 @@ public abstract class SudokuUtils {
 			// Backtracking Algorithm
 			// while with possible solution
 			while (nopts[start] > 0) {
-	//			System.out.println("-----------------------");
-	//			System.out.println("nopts[start] > 0, proceed");
 				if (nopts[move] > 0) {
 					move++;
-	//				System.out.println("nopts[move] > 0");
-	//				System.out.printf("MOVE++\nMove = %d\n", move);
+
 					int row = (move - 1) / puzzleSize;
 					int column = (move - 1) % puzzleSize;
 	
 					nopts[move] = 0; // initialize new arr_size
 	
 					if (move == (puzzleSize * puzzleSize) + 1) {
-	//					System.out.println("Solution found!");
 						int[][] solution = new int[puzzleSize][puzzleSize];
 						copyPuzzle(solution, tempPuzzle);
 						
@@ -169,9 +165,7 @@ public abstract class SudokuUtils {
 	
 					// Populate
 					else {
-	//					System.out.println("No solution yet, populate");
 						if (puzzle[row][column] == 0) {
-	//						System.out.println("not a fix value");
 							populateOptions(options.get(move), puzzleSize);
 	
 							if(xSudoku) checkX(options.get(move), tempPuzzle, puzzleSize, row, column);
@@ -181,16 +175,11 @@ public abstract class SudokuUtils {
 							checkRow(options.get(move), tempPuzzle, puzzleSize, row, column);
 							checkColumn(options.get(move), tempPuzzle, puzzleSize, row, column);
 							
-	//						System.out.println("Possible values: " + options.get(move));
 	
 							nopts[move] = options.get(move).size() - 2;
 	
 							tempPuzzle[row][column] = options.get(move)
 									.get(nopts[move]).intValue();
-	//						System.out.println("After populating");
-	//						for (int i = 0; i < puzzleSize; i++) {
-	//							System.out.println(Arrays.toString(tempPuzzle[i]));
-	//						}
 						}
 	
 						// If there is fixed value in the cell
@@ -201,12 +190,7 @@ public abstract class SudokuUtils {
 							options.get(move).clear();
 							options.get(move).add(0);
 							options.get(move).add(new Integer(puzzle[row][column]));
-							tempPuzzle[row][column] = options.get(move)
-									.get(nopts[move]).intValue();
-							System.out.println("After skipping...");
-	//						for (int i = 0; i < puzzleSize; i++) {
-	//							System.out.println(Arrays.toString(tempPuzzle[i]));
-	//						}
+							tempPuzzle[row][column] = options.get(move).get(nopts[move]).intValue();
 						}
 					}
 				}
@@ -214,8 +198,6 @@ public abstract class SudokuUtils {
 				// Backtrack
 				else {
 					if (move <= (puzzleSize * puzzleSize)) {
-	//					System.out.println("nopts[move] <= 0");
-	//					System.out.println("Backtracking");
 						int row = (int) ((move - 1) / puzzleSize);
 						int column = (int) ((move - 1) % puzzleSize);
 	
@@ -228,24 +210,15 @@ public abstract class SudokuUtils {
 						break;
 					}
 	
-	//				System.out.printf("MOVE--\nMove = %d\n", move);
 					int row = (move - 1) / puzzleSize;
 					int column = (move - 1) % puzzleSize;
 	
 					nopts[move]--;
 					if (puzzle[row][column] == 0) {
-	//					System.out.println(options.get(move).get(nopts[move]));
-						tempPuzzle[row][column] = options.get(move)
-								.get(nopts[move]).intValue();
+						tempPuzzle[row][column] = options.get(move).get(nopts[move]).intValue();
 					} else {
 						tempPuzzle[row][column] = puzzle[row][column];
 					}
-	
-	//				System.out.println("After backtracking");
-	//				for (int i = 0; i < puzzleSize; i++) {
-	//					System.out.println(Arrays.toString(tempPuzzle[i]));
-	//				}
-	
 				}
 			}
 		}

@@ -41,6 +41,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 		gamePanel.getSudokuTable().addKeyListener(this);
 		
         gamePanel.getSudokuTable().addKeyListener(this);
+        gamePanel.getSolverButton().addActionListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
         gamePanel.getPrevPuzzleButton().addActionListener(this);
         gamePanel.getCheckerButton().addActionListener(this);
@@ -50,7 +51,25 @@ public class GamePanelController implements ActionListener, KeyListener{
 
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if(event.getSource() == gamePanel.getNextPuzzleButton()){
+		if(event.getSource().equals(gamePanel.getSolverButton())){
+			String[] optionLabels = { "Solve the current state.", "Solve the original state.", "Let me solve the puzzle!"};    
+			int response = JOptionPane.showOptionDialog(gamePanel, "Do you want to solve the puzzle using the current state or the original state?",  "Solve Puzzle Confirmation",  JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, optionLabels, optionLabels[0]);
+			System.out.println(response);
+			
+			if(response == JOptionPane.OK_OPTION){
+				currentPuzzle++;
+				currentBoard = sudokuBoards.get(currentPuzzle);
+				drawTable(currentBoard.getPuzzleSize());
+				
+				this.errorCells = new HashSet<>();
+				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
+				gamePanel.getTypeComboBox().setSelectedItem(currentType);
+
+				if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
+				if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
+			}
+			
+		} else if(event.getSource() == gamePanel.getNextPuzzleButton()){
 			int response = JOptionPane.showConfirmDialog(gamePanel, (Object)new JLabel("Previous changes will not be saved. Do you really want to proceed to the next puzzle?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
 			if(response == JOptionPane.OK_OPTION){
 				currentPuzzle++;
@@ -135,6 +154,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 			SudokuBoard currentStateOfBoard = new SudokuBoard(currentBoard.getPuzzleSize(), getCurrentPuzzle());
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
 		}
+		
 		if(event.getSource() == gamePanel.getTimer()){
 			tickCount++;
 			gamePanel.getTimerLabel().setText(gamePanel.computeDuration(tickCount));
