@@ -15,7 +15,7 @@ public class SudokuGui extends JFrame {
 	
 	public SudokuGui(){
 		this.activePanel = new JPanel();
-		this.setSize(new Dimension(700, 700));
+		this.setSize(new Dimension(600, 600));
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setFocusable(true);
@@ -27,10 +27,19 @@ public class SudokuGui extends JFrame {
 //		     getContentPane().getY()), "img");
 //		  setCursor (c);
 //		
+		centerFrame();
 		this.add(activePanel);
 
 	}
 	
+	private void centerFrame() {
+		Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+	    int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
+	    int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
+	    this.setLocation(x, y);
+	
+	}
+
 	public JPanel getActivePanel() {
 		return activePanel;
 	}
