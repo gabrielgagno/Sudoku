@@ -122,12 +122,19 @@ public class GamePanelController implements ActionListener, KeyListener{
 					gamePanel.getTypeComboBox().setSelectedItem(currentType);
 					return;
 				}
+				
+				if(currentBoard.getxSolution().size() == 0){
+					JOptionPane.showMessageDialog(gamePanel, "Puzzle has no solution for X Sudoku");
+					gamePanel.getTypeComboBox().setSelectedItem(currentType);
+					return;
+				}
 			} else if(gamePanel.getTypeComboBox().getSelectedItem().toString().equals("Y")){
 				if(currentBoard.getPuzzleSize()%2 == 0 || SudokuUtils.checkPuzzle(currentBoard, false, true, false).size() != 0){
 					JOptionPane.showMessageDialog(gamePanel, "Puzzle not applicable for Y Sudoku");
 					gamePanel.getTypeComboBox().setSelectedItem(currentType);
 					return;
 				}
+				
 			} else if(gamePanel.getTypeComboBox().getSelectedItem().toString().equals("XY")){
 				if(currentBoard.getPuzzleSize()%2 == 0 || SudokuUtils.checkPuzzle(currentBoard, true, true, false).size() != 0){
 					JOptionPane.showMessageDialog(gamePanel, "Puzzle not applicable for XY Sudoku");
