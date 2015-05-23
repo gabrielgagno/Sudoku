@@ -76,15 +76,27 @@ public class GamePanelController implements ActionListener, KeyListener{
 			}
 			
 			if(response == JOptionPane.OK_OPTION || response == JOptionPane.NO_OPTION){
-				SudokuBoard board =  new SudokuBoard(currentBoard.getPuzzleSize(), currentBoard.getPuzzle());
+				SudokuBoard board = currentBoard;
 				
 				if(response == JOptionPane.YES_OPTION){
 					board = new SudokuBoard(currentBoard.getPuzzleSize(), getCurrentPuzzle());
-					
+					SudokuUtils.solveUsingBacktracking(board, xSudoku, ySudoku);
 				}
 				
-				SudokuUtils.solveUsingBacktracking(board, xSudoku, ySudoku);
-				board.printAllSolutions();
+				List<int[][]> solution =  null;
+				if(xSudoku){
+					if(ySudoku){
+						solution = currentBoard.getxYSolution();
+					} else {
+						solution = currentBoard.getxSolution();
+					}
+				} else {
+					if(ySudoku){
+						solution = currentBoard.getySolution();
+					} else {
+						solution = currentBoard.getNormalSolution();
+					}
+				}				
 			}
 			
 		} else if(event.getSource() == gamePanel.getNextPuzzleButton()){
@@ -135,9 +147,21 @@ public class GamePanelController implements ActionListener, KeyListener{
 					return;
 				}
 				
+				if(currentBoard.getySolution().size() == 0){
+					JOptionPane.showMessageDialog(gamePanel, "Puzzle has no solution for Y Sudoku");
+					gamePanel.getTypeComboBox().setSelectedItem(currentType);
+					return;
+				}
+				
 			} else if(gamePanel.getTypeComboBox().getSelectedItem().toString().equals("XY")){
 				if(currentBoard.getPuzzleSize()%2 == 0 || SudokuUtils.checkPuzzle(currentBoard, true, true, false).size() != 0){
 					JOptionPane.showMessageDialog(gamePanel, "Puzzle not applicable for XY Sudoku");
+					gamePanel.getTypeComboBox().setSelectedItem(currentType);
+					return;
+				}
+				
+				if(currentBoard.getxYSolution().size() == 0){
+					JOptionPane.showMessageDialog(gamePanel, "Puzzle has no solution for XY Sudoku");
 					gamePanel.getTypeComboBox().setSelectedItem(currentType);
 					return;
 				}
