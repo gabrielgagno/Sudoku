@@ -11,6 +11,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -27,7 +28,7 @@ public class HighScorePanel extends JPanel {
 	private JComboBox<String> highScoreTypeComboBox;
 	private JComboBox<String> highScoreSizeComboBox;
 	private JButton backButton;
-	private Font backFont;
+	private Font newFont;
 	
 	public HighScorePanel(String[] typeList, String[] sizeList) {
 		this.setPreferredSize(new Dimension(600, 600));
@@ -51,15 +52,29 @@ public class HighScorePanel extends JPanel {
 		layout.setAutoCreateContainerGaps(true);
 	
 		this.backButton = new JButton("Back to Menu");
-		backFont = new Font("AYEARWITHOUTRAIN", Font.PLAIN, 20);
-//		backFont = Font.createFont(Font.TRUETYPE_FONT, new File("./resources/AYEARWITHOUTRAIN.TTF"));
-		backButton.setFont(backFont);
+		newFont = new Font("A Year Without Rain", Font.PLAIN, 20);
+		this.backButton.setFont(newFont);
+		this.backButton.setForeground(new Color(65,65,65));
+		this.backButton.setBorderPainted(false);
+		this.backButton.setBorder(BorderFactory.createEmptyBorder());
+		this.backButton.setContentAreaFilled(false);
+		
 		this.highScoreSize = new JLabel("Puzzle Size");
+		this.highScoreSize.setFont(newFont);
+		this.highScoreSize.setForeground(new Color(65,65,65));
+
 		this.highScoreType = new JLabel("Puzzle Type");
+		this.highScoreType.setFont(newFont);
+		this.highScoreType.setForeground(new Color(65,65,65));
+		
 		this.highScoreTable = new JTable(10, 2);
 		this.highScoreSizeComboBox = new JComboBox<>(sizeList);
 		this.highScoreTypeComboBox = new JComboBox<>(typeList);
 		this.highScoreSizeComboBox.setPreferredSize(new Dimension(10, 10));
+		this.highScoreTypeComboBox.setFont(newFont);
+		this.highScoreTypeComboBox.setForeground(new Color(65,65,65));
+		this.highScoreSizeComboBox.setFont(newFont);
+		this.highScoreSizeComboBox.setForeground(new Color(65,65,65));
 		this.tableScrollPane = new JScrollPane(highScoreTable);
 		
 		tableScrollPane.setPreferredSize(new Dimension(550, 500));

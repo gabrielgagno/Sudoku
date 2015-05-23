@@ -2,13 +2,16 @@ package cmsc142.project.sudoku;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
-public class HighScorePanelController implements ActionListener {
+public class HighScorePanelController implements ActionListener, MouseListener {
 	private HighScorePanel highScorePanel;
 	private HashMap<String, ArrayList<ArrayList<String[]>>> highscores;
 	private String[] typeList = SudokuType.getValues();
@@ -18,6 +21,7 @@ public class HighScorePanelController implements ActionListener {
 		initializeHighScore();
 		this.highScorePanel.getHighScoreSizeComboBox().addActionListener(this);
 		this.highScorePanel.getHighScoreTypeComboBox().addActionListener(this);
+		this.highScorePanel.getBackButton().addActionListener(this);
 		
 	}
 	
@@ -90,5 +94,43 @@ public class HighScorePanelController implements ActionListener {
 
 	public void setHighScorePanel(HighScorePanel highScorePanel) {
 		this.highScorePanel = highScorePanel;
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent event) {
+		if(event.getSource().equals(this.highScorePanel.getBackButton())){
+			
+		}
+		
+	}
+
+	@Override
+	public void mouseExited(MouseEvent event) {
+		if(event.getSource().equals(this.highScorePanel.getBackButton())){
+			
+		}
+		
+	}
+
+	@Override
+	public void mousePressed(MouseEvent event) {
+		if(event.getSource().equals(this.highScorePanel.getBackButton())){
+			
+		}
+		
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent event) {
+		if(event.getSource().equals(this.highScorePanel.getBackButton())){
+			
+		}
+		
 	}
 }
