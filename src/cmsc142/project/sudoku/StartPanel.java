@@ -2,28 +2,25 @@ package cmsc142.project.sudoku;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-public class StartPanel extends JPanel implements ActionListener{
-	JButton newGame;
-	JButton highScore;
-	JButton exit;
-	private BufferedImage image;
+@SuppressWarnings("serial")
+public class StartPanel extends JPanel {
+	private JLabel blank;
+	private JButton newGame;
+	private JButton highScore;
+	private JButton exit;
+
 	public StartPanel(){
 		this.setPreferredSize(new Dimension(600,600));
 		this.setComponents();
@@ -32,27 +29,50 @@ public class StartPanel extends JPanel implements ActionListener{
 		this.setLayout(new FlowLayout(FlowLayout.CENTER, 400, 20));
 	}
 	
+	public JButton getNewGame() {
+		return newGame;
+	}
+
+	public void setNewGame(JButton newGame) {
+		this.newGame = newGame;
+	}
+
+	public JButton getHighScore() {
+		return highScore;
+	}
+
+	public void setHighScore(JButton highScore) {
+		this.highScore = highScore;
+	}
+
+	public JButton getExit() {
+		return exit;
+	}
+
+	public void setExit(JButton exit) {
+		this.exit = exit;
+	}
+
 	public void paintComponent(Graphics g){
-		super.paintComponent(g);
 		try {
-			image = ImageIO.read(new File("./resources/images/background.jpg"));
+			super.paintComponent(g);
+			BufferedImage image = ImageIO.read(new File("./resources/images/background.jpg"));
+			g.drawImage(image, 0, 0, this);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[ Error reading background.png ]");
 		}
-		g.drawImage(image, 0, 0, this);
 	}
 	
 	private void setComponents(){
+		blank = new JLabel();
 		newGame = new JButton(new ImageIcon("./resources/images/buttons/Button_New.png"));
 		highScore = new JButton(new ImageIcon("./resources/images/buttons/Button_Score.png"));
 		exit = new JButton(new ImageIcon("./resources/images/buttons/Button_Exit.png"));
 		
-//		sudoku.setPreferredSize(new Dimension(500,250));
+		blank.setPreferredSize(new Dimension(200, 280));
 		newGame.setBorderPainted(false);
 		newGame.setBorder(BorderFactory.createEmptyBorder());
 		newGame.setContentAreaFilled(false);
-		newGame.setPreferredSize(new Dimension(280,80));
 		
 		highScore.setBorderPainted(false);
 		highScore.setBorder(BorderFactory.createEmptyBorder());
@@ -64,18 +84,10 @@ public class StartPanel extends JPanel implements ActionListener{
 		exit.setContentAreaFilled(false);
 		exit.setPreferredSize(new Dimension(280,50));
 		
-		newGame.addActionListener(this);
+		this.add(blank);
 		this.add(newGame);
 		this.add(highScore);
 		this.add(exit);	
 	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
 }
 

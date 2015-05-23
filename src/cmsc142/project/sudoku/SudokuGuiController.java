@@ -25,9 +25,9 @@ public class SudokuGuiController implements ActionListener {
 		/*
 		 * Adds action listener for the transition of panels
 		 */
-		this.startPanelController.getStartPanel().newGame.addActionListener(this);
-		this.startPanelController.getStartPanel().highScore.addActionListener(this);
-		this.startPanelController.getStartPanel().exit.addActionListener(this);
+		this.startPanelController.getStartPanel().getNewGame().addActionListener(this);
+		this.startPanelController.getStartPanel().getHighScore().addActionListener(this);
+		this.startPanelController.getStartPanel().getExit().addActionListener(this);
 		
 		this.highScorePanelController.getHighScorePanel().getBackButton().addActionListener(this);
 		this.gamePanelController.getGamePanel().getBackMenuButton().addActionListener(this);
@@ -35,7 +35,8 @@ public class SudokuGuiController implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
-		if (event.getSource().equals(this.startPanelController.getStartPanel().newGame)){
+		if (event.getSource().equals(this.startPanelController.getStartPanel().getNewGame())){
+			System.out.println("hello");
 			JFileChooser fileChooser = new JFileChooser();
 			int response = fileChooser.showOpenDialog(sudokuGui);
 			if(response == JFileChooser.APPROVE_OPTION){
@@ -46,10 +47,10 @@ public class SudokuGuiController implements ActionListener {
 				gamePanelController.initialize(file.getAbsolutePath());
 				this.sudokuGui.changePanel(gamePanelController.getGamePanel());
 			}
-		} else if (event.getSource().equals(this.startPanelController.getStartPanel().highScore)){
+		} else if (event.getSource().equals(this.startPanelController.getStartPanel().getHighScore())){
 			highScorePanelController.updateTable();
 			this.sudokuGui.changePanel(highScorePanelController.getHighScorePanel());
-		} else if (event.getSource().equals(this.startPanelController.getStartPanel().exit)){
+		} else if (event.getSource().equals(this.startPanelController.getStartPanel().getExit())){
 			sudokuGui.dispose();
 		} else if(event.getSource().equals(this.highScorePanelController.getHighScorePanel().getBackButton())){
 			System.out.println("hey");
