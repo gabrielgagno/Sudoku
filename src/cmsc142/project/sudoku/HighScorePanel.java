@@ -3,7 +3,12 @@ package cmsc142.project.sudoku;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -28,6 +33,16 @@ public class HighScorePanel extends JPanel {
 		this.setComponets(typeList, sizeList);
 	}
 
+	public void paintComponent(Graphics g){
+		try {
+			super.paintComponent(g);
+			BufferedImage image = ImageIO.read(new File("./resources/images/BG_2.jpg"));
+			g.drawImage(image, 0, 0, this);
+		} catch (IOException e) {
+			System.out.println("[ Error reading background.png ]");
+		}
+	}
+	
 	public void setComponets(String[] typeList, String[] sizeList) {
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
@@ -35,8 +50,6 @@ public class HighScorePanel extends JPanel {
 		layout.setAutoCreateContainerGaps(true);
 	
 		this.backButton = new JButton("Back to Menu");
-		this.highScoreLabel = new JLabel("Sudoku Highscores");
-		highScoreLabel.setFont(new Font("Tahoma", Font.BOLD, 25));
 		this.highScoreSize = new JLabel("Puzzle Size");
 		this.highScoreType = new JLabel("Puzzle Type");
 		this.highScoreTable = new JTable(10, 2);
@@ -51,7 +64,6 @@ public class HighScorePanel extends JPanel {
 		horizontalGroup.addGap(100);
 		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.CENTER)
 				.addComponent(backButton, Alignment.LEADING)
-				.addComponent(highScoreLabel)
 				.addGroup(layout.createSequentialGroup()
 					.addGap(100)
 					.addComponent(highScoreType)
@@ -66,7 +78,6 @@ public class HighScorePanel extends JPanel {
 		layout.setVerticalGroup(layout.createSequentialGroup()
 			.addComponent(backButton)
 			.addGap(30)
-			.addComponent(highScoreLabel)
 			.addGap(50)
 			.addGroup(layout.createParallelGroup()
 				.addComponent(highScoreType)
