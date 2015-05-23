@@ -54,19 +54,37 @@ public class GamePanelController implements ActionListener, KeyListener{
 		if(event.getSource().equals(gamePanel.getSolverButton())){
 			String[] optionLabels = { "Solve the current state.", "Solve the original state.", "Let me solve the puzzle!"};    
 			int response = JOptionPane.showOptionDialog(gamePanel, "Do you want to solve the puzzle using the current state or the original state?",  "Solve Puzzle Confirmation",  JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE, null, optionLabels, optionLabels[0]);
-			System.out.println(response);
 			
-			if(response == JOptionPane.OK_OPTION){
-				currentPuzzle++;
-				currentBoard = sudokuBoards.get(currentPuzzle);
-				drawTable(currentBoard.getPuzzleSize());
-				
-				this.errorCells = new HashSet<>();
-				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
-				gamePanel.getTypeComboBox().setSelectedItem(currentType);
+			boolean xSudoku = false;
+			boolean ySudoku = false;
 
-				if(currentPuzzle == sudokuBoards.size()-1) gamePanel.getNextPuzzleButton().setEnabled(false);
-				if(currentPuzzle > 0) gamePanel.getPrevPuzzleButton().setEnabled(true);
+			switch (currentType) {
+				case "X":
+					xSudoku = true;
+					ySudoku = false;
+					break;
+	
+				case "Y":
+					xSudoku = false;
+					ySudoku = true;
+					break;
+				
+				case "XY":
+					xSudoku = true;
+					ySudoku = true;
+					break;
+			}
+			
+			if(response == JOptionPane.OK_OPTION || response == JOptionPane.NO_OPTION){
+				SudokuBoard board =  new SudokuBoard(currentBoard.getPuzzleSize(), currentBoard.getPuzzle());
+				
+				if(response == JOptionPane.YES_OPTION){
+					board = new SudokuBoard(currentBoard.getPuzzleSize(), getCurrentPuzzle());
+					
+				}
+				
+				SudokuUtils.solveUsingBacktracking(board, xSudoku, ySudoku);
+				board.printAllSolutions();
 			}
 			
 		} else if(event.getSource() == gamePanel.getNextPuzzleButton()){
@@ -311,17 +329,14 @@ public class GamePanelController implements ActionListener, KeyListener{
 	}
 
 	public void initialize(String filePath) {
-		// TODO Auto-generated method stub
 		FileAccess fileAccess = new FileAccess();
 		try {
 			sudokuBoards = fileAccess.readBoard(filePath);
+			SudokuUtils.findSolutions(sudokuBoards);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("[ Error reading file! ]");
 		}
 		
-		
-//		
 		if(sudokuBoards.size() > 0){
 			currentBoard = sudokuBoards.get(currentPuzzle);	
 			int puzzleSize = currentBoard.getPuzzleSize();

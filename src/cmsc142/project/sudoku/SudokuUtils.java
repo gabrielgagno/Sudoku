@@ -112,7 +112,7 @@ public abstract class SudokuUtils {
 		return errorCells;
 	}
 	
-	private static void solveUsingBacktracking(SudokuBoard sudokuBoard, boolean xSudoku, boolean ySudoku) {
+	public static void solveUsingBacktracking(SudokuBoard sudokuBoard, boolean xSudoku, boolean ySudoku) {
 		int puzzleSize = sudokuBoard.getPuzzleSize();
 		int start = 0;
 		int move = 0;
@@ -125,7 +125,6 @@ public abstract class SudokuUtils {
 		List<ArrayList<Integer>> options = new ArrayList<ArrayList<Integer>>(); // array stacks of options
 		
 		if(checkPuzzle(sudokuBoard, xSudoku, ySudoku, false).size() == 0){
-			System.out.println("Proceed");
 			for (int i = 0; i < (puzzleSize * puzzleSize) + 2; i++) {
 				options.add(new ArrayList<Integer>());
 			}
@@ -184,8 +183,6 @@ public abstract class SudokuUtils {
 	
 						// If there is fixed value in the cell
 						else {
-							System.out.println("Fix");
-							System.out.println("Skipping " + row + " " + column + " = " + puzzle[row][column]);
 							nopts[move] = 1;
 							options.get(move).clear();
 							options.get(move).add(0);
