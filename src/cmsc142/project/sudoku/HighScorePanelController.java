@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 public class HighScorePanelController implements ActionListener, MouseListener {
@@ -78,6 +77,7 @@ public class HighScorePanelController implements ActionListener, MouseListener {
             }
         };
 		
+        this.highScorePanel.getHighScoreTable().getTableHeader().setFont(new Font("A Year Without Rain", Font.BOLD, 16));
 		this.highScorePanel.getHighScoreTable().setModel(dataModel);
 		this.highScorePanel.getHighScoreTable().repaint();
 	}
