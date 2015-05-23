@@ -41,6 +41,7 @@ public class SudokuGuiController implements ActionListener {
 			if(response == JFileChooser.APPROVE_OPTION){
 				ArrayList<File> fileList = new ArrayList<File>();
 				File file = fileChooser.getSelectedFile();
+				this.sudokuGui.changePanel(new LoadingPanel());
 				gamePanelController.initialize(file.getAbsolutePath());
 				this.sudokuGui.changePanel(gamePanelController.getGamePanel());
 			}
