@@ -3,16 +3,19 @@ package cmsc142.project.sudoku;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -273,7 +276,15 @@ public class GamePanelController implements ActionListener, KeyListener{
 				} 
 				
 				if(isSpecialSudokuActivated){
-					value = new ImageIcon("resources/images/instructors/" + puzzle[i][j] + ".png");
+					try {
+						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/" + puzzle[i][j] + ".png"));
+						Image image = buff.getScaledInstance(gamePanel.getSudokuTable().getRowHeight(), gamePanel.getSudokuTable().getRowHeight(), Image.SCALE_SMOOTH);
+						ImageIcon icon = new ImageIcon(image);
+						value = icon;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				
 				data[i][j] = value;
@@ -334,7 +345,15 @@ public class GamePanelController implements ActionListener, KeyListener{
 				currentStateOfTable[row][column] = keyCode-48;
 				
 				if(isSpecialSudokuActivated){
-					value = new ImageIcon("resources/images/instructors/" + (keyCode-48) + ".png");
+					try {
+						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/" + (keyCode-48) + ".png"));
+						Image image = buff.getScaledInstance(gamePanel.getSudokuTable().getRowHeight(), gamePanel.getSudokuTable().getRowHeight(), Image.SCALE_SMOOTH);
+						ImageIcon icon = new ImageIcon(image);
+						value = icon;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				
 				gamePanel.getSudokuTable().getModel().setValueAt(value, row, column);
@@ -393,7 +412,15 @@ public class GamePanelController implements ActionListener, KeyListener{
 				Object value = "";
 				
 				if(isSpecialSudokuActivated){
-					value = new ImageIcon("resources/images/instructors/0.png");
+					try {
+						BufferedImage buff = ImageIO.read(new File("resources/images/instructors/0.png"));
+						Image image = buff.getScaledInstance(gamePanel.getSudokuTable().getRowHeight(), gamePanel.getSudokuTable().getRowHeight(), Image.SCALE_SMOOTH);
+						ImageIcon icon = new ImageIcon(image);
+						value = icon;
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				
 				gamePanel.getSudokuTable().getModel().setValueAt(value, row, column);
