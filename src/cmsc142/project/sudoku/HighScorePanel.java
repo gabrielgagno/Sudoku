@@ -27,6 +27,7 @@ public class HighScorePanel extends JPanel {
 	private JComboBox<String> highScoreTypeComboBox;
 	private JComboBox<String> highScoreSizeComboBox;
 	private JButton backButton;
+	private Font backFont;
 	
 	public HighScorePanel(String[] typeList, String[] sizeList) {
 		this.setPreferredSize(new Dimension(600, 600));
@@ -50,6 +51,9 @@ public class HighScorePanel extends JPanel {
 		layout.setAutoCreateContainerGaps(true);
 	
 		this.backButton = new JButton("Back to Menu");
+		backFont = new Font("AYEARWITHOUTRAIN", Font.PLAIN, 20);
+//		backFont = Font.createFont(Font.TRUETYPE_FONT, new File("./resources/AYEARWITHOUTRAIN.TTF"));
+		backButton.setFont(backFont);
 		this.highScoreSize = new JLabel("Puzzle Size");
 		this.highScoreType = new JLabel("Puzzle Type");
 		this.highScoreTable = new JTable(10, 2);
@@ -78,7 +82,7 @@ public class HighScorePanel extends JPanel {
 		layout.setVerticalGroup(layout.createSequentialGroup()
 			.addComponent(backButton)
 			.addGap(30)
-			.addGap(50)
+			.addGap(140)
 			.addGroup(layout.createParallelGroup()
 				.addComponent(highScoreType)
 				.addComponent(highScoreTypeComboBox)
