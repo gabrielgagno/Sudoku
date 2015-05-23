@@ -45,6 +45,7 @@ public class GamePanelController implements ActionListener, KeyListener{
         gamePanel.getNextPuzzleButton().addActionListener(this);
         gamePanel.getPrevPuzzleButton().addActionListener(this);
         gamePanel.getCheckerButton().addActionListener(this);
+        gamePanel.getResetButton().addActionListener(this);
         gamePanel.validate();
         gamePanel.repaint();						
 	}
@@ -202,6 +203,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 			
 			SudokuBoard currentStateOfBoard = new SudokuBoard(currentBoard.getPuzzleSize(), getCurrentPuzzle());
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
+		} else if(event.getSource() == gamePanel.getResetButton()){
+			drawTable(currentBoard.getPuzzleSize());
 		}
 		
 		if(event.getSource() == gamePanel.getTimer()){
@@ -282,6 +285,24 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
 				gamePanel.getSudokuTable().getModel().setValueAt(String.valueOf(event.getKeyCode()-48), rowIndex, colIndex);
 			}
+			if(currentType.equals("Normal")){
+				errorCells = SudokuUtils.checkPuzzle(currentBoard, false, false, true);
+			}else if(currentType.equals("X")){
+				errorCells = SudokuUtils.checkPuzzle(currentBoard, true, false, true);
+			}else if(currentType.equals("Y")){
+				errorCells = SudokuUtils.checkPuzzle(currentBoard, false, true, true);
+			}else if(currentType.equals("XY")){
+				errorCells = SudokuUtils.checkPuzzle(currentBoard, true, true, true);
+			}
+			if(errorCells.isEmpty()){
+				int [][] checkComplete = this.getCurrentPuzzle();
+				int empty = 0;
+				for(int i=0;i<checkComplete.length;i++){
+					for(int j=0;j<checkComplete[i].length;j++){
+						if(checkComplete[i][j]==0) empty++;
+					}
+				}
+			}
 		}else if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE || event.getKeyCode() == KeyEvent.VK_DELETE){
 			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
 			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
@@ -308,46 +329,24 @@ public class GamePanelController implements ActionListener, KeyListener{
 		    	c.setFont(new Font("Verdana", Font.PLAIN, fontSize));
 		    }
 		    
-		    if(currentType.equals("Normal")){
-			    if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-			        c.setBackground(new Color(210, 210, 210)); 
-			    } else {
-			    	c.setBackground(new Color(240,240,240));
-			    }
-		    }else if(currentType.equals("X")){
+	        if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
+		    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
+		        c.setBackground(new Color(210, 210, 210)); 
+		    } else {
+		    	c.setBackground(new Color(240,240,240));
+		    }
+	        
+		    if(currentType.equals("X") || currentType.equals("XY")){
 		    	if(row==column || column == currentBoard.getPuzzleSize()-1-row){	
 					c.setBackground(new Color(0,255,0));
-				}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-			        c.setBackground(new Color(210, 210, 210)); 
-			    } 
-		    	 else {
-			    	c.setBackground(new Color(240,240,240));
-			    }		
-		    }else if(currentType.equals("Y")){
+		    	}
+			}
+		    if(currentType.equals("Y") || currentType.equals("XY")){
 		    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
 		    	if( (row < center && (row==column || column == currentBoard.getPuzzleSize()-1-row)) || (row >= center && column == center)){
 		    		c.setBackground(new Color(0,255,0));	
-		    	}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-			        c.setBackground(new Color(210, 210, 210)); 
-			    } 
-		    	 else {
-			    	c.setBackground(new Color(240,240,240));
-			    }		
-		    }else if(currentType.equals("XY")){
-		    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
-		    	if( row==column || column == currentBoard.getPuzzleSize()-1-row || (column == center && row >= center)) {	
-		    		c.setBackground(new Color(0,255,0));
-		    	}else if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-			    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-			        c.setBackground(new Color(210, 210, 210)); 
-			    } 
-		    	 else {
-			    	c.setBackground(new Color(240,240,240));
-			    }		
-		    }
+		    	}
+			}
 		    
 		    if(errorCells.contains(new Point(row, column))){
 		    	c.setBackground(new Color(210, 0, 0));

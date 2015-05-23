@@ -14,6 +14,7 @@ import javax.swing.Timer;
 public class GamePanel extends JPanel{
 	private JButton backMenuButton;
 	private JButton checkerButton;
+	private JButton resetButton;
 	private JButton solverButton;
 	private JButton activateSpecialButton;
 	private JButton prevPuzzleButton;
@@ -62,6 +63,7 @@ public class GamePanel extends JPanel{
 		nextSolutionButton.setEnabled(false);
 		
 		checkerButton = new JButton("Check");
+		resetButton = new JButton("Reset");
 		solverButton = new JButton("Solve");
 
 		layout.setAutoCreateGaps(true);
@@ -88,7 +90,7 @@ public class GamePanel extends JPanel{
 						)
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(checkerButton)
-							.addGap(200)
+							.addComponent(resetButton)
 							.addComponent(solverButton)
 						)
 					)
@@ -120,6 +122,7 @@ public class GamePanel extends JPanel{
 					.addGap(20)
 					.addGroup(layout.createParallelGroup(Alignment.CENTER)
 						.addComponent(checkerButton)
+						.addComponent(resetButton)
 						.addComponent(solverButton)
 					)
 				)
@@ -253,5 +256,13 @@ public class GamePanel extends JPanel{
 
 	public void setTimer(Timer timer) {
 		this.timer = timer;
+	}
+
+	public JButton getResetButton() {
+		return resetButton;
+	}
+
+	public void setResetButton(JButton resetButton) {
+		this.resetButton = resetButton;
 	}
 }
