@@ -455,19 +455,19 @@ public class GamePanelController implements ActionListener, KeyListener{
 	        
 			if (currentType.equals("X") || currentType.equals("XY")) {
 				if (row == column || column == currentBoard.getPuzzleSize()-1-row) {
-					component.setBackground(new Color(0, 255, 0));
+					component.setBackground(new Color(150, 255, 150));
 				}
 			}
 		    
 			if(currentType.equals("Y") || currentType.equals("XY")){
 		    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
 		    	if( (row < center && (row==column || column == currentBoard.getPuzzleSize()-1-row)) || (row >= center && column == center)){
-		    		component.setBackground(new Color(0,255,0));	
+		    		component.setBackground(new Color(150,255,150));	
 		    	}
 			}
 		    
 		    if(errorCells.contains(new Point(row, column))){
-		    	component.setBackground(new Color(210, 0, 0));
+		    	component.setBackground(new Color(210, 150, 150));
 		    } 
 		    
 		    gamePanel.getSudokuTable().repaint();
