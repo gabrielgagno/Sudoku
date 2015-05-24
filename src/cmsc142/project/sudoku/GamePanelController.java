@@ -56,7 +56,7 @@ public class GamePanelController implements ActionListener, KeyListener{
         gamePanel.validate();
         gamePanel.repaint();						
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().equals(gamePanel.getSolverButton())){
@@ -87,7 +87,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				SudokuBoard board = currentBoard;
 				
 				if(response == JOptionPane.YES_OPTION){
-					board = new SudokuBoard(currentBoard.getPuzzleSize(), getCurrentPuzzle());
+					board = new SudokuBoard(currentBoard.getPuzzleSize(), currentStateOfTable);
 					SudokuUtils.solveUsingBacktracking(board, xSudoku, ySudoku);
 				}
 				
@@ -224,7 +224,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 					break;
 			}
 			
-			SudokuBoard currentStateOfBoard = new SudokuBoard(currentBoard.getPuzzleSize(), getCurrentPuzzle());
+			SudokuBoard currentStateOfBoard = new SudokuBoard(currentBoard.getPuzzleSize(), currentStateOfTable);
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
 		} else if(event.getSource() == gamePanel.getResetButton()){
 			drawTable(currentBoard.getPuzzle());
@@ -240,23 +240,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 			gamePanel.getTimerLabel().setText(gamePanel.computeDuration(tickCount));
 		}
 	}
-	
-	private int[][] getCurrentPuzzle(){
-		int[][] puzzle = new int[currentBoard.getPuzzleSize()][currentBoard.getPuzzleSize()];
 		
-		for (int i = 0; i < puzzle.length; i++) {
-			for (int j = 0; j < puzzle.length; j++) {
-				String element = (String) gamePanel.getSudokuTable().getValueAt(i, j);
-				if(element.equals("")){
-					element = "0";
-				}
-				puzzle[i][j] = Integer.parseInt(element);
-			}
-		}
-		
-		return puzzle;
-	}
-	
 	public void drawTable(int[][] puzzle){
 		int puzzleSize = puzzle.length;
 		String data[][] = new String[puzzleSize][puzzleSize];
@@ -308,8 +292,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent arg0) {
-		// TODO Auto-generated method stub
-		
+			
 	}
 
 	@Override
@@ -317,108 +300,122 @@ public class GamePanelController implements ActionListener, KeyListener{
 		int keyCode = event.getKeyCode();
 		
 		if(keyCode >= 49 && keyCode < currentBoard.getPuzzleSize()+49){
-			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
-			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
-			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
-				currentStateOfTable[rowIndex][colIndex] = keyCode;
+			int row = gamePanel.getSudokuTable().getSelectedRow();
+			int column = gamePanel.getSudokuTable().getSelectedColumn();
+			
+			if(row >= 0 && column >= 0 && currentBoard.getPuzzle()[row][column] == 0){
+				Object value = String.valueOf(keyCode-48);
+				
+				currentStateOfTable[row][column] = keyCode;
 				
 				if(isSpecialSudokuActivated){
-					gamePanel.getSudokuTable().getModel().setValueAt(new ImageIcon("resources/images/instructors/" + (keyCode-48) + ".png"), rowIndex, colIndex);
-				} else {
-					gamePanel.getSudokuTable().getModel().setValueAt(String.valueOf(keyCode-48), rowIndex, colIndex);
+					value = new ImageIcon("resources/images/instructors/" + (keyCode-48) + ".png");
 				}
+				
+				gamePanel.getSudokuTable().getModel().setValueAt(value, row, column);
 			}
 			
 			if(currentType.equals("Normal")){
 				errorCells = SudokuUtils.checkPuzzle(currentBoard, false, false, true);
-			}else if(currentType.equals("X")){
+			} else if(currentType.equals("X")){
 				errorCells = SudokuUtils.checkPuzzle(currentBoard, true, false, true);
-			}else if(currentType.equals("Y")){
+			} else if(currentType.equals("Y")){
 				errorCells = SudokuUtils.checkPuzzle(currentBoard, false, true, true);
-			}else if(currentType.equals("XY")){
+			} else if(currentType.equals("XY")){
 				errorCells = SudokuUtils.checkPuzzle(currentBoard, true, true, true);
 			}
+			
 			if(errorCells.isEmpty()){
-				int [][] checkComplete = this.getCurrentPuzzle();
+				int [][] checkComplete = currentStateOfTable;
 				boolean flag = true;
-				for(int i=0;i<checkComplete.length;i++){
-					for(int j=0;j<checkComplete[i].length;j++){
-						if(checkComplete[i][j]==0) flag = false;
+				
+				for (int i = 0; i < checkComplete.length; i++) {
+					for (int j = 0; j < checkComplete[i].length; j++) {
+						if (checkComplete[i][j] == 0)
+							flag = false;
 					}
 				}
+				
 				if(flag){
 					String[] options = {"OK"};
 					JPanel panel = new JPanel();
 					JLabel label = new JLabel("Enter Your name : ");
-					JTextField txt = new JTextField(10);
+					JTextField textField = new JTextField(10);
 					panel.add(label);
-					panel.add(txt);
-					gamePanel.getSudokuTable().removeKeyListener(this);
+					panel.add(textField);
 					JOptionPane.showOptionDialog(null, panel, "You solved the puzzle in " + tickCount + " seconds!", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
-					
+				
 					FileAccess fileAccess = new FileAccess();
 					try {
-						fileAccess.writeScore(new String[]{txt.getText(), tickCount + "", currentBoard.getPuzzleSize() + "", currentType}, "resources/highscores.dat");
+						String[] data = new String[]{textField.getText(), tickCount + "", currentBoard.getPuzzleSize() + "", currentType};
+						fileAccess.writeScore(data, "resources/highscores.dat");
 					} catch (IOException e) {
-						System.out.println("[ Error writing high socres! ]");
-					}
-					
+						System.out.println("[ Error writing high scores! ]");
+					}					
 				}
 			}
-		}else if(keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE){
-			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
-			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
-			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
-				gamePanel.getSudokuTable().getModel().setValueAt("", rowIndex, colIndex);
+			
+		} else if(keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE){
+			int row = gamePanel.getSudokuTable().getSelectedRow();
+			int column = gamePanel.getSudokuTable().getSelectedColumn();
+			
+			currentStateOfTable[row][column] = 0;
+			
+			if(row >= 0 && column >= 0 && currentBoard.getPuzzle()[row][column] == 0){
+				Object value = "";
+				
+				if(isSpecialSudokuActivated){
+					value = new ImageIcon("resources/images/instructors/0.png");
+				}
+				
+				gamePanel.getSudokuTable().getModel().setValueAt(value, row, column);
 			}
 		}
 	}
 
 	@Override
 	public void keyTyped(KeyEvent arg0) {
-		// TODO Auto-generated method stub
 		
 	}
 	
 	public class CellRender extends DefaultTableCellRenderer  { 
 	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
-		    Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
+		    Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
 		    
 		    int fontSize = (int) ((gamePanel.getSudokuTable().getPreferredSize().getWidth()/gamePanel.getSudokuTable().getRowCount())*0.50);
 		    if(currentBoard.getPuzzle()[row][column] != 0){
-		    	c.setFont(new Font("Verdana", Font.BOLD, fontSize));
+		    	component.setFont(new Font("Verdana", Font.BOLD, fontSize));
 		    } else {
-		    	c.setFont(new Font("Verdana", Font.PLAIN, fontSize));
+		    	component.setFont(new Font("Verdana", Font.PLAIN, fontSize));
 		    }
 		    
-	        if(((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==0) ||
-		    		((row/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1 && (column/(int)Math.sqrt(currentBoard.getPuzzleSize()))%2==1)){
-		        c.setBackground(new Color(210, 210, 210)); 
+			if (((row / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0 && (column / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 0)
+					|| ((row / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 1 && (column / (int) Math.sqrt(currentBoard.getPuzzleSize())) % 2 == 1)) {
+		        component.setBackground(new Color(210, 210, 210)); 
 		    } else {
-		    	c.setBackground(new Color(240,240,240));
+		    	component.setBackground(new Color(240,240,240));
 		    }
 	        
-		    if(currentType.equals("X") || currentType.equals("XY")){
-		    	if(row==column || column == currentBoard.getPuzzleSize()-1-row){	
-					c.setBackground(new Color(0,255,0));
-		    	}
+			if (currentType.equals("X") || currentType.equals("XY")) {
+				if (row == column || column == currentBoard.getPuzzleSize()-1-row) {
+					component.setBackground(new Color(0, 255, 0));
+				}
 			}
-		    if(currentType.equals("Y") || currentType.equals("XY")){
+		    
+			if(currentType.equals("Y") || currentType.equals("XY")){
 		    	int center = (int) (Math.sqrt(currentBoard.getPuzzleSize())+1);
 		    	if( (row < center && (row==column || column == currentBoard.getPuzzleSize()-1-row)) || (row >= center && column == center)){
-		    		c.setBackground(new Color(0,255,0));	
+		    		component.setBackground(new Color(0,255,0));	
 		    	}
 			}
 		    
 		    if(errorCells.contains(new Point(row, column))){
-		    	c.setBackground(new Color(210, 0, 0));
+		    	component.setBackground(new Color(210, 0, 0));
 		    } 
 		    
-//		    JLabel label = (JLabel) c;
-//	    	System.out.println(table.getValueAt(0, 0).getClass());
 		    gamePanel.getSudokuTable().repaint();
-		    
-		    return c; 
+		  
+		    return component; 
 		}
 	}
 	
@@ -429,17 +426,16 @@ public class GamePanelController implements ActionListener, KeyListener{
 			sudokuBoards = fileAccess.readBoard(filePath);
 			SudokuUtils.findSolutions(sudokuBoards);
 		} catch (IOException e) {
-			System.out.println("[ Error reading file! ]");
+			System.out.println("[ Error reading input sudoku file! ]");
 		}
 		
 		if(sudokuBoards.size() > 0){
 			currentBoard = sudokuBoards.get(currentPuzzle);	
-			int puzzleSize = currentBoard.getPuzzleSize();
+			
 			drawTable(currentBoard.getPuzzle());
 			
 			if(sudokuBoards.size() > 1) gamePanel.getNextPuzzleButton().setEnabled(true);
 			gamePanel.getTimer().start();
 		}
-        
 	}
 }
