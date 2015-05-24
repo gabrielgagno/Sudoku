@@ -42,12 +42,13 @@ public class SudokuGuiController implements ActionListener {
 				ArrayList<File> fileList = new ArrayList<File>();
 				File file = fileChooser.getSelectedFile();
 				this.sudokuGui.changePanel(new LoadingPanel());
-				gamePanelController.initialize(file.getAbsolutePath());
-				this.sudokuGui.changePanel(gamePanelController.getGamePanel());
+
+//				gamePanelController.initialize(file.getAbsolutePath());
+//				this.sudokuGui.changePanel(gamePanelController.getGamePanel());
 			}
 		} else if (event.getSource().equals(this.startPanelController.getStartPanel().highScore)){
+			highScorePanelController.updateHighScore();
 			this.sudokuGui.changePanel(highScorePanelController.getHighScorePanel());
-			
 		} else if (event.getSource().equals(this.startPanelController.getStartPanel().exit)){
 			sudokuGui.dispose();
 		} else if(event.getSource().equals(this.highScorePanelController.getHighScorePanel().getBackButton())){

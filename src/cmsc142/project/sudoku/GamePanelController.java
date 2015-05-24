@@ -14,6 +14,7 @@ import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.Timer;
@@ -39,7 +40,6 @@ public class GamePanelController implements ActionListener, KeyListener{
 		gamePanel.getBackMenuButton().addActionListener(this);
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
-		gamePanel.getSudokuTable().addKeyListener(this);
 		
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getSolverButton().addActionListener(this);
@@ -282,6 +282,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 	public void keyReleased(KeyEvent event) {
 		// TODO Auto-generated method stub
 		if(event.getKeyCode() >= 49 && event.getKeyCode() < currentBoard.getPuzzleSize()+49){
+			System.out.println("Key " + event.getKeyCode());
+			
 			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
 			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
 			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
@@ -305,10 +307,22 @@ public class GamePanelController implements ActionListener, KeyListener{
 					}
 				}
 				if(flag){
-					JTextField playerNameField = new JTextField("");
-					playerNameField.setText("");
-					String response  = JOptionPane.showInputDialog(gamePanel, "Input player name: ", playerNameField);
-					System.out.println(response);
+					String[] options = {"OK"};
+					JPanel panel = new JPanel();
+					JLabel label = new JLabel("Enter Your name : ");
+					JTextField txt = new JTextField(10);
+					panel.add(label);
+					panel.add(txt);
+					gamePanel.getSudokuTable().removeKeyListener(this);
+					JOptionPane.showOptionDialog(null, panel, "You solved the puzzle in " + tickCount + " seconds!", JOptionPane.NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options , options[0]);
+					
+					FileAccess fileAccess = new FileAccess();
+					try {
+						fileAccess.writeScore(new String[]{txt.getText(), tickCount + "", currentBoard.getPuzzleSize() + "", currentType}, "resources/highscores.dat");
+					} catch (IOException e) {
+						System.out.println("[ Error writing high socres! ]");
+					}
+					
 				}
 			}
 		}else if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE || event.getKeyCode() == KeyEvent.VK_DELETE){
@@ -365,8 +379,9 @@ public class GamePanelController implements ActionListener, KeyListener{
 		}
 
 	}
-
-	public void initialize(String filePath) {
+	
+	
+	public void initialize(String filePath)  {
 		FileAccess fileAccess = new FileAccess();
 		try {
 			sudokuBoards = fileAccess.readBoard(filePath);

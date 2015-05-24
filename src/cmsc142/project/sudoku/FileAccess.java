@@ -12,6 +12,16 @@ import java.util.List;
 
 public class FileAccess {
 	
+	public void writeScore(String[] tokens, String fileName) throws IOException{
+		File file = new File(fileName);
+		
+		BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+		
+		bufferedWriter.write(String.format("%s %s %s %s\n", tokens[0], tokens[1], tokens[2], tokens[3]));
+		
+		bufferedWriter.close();
+	}
+	
 	public HashMap<String, ArrayList<ArrayList<String[]>>> readScoreData(String fileName) throws IOException{
 		File file = new File(fileName);
 		
