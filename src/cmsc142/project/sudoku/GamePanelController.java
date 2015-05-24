@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -29,11 +31,12 @@ public class GamePanelController implements ActionListener, KeyListener{
 	int currentPuzzle=0;
 	String currentType;
 	int tickCount = 0;
-	
+	private boolean isSpecialSudokuActivated;
+	private int[][] currentStateOfTable;
 	public GamePanelController(){
 		this.gamePanel = new GamePanel();
 		this.errorCells = new HashSet<>(); 
-		
+		this.currentStateOfTable = new int[currentBoard.puzzleSize][currentBoard.puzzleSize];
 		Timer timer = new Timer(1000, this);
 		gamePanel.setTimer(timer);
 		
@@ -41,6 +44,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
 		
+		gamePanel.getActivateSpecialButton().addActionListener(this);
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getSolverButton().addActionListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
@@ -208,6 +212,10 @@ public class GamePanelController implements ActionListener, KeyListener{
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
 		} else if(event.getSource() == gamePanel.getResetButton()){
 			drawTable(currentBoard.getPuzzle());
+		} else if (event.getSource().equals(gamePanel.getActivateSpecialButton())){
+			isSpecialSudokuActivated = !isSpecialSudokuActivated;
+			ImageIcon imageIcon = new ImageIcon("resources/load.png");
+			gamePanel.getSudokuTable().setValueAt(imageIcon, 0, 0);
 		}
 		
 		if(event.getSource() == gamePanel.getTimer()){
@@ -252,6 +260,15 @@ public class GamePanelController implements ActionListener, KeyListener{
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
+            
+            @Override
+            public Class<?> getColumnClass(int column) {
+            	if(isSpecialSudokuActivated){
+            		return Icon.class;
+            	} else {
+            		return String.class;
+            	}
+            }
         };
         
         gamePanel.getSudokuTable().setModel(model);
@@ -280,15 +297,21 @@ public class GamePanelController implements ActionListener, KeyListener{
 
 	@Override
 	public void keyReleased(KeyEvent event) {
-		// TODO Auto-generated method stub
-		if(event.getKeyCode() >= 49 && event.getKeyCode() < currentBoard.getPuzzleSize()+49){
-			System.out.println("Key " + event.getKeyCode());
-			
+		int keyCode = event.getKeyCode();
+		
+		if(keyCode >= 49 && keyCode < currentBoard.getPuzzleSize()+49){
 			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
 			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
 			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
-				gamePanel.getSudokuTable().getModel().setValueAt(String.valueOf(event.getKeyCode()-48), rowIndex, colIndex);
+				currentStateOfTable[rowIndex][colIndex] = keyCode;
+				
+				if(isSpecialSudokuActivated){
+					gamePanel.getSudokuTable().getModel().setValueAt(new ImageIcon("resources/images/instructors/" + (keyCode-48) + ".png"), rowIndex, colIndex);
+				} else {
+					gamePanel.getSudokuTable().getModel().setValueAt(String.valueOf(keyCode-48), rowIndex, colIndex);
+				}
 			}
+			
 			if(currentType.equals("Normal")){
 				errorCells = SudokuUtils.checkPuzzle(currentBoard, false, false, true);
 			}else if(currentType.equals("X")){
@@ -325,7 +348,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 					
 				}
 			}
-		}else if(event.getKeyCode() == KeyEvent.VK_BACK_SPACE || event.getKeyCode() == KeyEvent.VK_DELETE){
+		}else if(keyCode == KeyEvent.VK_BACK_SPACE || keyCode == KeyEvent.VK_DELETE){
 			int rowIndex = gamePanel.getSudokuTable().getSelectedRow();
 			int colIndex = gamePanel.getSudokuTable().getSelectedColumn();
 			if(rowIndex >= 0 && colIndex >= 0 && currentBoard.getPuzzle()[rowIndex][colIndex] == 0){
@@ -374,10 +397,12 @@ public class GamePanelController implements ActionListener, KeyListener{
 		    	c.setBackground(new Color(210, 0, 0));
 		    } 
 		    
+//		    JLabel label = (JLabel) c;
+//	    	System.out.println(table.getValueAt(0, 0).getClass());
 		    gamePanel.getSudokuTable().repaint();
+		    
 		    return c; 
 		}
-
 	}
 	
 	
@@ -400,5 +425,4 @@ public class GamePanelController implements ActionListener, KeyListener{
 		}
         
 	}
-	
 }
