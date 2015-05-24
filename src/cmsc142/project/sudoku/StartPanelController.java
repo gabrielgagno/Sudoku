@@ -1,13 +1,11 @@
 package cmsc142.project.sudoku;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.ImageIcon;
 
-public class StartPanelController implements ActionListener, MouseListener {
+public class StartPanelController implements MouseListener {
 	private StartPanel startPanel;
 	
 	public StartPanelController() {
@@ -16,11 +14,6 @@ public class StartPanelController implements ActionListener, MouseListener {
 		this.startPanel.getNewGame().addMouseListener(this);
 		this.startPanel.getHighScore().addMouseListener(this);
 		this.startPanel.getExit().addMouseListener(this);
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent event) {
-		
 	}
 
 	public StartPanel getStartPanel() {
@@ -61,7 +54,6 @@ public class StartPanelController implements ActionListener, MouseListener {
 
 	@Override
 	public void mousePressed(MouseEvent event) {
-		// TODO Auto-generated method stub
 		if(event.getSource().equals(this.startPanel.getNewGame())){
 			this.startPanel.getNewGame().setIcon(new ImageIcon("./resources/images/Buttons/Button_New.png"));
 		} else if(event.getSource().equals(this.startPanel.getHighScore())){
@@ -73,7 +65,6 @@ public class StartPanelController implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseReleased(MouseEvent event) {
-		// TODO Auto-generated method stub
 		if(event.getSource().equals(this.startPanel.getNewGame())){
 			this.startPanel.getNewGame().setIcon(new ImageIcon("./resources/images/Buttons/Button_New_Hover.png"));
 		} else if(event.getSource().equals(this.startPanel.getHighScore())){

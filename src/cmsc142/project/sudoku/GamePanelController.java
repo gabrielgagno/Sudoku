@@ -64,7 +64,6 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		this.gamePanel.getActivateSpecialButton().addMouseListener(this);
 		this.gamePanel.getBackMenuButton().addMouseListener(this);
 		
-//		*************SURPRISE*************
 		gamePanel.getActivateSpecialButton().addActionListener(this);
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getSolverButton().addActionListener(this);
@@ -278,7 +277,7 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		
 		if(event.getSource() == gamePanel.getTimer()){
 			tickCount++;
-			gamePanel.getTimerLabel().setText(gamePanel.computeDuration(tickCount));
+			gamePanel.getTimerLabel().setText(SudokuUtils.formatSeconds(tickCount));
 		}
 	}
 		
@@ -466,7 +465,9 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 					
 					FileAccess fileAccess = new FileAccess();
 					try {
-						String[] data = new String[]{textField.getText(), tickCount + "", currentBoard.getPuzzleSize() + "", currentType};
+						String name = (textField.getText().trim().equals("")) ? "Anonymous" : textField.getText().trim();
+						
+						String[] data = new String[]{name, SudokuUtils.formatSeconds(tickCount) + "", currentBoard.getPuzzleSize() + "", currentType};
 						fileAccess.writeScore(data, "resources/highscores.dat");
 					} catch (IOException e) {
 						System.out.println("[ Error writing high scores! ]");
@@ -571,19 +572,16 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 	}
 	
 	
-	public void initialize(String filePath)  {
+	public void initialize(String filePath) throws IOException  {
 		FileAccess fileAccess = new FileAccess();
-		try {
-			sudokuBoards = fileAccess.readBoard(filePath);
-			SudokuUtils.findSolutions(sudokuBoards);
-			for(int i=sudokuBoards.size()-1; i>=0; i--){
-				if(sudokuBoards.get(i).getTotalNoOfSolutions() == 0)
-					sudokuBoards.remove(i);
-			}
-		} catch (IOException e) {
-			System.out.println("[ Error reading input sudoku file! ]");
-		}
 		
+		sudokuBoards = fileAccess.readBoard(filePath);
+		SudokuUtils.findSolutions(sudokuBoards);
+		for(int i=sudokuBoards.size()-1; i>=0; i--){
+			if(sudokuBoards.get(i).getTotalNoOfSolutions() == 0)
+				sudokuBoards.remove(i);
+		}
+	
 		if(sudokuBoards.size() > 0){
 			currentBoard = sudokuBoards.get(currentPuzzle);	
 			currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());

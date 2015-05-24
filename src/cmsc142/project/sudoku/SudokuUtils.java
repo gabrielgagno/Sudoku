@@ -244,7 +244,6 @@ public abstract class SudokuUtils {
 
 	public static void findSolutions(List<SudokuBoard> sudokuBoards) {
 		for (int i = 0; i < sudokuBoards.size(); i++) {
-			System.out.println("Solving puzzle #" + (i+1));
 			solveUsingBacktracking(sudokuBoards.get(i), false, false);
 			
 			solveUsingBacktracking(sudokuBoards.get(i), true, false);
@@ -269,4 +268,47 @@ public abstract class SudokuUtils {
 		
 		return str;
 	}
+	
+	public static String formatSeconds(int totalSeconds) {
+		int hours;
+		int minutes;
+		int seconds;
+		seconds = totalSeconds%60;
+		totalSeconds /= 60;
+		minutes = totalSeconds%60;
+		totalSeconds /= 60;
+		hours = totalSeconds;
+		String duration = "";
+		if(hours < 10)
+			duration += 0;
+		duration += hours + ":";
+		if(minutes < 10)
+			duration += 0;
+		duration += minutes + ":";
+		if(seconds < 10)
+			duration += 0;
+		duration += seconds;
+		return duration;
+	}
+	
+	public static Integer getSeconds(String time) {
+		int hours;
+		int minutes;
+		int seconds;
+		int totalSeconds;
+		
+		String[] timeTokens = time.split(":");
+		
+		hours = Integer.parseInt(timeTokens[0]);
+		minutes = Integer.parseInt(timeTokens[1]);
+		seconds = Integer.parseInt(timeTokens[2]);
+		
+		totalSeconds = seconds;
+		totalSeconds += (minutes*60);
+		totalSeconds += (hours*60*60);
+		
+		return new Integer(totalSeconds);
+	}
+
+
 }

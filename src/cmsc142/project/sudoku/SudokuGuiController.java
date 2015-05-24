@@ -16,6 +16,7 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class SudokuGuiController implements ActionListener {
 	private SudokuGui sudokuGui;
@@ -47,16 +48,21 @@ public class SudokuGuiController implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if (event.getSource().equals(this.startPanelController.getStartPanel().getNewGame())){
-			System.out.println("hello");
 			JFileChooser fileChooser = new JFileChooser();
 			int response = fileChooser.showOpenDialog(sudokuGui);
 			if(response == JFileChooser.APPROVE_OPTION){
 				ArrayList<File> fileList = new ArrayList<File>();
 				File file = fileChooser.getSelectedFile();
-				this.sudokuGui.changePanel(new LoadingPanel());
-
-				gamePanelController.initialize(file.getAbsolutePath());
-				this.sudokuGui.changePanel(gamePanelController.getGamePanel());
+//				this.sudokuGui.changePanel(new LoadingPanel());
+				try {
+					gamePanelController.initialize(file.getAbsolutePath());
+					this.sudokuGui.changePanel(gamePanelController.getGamePanel());
+				} catch (IOException e) {
+					System.out.println("[ Cannot read file. ]");
+					JOptionPane.showMessageDialog(sudokuGui, "Unable to load file.");
+					this.sudokuGui.changePanel(startPanelController.getStartPanel());
+					
+				}
 			}
 		} else if (event.getSource().equals(this.startPanelController.getStartPanel().getHighScore())){
 			Map attributes = this.highScorePanelController.getHighScorePanel().getNewFont().getAttributes();
