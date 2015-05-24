@@ -131,7 +131,7 @@ public abstract class SudokuUtils {
 	
 			nopts[start] = 1;
 	
-			copyPuzzle(tempPuzzle, puzzle);
+			tempPuzzle = copyPuzzle(puzzle);
 			// Backtracking Algorithm
 			// while with possible solution
 			while (nopts[start] > 0) {
@@ -145,7 +145,7 @@ public abstract class SudokuUtils {
 	
 					if (move == (puzzleSize * puzzleSize) + 1) {
 						int[][] solution = new int[puzzleSize][puzzleSize];
-						copyPuzzle(solution, tempPuzzle);
+						solution = copyPuzzle(tempPuzzle);
 						
 						if(xSudoku){
 							if(ySudoku){
@@ -221,13 +221,14 @@ public abstract class SudokuUtils {
 		}
 	}
 
-	private static void copyPuzzle(int[][] out, int[][] src) {
+	public static int[][] copyPuzzle(int[][] src) {
+		 int[][] out = new int[src.length][src.length];
 		for (int i = 0; i < src.length; i++) {
 			for (int j = 0; j < src[i].length; j++) {
 				out[i][j] = src[i][j];
 			}
 		}
-
+		return out;
 	}
 
 	private static void populateOptions(List<Integer> options, int puzzleSize) {
