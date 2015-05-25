@@ -11,9 +11,9 @@ import java.io.IOException;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -37,6 +37,7 @@ public class HighScorePanel extends JPanel {
 		this.setComponets(typeList, sizeList);
 	}
 
+	@Override
 	public void paintComponent(Graphics g){
 		try {
 			super.paintComponent(g);
@@ -75,7 +76,7 @@ public class HighScorePanel extends JPanel {
 		this.highScoreTable = new JTable(10, 2);
 		highScoreTable.setRowHeight(30);
 		this.highScoreTable.setFont(newFont);
-		
+		this.highScoreTable.getTableHeader().setReorderingAllowed(false);	
 		this.highScoreTable.setFont(newFont);
 		this.highScoreSizeComboBox = new JComboBox<>(sizeList);
 		this.highScoreSizeComboBox.setPreferredSize(new Dimension(10, 10));

@@ -14,8 +14,8 @@ public abstract class SudokuUtils {
 	public static void checkGrid(List<Integer> candidates, int[][] puzzle,
 			int puzzleSize, int row, int column) {
 		int subGridSize = (int) Math.sqrt(puzzleSize);
-		int gridRow = (int) (row / subGridSize) * (subGridSize);
-		int gridColumn = (int) (column / subGridSize) * (subGridSize);
+		int gridRow = row / subGridSize * (subGridSize);
+		int gridColumn = column / subGridSize * (subGridSize);
 
 		for (int i = gridRow; i < gridRow + subGridSize; i++) {
 			for (int j = gridColumn; j < gridColumn + subGridSize; j++) {
@@ -56,24 +56,23 @@ public abstract class SudokuUtils {
 	}
 
 	public static void checkY(List<Integer> candidates, int[][] puzzle, int puzzleSize, int row, int column){
-		int center = (int) (Math.sqrt(puzzleSize)+1);
+		int center = puzzleSize/2;
 		if(puzzleSize%2 == 1 && ((row < center && (row == column || column == puzzleSize-1-row)) || (row >= center && (column == center)))){
 			for(int i=0; i<puzzleSize; i++){
 				for(int j=0; j<puzzleSize; j++){
 					if(puzzle[i][j] != 0 && !(i == row || j == column)){
-						
-						// Always check the center
+
 						if(i >= center && (j == center)){
 							candidates.remove(new Integer(puzzle[i][j]));
 						}
 						
 						// Left Wing of Y
-						if (i < center && i == j && row == column){
+						if ((i < center && i == j && (row == column || (row >= center && column == center)))){
 							candidates.remove(new Integer(puzzle[i][j]));
 						}
 						
 						// Right Wing of Y
-						else if (i < center && j == puzzleSize-1-i && column == puzzleSize-1-row){
+						else if ((i < center && j == puzzleSize-1-i && (column == puzzleSize-1-row || (row >= center && column == center)))){
 							candidates.remove(new Integer(puzzle[i][j]));
 						}
 					}
@@ -195,8 +194,8 @@ public abstract class SudokuUtils {
 				// Backtrack
 				else {
 					if (move <= (puzzleSize * puzzleSize)) {
-						int row = (int) ((move - 1) / puzzleSize);
-						int column = (int) ((move - 1) % puzzleSize);
+						int row = (move - 1) / puzzleSize;
+						int column = (move - 1) % puzzleSize;
 	
 						tempPuzzle[row][column] = puzzle[row][column];
 					}

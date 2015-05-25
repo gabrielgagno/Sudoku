@@ -188,6 +188,7 @@ public class GamePanel extends JPanel{
 		);
 	}
 	
+	@Override
 	public void paintComponent(Graphics g){
 		try {
 			super.paintComponent(g);

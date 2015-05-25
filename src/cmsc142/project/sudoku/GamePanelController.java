@@ -2,7 +2,6 @@ package cmsc142.project.sudoku;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.Point;
@@ -28,6 +27,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
@@ -53,6 +53,7 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		gamePanel.getBackMenuButton().addActionListener(this);
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
+		this.gamePanel.getCheckerButton().setVisible(false);
 		
 		this.gamePanel.getNextPuzzleButton().addMouseListener(this);
 		this.gamePanel.getPrevPuzzleButton().addMouseListener(this);
@@ -265,13 +266,28 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 		} else if(event.getSource() == gamePanel.getResetButton()){
 			resetPuzzle();
 		} else if (event.getSource().equals(gamePanel.getActivateSpecialButton())){
-			isSpecialSudokuActivated = !isSpecialSudokuActivated;
-			drawTable(currentStateOfTable);
-			
-			if(isSpecialSudokuActivated){
-				gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate.png"));
+			if(!isSpecialSudokuActivated){
+				int response = JOptionPane.showConfirmDialog(gamePanel, new JLabel("Are you sure you want to enable this feature?"), "Warning!", JOptionPane.OK_CANCEL_OPTION);
+				
+				if(response == JOptionPane.OK_OPTION){
+					isSpecialSudokuActivated = !isSpecialSudokuActivated;
+					drawTable(currentStateOfTable);
+					
+					if(isSpecialSudokuActivated){
+						gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate.png"));
+					} else {
+						gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+					}
+				}
 			} else {
-				gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+				isSpecialSudokuActivated = !isSpecialSudokuActivated;
+				drawTable(currentStateOfTable);
+				
+				if(isSpecialSudokuActivated){
+					gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate.png"));
+				} else {
+					gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+				}
 			}
 		}
 		
@@ -360,7 +376,7 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
         gamePanel.getSudokuTable().setColumnSelectionAllowed(false);
         gamePanel.getSudokuTable().setRowSelectionAllowed(false);
         CellRender cellRenderer = new CellRender();   // See below
-        cellRenderer.setHorizontalAlignment(JLabel.CENTER);
+        cellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
         gamePanel.getSudokuTable().setDefaultRenderer(Object.class, cellRenderer);
 	}
 
@@ -433,15 +449,15 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 			SudokuBoard board = new SudokuBoard(currentBoard.getPuzzleSize(), currentStateOfTable);
 			int noOfErrors = 0;
 			if(currentType.equals("Normal")){
-				noOfErrors = SudokuUtils.checkPuzzle(board, false, false, false).size();
+				errorCells = SudokuUtils.checkPuzzle(board, false, false, true);
 			} else if(currentType.equals("X")){
-				noOfErrors = SudokuUtils.checkPuzzle(board, true, false, false).size();
+				errorCells = SudokuUtils.checkPuzzle(board, true, false, true);
 			} else if(currentType.equals("Y")){
-				noOfErrors = SudokuUtils.checkPuzzle(board, false, true, false).size();
+				errorCells = SudokuUtils.checkPuzzle(board, false, true, true);
 			} else if(currentType.equals("XY")){
-				noOfErrors = SudokuUtils.checkPuzzle(board, true, true, false).size();
+				errorCells = SudokuUtils.checkPuzzle(board, true, true, true);
 			}
-			
+			noOfErrors = errorCells.size();
 		if(noOfErrors == 0){
 				int [][] checkComplete = currentStateOfTable;
 				boolean areInputsComplete = true;
@@ -531,7 +547,8 @@ public class GamePanelController implements ActionListener, KeyListener, MouseLi
 	}
 	
 	public class CellRender extends DefaultTableCellRenderer  { 
-	    public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
+	    @Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean   isSelected, boolean hasFocus, int row, int column){ 
 		    Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); 
 		    
 		    int fontSize = (int) ((gamePanel.getSudokuTable().getPreferredSize().getWidth()/gamePanel.getSudokuTable().getRowCount())*0.50);

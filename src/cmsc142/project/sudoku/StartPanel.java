@@ -53,6 +53,7 @@ public class StartPanel extends JPanel {
 		this.exit = exit;
 	}
 
+	@Override
 	public void paintComponent(Graphics g){
 		try {
 			super.paintComponent(g);

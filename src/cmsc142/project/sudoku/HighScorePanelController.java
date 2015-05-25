@@ -7,12 +7,9 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.font.TextAttribute;
 import java.io.IOException;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
@@ -159,7 +156,8 @@ public class HighScorePanelController implements ActionListener, MouseListener {
 		    this.colIndex = colIndex;
 		  }
 
-		  public int compare(Object a, Object b) {
+		  @Override
+		public int compare(Object a, Object b) {
 		    Vector v1 = (Vector) a;
 		    Vector v2 = (Vector) b;
 		    Object o1 = v1.get(colIndex);
