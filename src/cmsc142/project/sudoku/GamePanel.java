@@ -62,6 +62,13 @@ public class GamePanel extends JPanel{
 		return button;
 	}
 	
+	private JLabel createLabel(String title, Font font){
+		JLabel label = new JLabel(title);
+		label.setBorder(BorderFactory.createEmptyBorder());
+		label.setFont(font);
+		return label;
+	}
+	
 	private void setComponents() {
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
@@ -72,10 +79,11 @@ public class GamePanel extends JPanel{
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		backMenuButton.setFont(font.deriveFont(attributes));
 		
-		timerLabel = new JLabel("00:00:00");
+		timerLabel = createLabel("00:00:00", new Font("A Year Without Rain", Font.PLAIN, 16));
 		
-		typeLabel = new JLabel("Type:");
+		typeLabel = createLabel("Type", new Font("A Year Without Rain", Font.BOLD, 16));
 		typeComboBox = new JComboBox<String>();
+		typeComboBox.setFont(new Font("A Year Without Rain", Font.PLAIN, 16));
 		typeComboBox.addItem(new String("Normal"));
 		typeComboBox.addItem(new String("X"));
 		typeComboBox.addItem(new String("Y"));
@@ -113,8 +121,10 @@ public class GamePanel extends JPanel{
 				.addComponent(backMenuButton)
 				.addGroup(layout.createSequentialGroup()
 					.addComponent(timerLabel)
+					.addGap(20)
 					.addComponent(typeLabel)
 					.addComponent(typeComboBox)
+					.addGap(20)
 					.addComponent(activateSpecialButton)
 				)
 				.addGroup(layout.createSequentialGroup()
