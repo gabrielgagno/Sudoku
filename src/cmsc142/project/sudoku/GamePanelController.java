@@ -46,11 +46,14 @@ public class GamePanelController implements ActionListener, KeyListener{
 		currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 		gamePanel.getTypeComboBox().addActionListener(this);
 		
-		gamePanel.getActivateSpecialButton().addActionListener(this);
+//		*************SURPRISE*************
+//		gamePanel.getActivateSpecialButton().addActionListener(this);
         gamePanel.getSudokuTable().addKeyListener(this);
         gamePanel.getSolverButton().addActionListener(this);
         gamePanel.getNextPuzzleButton().addActionListener(this);
         gamePanel.getPrevPuzzleButton().addActionListener(this);
+        gamePanel.getNextSolutionButton().addActionListener(this);
+        gamePanel.getPrevSolutionButton().addActionListener(this);
         gamePanel.getCheckerButton().addActionListener(this);
         gamePanel.getResetButton().addActionListener(this);
         gamePanel.validate();
@@ -91,32 +94,41 @@ public class GamePanelController implements ActionListener, KeyListener{
 					SudokuUtils.solveUsingBacktracking(board, xSudoku, ySudoku);
 				}
 				 
-				// If no solution to the current board, notif user
-			
 				solution =  null;
 				if(xSudoku){
 					if(ySudoku){
-						solution = currentBoard.getxYSolution();
+						solution = board.getxYSolution();
 					} else {
-						solution = currentBoard.getxSolution();
+						solution = board.getxSolution();
 					}
 				} else {
 					if(ySudoku){
-						solution = currentBoard.getySolution();
+						solution = board.getySolution();
 					} else {
-						solution = currentBoard.getNormalSolution();
+						solution = board.getNormalSolution();
 					}
 				}				
 				
 				currentSolutionPointer = 0;
+				if(solution.size() == 0){
+					JOptionPane.showMessageDialog(gamePanel, new JLabel("There is no solution for the puzzle's current state."));
+				}else{
+					gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
+					gamePanel.getSolutionCountLabel().setVisible(true);
+				}
+				
 				drawTable(solution.get(currentSolutionPointer));
-				if(solution.size() > 1)
+				if(solution.size() > 1){
 					gamePanel.getNextSolutionButton().setEnabled(true);
+				}
 				gamePanel.getTimer().stop();
+				gamePanel.getSolverButton().setEnabled(false);
+				gamePanel.getCheckerButton().setEnabled(false);
 			}
 			
 		} else if(event.getSource().equals(gamePanel.getNextSolutionButton())){
 			currentSolutionPointer++;
+			gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
 			drawTable(solution.get(currentSolutionPointer));
 			if(currentSolutionPointer+1 == solution.size())
 				gamePanel.getNextSolutionButton().setEnabled(false);
@@ -124,6 +136,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				
 		} else if(event.getSource().equals(gamePanel.getPrevSolutionButton())){
 			currentSolutionPointer--;
+			gamePanel.getSolutionCountLabel().setText((currentSolutionPointer+1) + "/" + solution.size());
 			drawTable(solution.get(currentSolutionPointer));
 			if(currentSolutionPointer == 0)
 				gamePanel.getPrevSolutionButton().setEnabled(false);
@@ -136,9 +149,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				currentBoard = sudokuBoards.get(currentPuzzle);
 				isSpecialSudokuActivated = false;
 				currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());
-				drawTable(currentBoard.getPuzzle());
-				tickCount = 0;
-				errorCells.clear();
+				resetPuzzle();
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
 
@@ -152,9 +163,7 @@ public class GamePanelController implements ActionListener, KeyListener{
 				currentBoard = sudokuBoards.get(currentPuzzle);
 				isSpecialSudokuActivated = false;
 				currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());
-				drawTable(currentBoard.getPuzzle());
-				tickCount = 0;
-				errorCells.clear();
+				resetPuzzle();
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
 				
@@ -206,10 +215,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 				if(response == JOptionPane.OK_OPTION){
 					currentType = (String) gamePanel.getTypeComboBox().getSelectedItem();
 					isSpecialSudokuActivated = false;
-					currentStateOfTable = currentBoard.getPuzzle();
-					drawTable(currentBoard.getPuzzle());
-					tickCount = 0;
-					
+					currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());
+					resetPuzzle();
 				} else if(response == JOptionPane.CANCEL_OPTION){
 					gamePanel.getTypeComboBox().setSelectedItem(currentType);
 				}
@@ -239,11 +246,9 @@ public class GamePanelController implements ActionListener, KeyListener{
 			SudokuBoard currentStateOfBoard = new SudokuBoard(currentBoard.getPuzzleSize(), currentStateOfTable);
 			errorCells = SudokuUtils.checkPuzzle(currentStateOfBoard, xSudoku, ySudoku, true);
 		} else if(event.getSource() == gamePanel.getResetButton()){
-			drawTable(currentBoard.getPuzzle());
-			tickCount = 0;
+			resetPuzzle();
 		} else if (event.getSource().equals(gamePanel.getActivateSpecialButton())){
 			isSpecialSudokuActivated = !isSpecialSudokuActivated;
-			
 			drawTable(currentStateOfTable);
 		}
 		
@@ -445,6 +450,10 @@ public class GamePanelController implements ActionListener, KeyListener{
 		try {
 			sudokuBoards = fileAccess.readBoard(filePath);
 			SudokuUtils.findSolutions(sudokuBoards);
+			for(int i=sudokuBoards.size()-1; i>=0; i--){
+				if(sudokuBoards.get(i).getTotalNoOfSolutions() == 0)
+					sudokuBoards.remove(i);
+			}
 		} catch (IOException e) {
 			System.out.println("[ Error reading input sudoku file! ]");
 		}
@@ -458,5 +467,18 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(sudokuBoards.size() > 1) gamePanel.getNextPuzzleButton().setEnabled(true);
 			gamePanel.getTimer().start();
 		}
+	}
+	
+	public void resetPuzzle(){
+		tickCount = 0;
+		gamePanel.getTimer().start();
+		currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());
+		drawTable(currentBoard.getPuzzle());
+		gamePanel.getNextSolutionButton().setEnabled(false);
+		gamePanel.getPrevSolutionButton().setEnabled(false);
+		gamePanel.getSolutionCountLabel().setVisible(false);
+		gamePanel.getSolverButton().setEnabled(true);
+		gamePanel.getCheckerButton().setEnabled(true);
+		errorCells.clear();
 	}
 }

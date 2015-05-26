@@ -47,11 +47,12 @@ public class SudokuGuiController implements ActionListener {
 				this.sudokuGui.changePanel(gamePanelController.getGamePanel());
 			}
 		} else if (event.getSource().equals(this.startPanelController.getStartPanel().highScore)){
-			highScorePanelController.updateHighScore();
+			highScorePanelController.updateTable();
 			this.sudokuGui.changePanel(highScorePanelController.getHighScorePanel());
 		} else if (event.getSource().equals(this.startPanelController.getStartPanel().exit)){
 			sudokuGui.dispose();
 		} else if(event.getSource().equals(this.highScorePanelController.getHighScorePanel().getBackButton())){
+			System.out.println("hey");
 			this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
 		} else if(event.getSource().equals(this.gamePanelController.getGamePanel().getBackMenuButton())){
 			this.sudokuGui.changePanel(this.startPanelController.getStartPanel());

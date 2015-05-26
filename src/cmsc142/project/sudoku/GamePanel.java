@@ -20,6 +20,7 @@ public class GamePanel extends JPanel{
 	private JButton prevPuzzleButton;
 	private JButton nextPuzzleButton;
 	private JButton prevSolutionButton;
+	private JLabel solutionCountLabel;
 	private JButton nextSolutionButton;
 	private JLabel typeLabel, timerLabel;
 	private JComboBox<String> typeComboBox;
@@ -48,6 +49,7 @@ public class GamePanel extends JPanel{
 		typeComboBox.addItem(new String("XY"));
 		
 		activateSpecialButton = new JButton("Activate Special Sudoku");
+		activateSpecialButton.setVisible(false);
 		prevPuzzleButton = new JButton("<");
 		nextPuzzleButton = new JButton(">");
 		prevPuzzleButton.setEnabled(false);
@@ -61,6 +63,9 @@ public class GamePanel extends JPanel{
 		nextSolutionButton = new JButton(">>");
 		prevSolutionButton.setEnabled(false);
 		nextSolutionButton.setEnabled(false);
+		
+		solutionCountLabel = new JLabel("");
+		solutionCountLabel.setVisible(false);
 		
 		checkerButton = new JButton("Check");
 		resetButton = new JButton("Reset");
@@ -86,6 +91,7 @@ public class GamePanel extends JPanel{
 						.addComponent(sudokuTable)
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(prevSolutionButton)
+							.addComponent(solutionCountLabel)
 							.addComponent(nextSolutionButton)
 						)
 						.addGroup(layout.createSequentialGroup()
@@ -117,6 +123,7 @@ public class GamePanel extends JPanel{
 					.addComponent(sudokuTable)
 					.addGroup(layout.createParallelGroup(Alignment.CENTER)
 						.addComponent(prevSolutionButton)
+						.addComponent(solutionCountLabel)
 						.addComponent(nextSolutionButton)
 					)
 					.addGap(20)
@@ -264,5 +271,13 @@ public class GamePanel extends JPanel{
 
 	public void setResetButton(JButton resetButton) {
 		this.resetButton = resetButton;
+	}
+
+	public JLabel getSolutionCountLabel() {
+		return solutionCountLabel;
+	}
+
+	public void setSolutionCountLabel(JLabel solutionCountLabel) {
+		this.solutionCountLabel = solutionCountLabel;
 	}
 }

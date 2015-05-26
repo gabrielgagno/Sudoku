@@ -11,19 +11,28 @@ import javax.swing.table.DefaultTableModel;
 public class HighScorePanelController implements ActionListener {
 	private HighScorePanel highScorePanel;
 	private HashMap<String, ArrayList<ArrayList<String[]>>> highscores;
+	private String[] typeList = SudokuType.getValues();
+	private String[] sizeList = null;
 	
 	public HighScorePanelController(){
-		updateHighScore();
+		initializeHighScore();
 		this.highScorePanel.getHighScoreSizeComboBox().addActionListener(this);
 		this.highScorePanel.getHighScoreTypeComboBox().addActionListener(this);
+		
 	}
 	
-	public void updateHighScore() {
+	public void initializeHighScore() {
+		readHighScore();
+		this.highScorePanel = new HighScorePanel(typeList, sizeList);
+		updateTable();
+	}
+
+	public void readHighScore() {
 		FileAccess fileAccess = new FileAccess();
 		ArrayList<ArrayList<String[]>> highScorePerPuzzleType = null;
 		
-		String[] typeList = SudokuType.getValues();
-		String[] sizeList = null;
+		typeList = SudokuType.getValues();
+		sizeList = null;
 		
 		try {
 			highscores = fileAccess.readScoreData("resources/highscores.dat");
@@ -39,12 +48,11 @@ public class HighScorePanelController implements ActionListener {
 		} catch (IOException e) {
 			System.out.println("Error reading file! " + e.getMessage());
 		}
-		
-		this.highScorePanel = new HighScorePanel(typeList, sizeList);		
-		updateTable();
 	}
-
-	private void updateTable(){
+	
+	
+	public void updateTable(){
+		readHighScore();
 		String sizeSelected = this.highScorePanel.getHighScoreSizeComboBox().getSelectedItem().toString();
 		String typeSelected = this.highScorePanel.getHighScoreTypeComboBox().getSelectedItem().toString();
 		ArrayList<String[]> highScoreList = highscores.get(sizeSelected).get(SudokuType.valueOf(typeSelected).getValue());
@@ -64,12 +72,13 @@ public class HighScorePanelController implements ActionListener {
         };
 		
 		this.highScorePanel.getHighScoreTable().setModel(dataModel);
-		
+		this.highScorePanel.getHighScoreTable().repaint();
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent event) {
 		if(event.getSource().equals(this.highScorePanel.getHighScoreSizeComboBox()) || event.getSource().equals(this.highScorePanel.getHighScoreTypeComboBox())){
+			System.out.println("sdads");
 			updateTable();
 		}
 	}
