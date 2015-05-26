@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
 public class SudokuGuiController implements ActionListener {
@@ -53,9 +54,10 @@ public class SudokuGuiController implements ActionListener {
 		} else if (event.getSource().equals(this.startPanelController.getStartPanel().getExit())){
 			sudokuGui.dispose();
 		} else if(event.getSource().equals(this.highScorePanelController.getHighScorePanel().getBackButton())){
-			System.out.println("hey");
+			startPanelController.getStartPanel().getHighScore().setIcon(new ImageIcon("./resources/images/Buttons/Button_Score.png"));
 			this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
 		} else if(event.getSource().equals(this.gamePanelController.getGamePanel().getBackMenuButton())){
+			startPanelController.getStartPanel().getNewGame().setIcon(new ImageIcon("./resources/images/Buttons/Button_New.png"));
 			this.sudokuGui.changePanel(this.startPanelController.getStartPanel());
 		}
 	}

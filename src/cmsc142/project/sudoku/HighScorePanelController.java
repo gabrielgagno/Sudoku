@@ -1,12 +1,15 @@
 package cmsc142.project.sudoku;
 
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.font.TextAttribute;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -21,7 +24,7 @@ public class HighScorePanelController implements ActionListener, MouseListener {
 		initializeHighScore();
 		this.highScorePanel.getHighScoreSizeComboBox().addActionListener(this);
 		this.highScorePanel.getHighScoreTypeComboBox().addActionListener(this);
-		this.highScorePanel.getBackButton().addActionListener(this);
+		this.highScorePanel.getBackButton().addMouseListener(this);
 		
 	}
 	
@@ -98,14 +101,14 @@ public class HighScorePanelController implements ActionListener, MouseListener {
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		// TODO Auto-generated method stub
+		this.highScorePanel.getBackButton().setFont(this.highScorePanel.getNewFont());	
 		
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent event) {
 		if(event.getSource().equals(this.highScorePanel.getBackButton())){
-			
+			this.highScorePanel.getBackButton().setFont(this.highScorePanel.getNewFont());
 		}
 		
 	}
@@ -113,7 +116,9 @@ public class HighScorePanelController implements ActionListener, MouseListener {
 	@Override
 	public void mouseExited(MouseEvent event) {
 		if(event.getSource().equals(this.highScorePanel.getBackButton())){
-			
+			Map attributes = this.highScorePanel.getFont().getAttributes();
+			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);	
+			this.highScorePanel.getBackButton().setFont(this.highScorePanel.getNewFont().deriveFont(attributes));	
 		}
 		
 	}
@@ -121,7 +126,9 @@ public class HighScorePanelController implements ActionListener, MouseListener {
 	@Override
 	public void mousePressed(MouseEvent event) {
 		if(event.getSource().equals(this.highScorePanel.getBackButton())){
-			
+			Map attributes = this.highScorePanel.getFont().getAttributes();
+			attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);	
+			this.highScorePanel.getBackButton().setFont(this.highScorePanel.getNewFont().deriveFont(attributes));	
 		}
 		
 	}
@@ -129,7 +136,7 @@ public class HighScorePanelController implements ActionListener, MouseListener {
 	@Override
 	public void mouseReleased(MouseEvent event) {
 		if(event.getSource().equals(this.highScorePanel.getBackButton())){
-			
+			this.highScorePanel.getBackButton().setFont(this.highScorePanel.getNewFont());
 		}
 		
 	}
