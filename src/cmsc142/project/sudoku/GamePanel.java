@@ -1,15 +1,18 @@
 package cmsc142.project.sudoku;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
+import javax.swing.BorderFactory;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -50,11 +53,25 @@ public class GamePanel extends JPanel{
 		return button;
 	}
 	
+	private JButton createButton(String title, Font font){
+		JButton button = new JButton(title);
+		button.setBorderPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setContentAreaFilled(false);
+		button.setFont(font);
+		return button;
+	}
+	
 	private void setComponents() {
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
 		
-		backMenuButton = new JButton("Back");
+		backMenuButton = createButton("Back to Menu", new Font("A Year Without Rain", Font.PLAIN, 20));
+		Font font = backMenuButton.getFont();
+		Map attributes = font.getAttributes();
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		backMenuButton.setFont(font.deriveFont(attributes));
+		
 		timerLabel = new JLabel("00:00:00");
 		
 		typeLabel = new JLabel("Type:");
@@ -76,8 +93,8 @@ public class GamePanel extends JPanel{
 		sudokuTable.setPreferredSize(new Dimension(400, 400));
 		sudokuTable.setRowHeight((int) this.sudokuTable.getPreferredSize().getWidth()/this.sudokuTable.getRowCount());
 		
-		prevSolutionButton = new JButton("<<");
-		nextSolutionButton = new JButton(">>");
+		prevSolutionButton = createButton("<< Prev", new Font("A Year Without Rain", Font.PLAIN, 20));
+		nextSolutionButton = createButton("Next >>", new Font("A Year Without Rain", Font.PLAIN, 20));
 		prevSolutionButton.setEnabled(false);
 		nextSolutionButton.setEnabled(false);
 		
