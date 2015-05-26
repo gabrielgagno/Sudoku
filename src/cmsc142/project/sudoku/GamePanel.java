@@ -36,6 +36,7 @@ public class GamePanel extends JPanel{
 	private JComboBox<String> typeComboBox;
 	private JTable sudokuTable;
 	private Timer timer;
+	private JLabel timeGif;
 	
 	public GamePanel(){
 		this.setPreferredSize(new Dimension(600,600));
@@ -79,6 +80,8 @@ public class GamePanel extends JPanel{
 		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		backMenuButton.setFont(font.deriveFont(attributes));
 		
+		timeGif = new JLabel(new ImageIcon("./resources/images/time.gif"));
+		
 		timerLabel = createLabel("00:00:00", new Font("A Year Without Rain", Font.PLAIN, 16));
 		
 		typeLabel = createLabel("Type", new Font("A Year Without Rain", Font.BOLD, 16));
@@ -120,12 +123,16 @@ public class GamePanel extends JPanel{
 			.addGroup(layout.createParallelGroup()
 				.addComponent(backMenuButton)
 				.addGroup(layout.createSequentialGroup()
+					.addGap(40)
+					.addComponent(timeGif)
+					.addGap(5)
 					.addComponent(timerLabel)
-					.addGap(20)
+					.addGap(30)
 					.addComponent(typeLabel)
 					.addComponent(typeComboBox)
-					.addGap(20)
+					.addGap(30)
 					.addComponent(activateSpecialButton)
+					.addGap(40)
 				)
 				.addGroup(layout.createSequentialGroup()
 					.addComponent(prevPuzzleButton)
@@ -148,15 +155,16 @@ public class GamePanel extends JPanel{
 		);
 		
 		layout.setVerticalGroup(layout.createSequentialGroup()
-			.addGap(10)
+			.addGap(5)
 			.addComponent(backMenuButton)
 			.addGroup(layout.createParallelGroup(Alignment.CENTER)
+				.addComponent(timeGif)
 				.addComponent(timerLabel)
 				.addComponent(typeLabel)
 				.addComponent(typeComboBox)
 				.addComponent(activateSpecialButton)
 			)
-			.addGap(20)
+			.addGap(10)
 			.addGroup(layout.createParallelGroup(Alignment.CENTER)
 				.addComponent(prevPuzzleButton)
 				.addGroup(layout.createSequentialGroup()
@@ -182,7 +190,7 @@ public class GamePanel extends JPanel{
 	public void paintComponent(Graphics g){
 		try {
 			super.paintComponent(g);
-			BufferedImage image = ImageIO.read(new File("./resources/images/BG_1.jpg"));
+			BufferedImage image = ImageIO.read(new File("./resources/images/BG_0.jpg"));
 			g.drawImage(image, 0, 0, this);
 		} catch (IOException e) {
 			System.out.println("[ Error reading background.png ]");

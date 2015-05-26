@@ -153,8 +153,6 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(response == JOptionPane.OK_OPTION){
 				currentPuzzle++;
 				currentBoard = sudokuBoards.get(currentPuzzle);
-				isSpecialSudokuActivated = false;
-				currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());
 				resetPuzzle();
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
@@ -167,8 +165,6 @@ public class GamePanelController implements ActionListener, KeyListener{
 			if(response == JOptionPane.OK_OPTION){
 				currentPuzzle--;
 				currentBoard = sudokuBoards.get(currentPuzzle);
-				isSpecialSudokuActivated = false;
-				currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());
 				resetPuzzle();
 				currentType = gamePanel.getTypeComboBox().getItemAt(0).toString();
 				gamePanel.getTypeComboBox().setSelectedItem(currentType);
@@ -256,6 +252,12 @@ public class GamePanelController implements ActionListener, KeyListener{
 		} else if (event.getSource().equals(gamePanel.getActivateSpecialButton())){
 			isSpecialSudokuActivated = !isSpecialSudokuActivated;
 			drawTable(currentStateOfTable);
+			
+			if(isSpecialSudokuActivated){
+				gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Deactivate.png"));
+			} else {
+				gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+			}
 		}
 		
 		if(event.getSource() == gamePanel.getTimer()){
@@ -500,6 +502,8 @@ public class GamePanelController implements ActionListener, KeyListener{
 	}
 	
 	public void resetPuzzle(){
+		isSpecialSudokuActivated = false;
+		gamePanel.getActivateSpecialButton().setIcon(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
 		tickCount = 0;
 		gamePanel.getTimer().start();
 		currentStateOfTable = SudokuUtils.copyPuzzle(currentBoard.getPuzzle());
