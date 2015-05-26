@@ -1,9 +1,16 @@
 package cmsc142.project.sudoku;
 
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -33,7 +40,16 @@ public class GamePanel extends JPanel{
 		this.setVisible(true);
 		this.setFocusable(true);
 	}
-
+	
+	private JButton createButtonImage(ImageIcon imageIcon){
+		JButton button = new JButton(imageIcon);
+		button.setBorderPainted(false);
+		button.setBorder(BorderFactory.createEmptyBorder());
+		button.setContentAreaFilled(false);
+		
+		return button;
+	}
+	
 	private void setComponents() {
 		GroupLayout layout = new GroupLayout(this);
 		this.setLayout(layout);
@@ -48,9 +64,11 @@ public class GamePanel extends JPanel{
 		typeComboBox.addItem(new String("Y"));
 		typeComboBox.addItem(new String("XY"));
 		
-		activateSpecialButton = new JButton("Activate Special Sudoku");
-		prevPuzzleButton = new JButton("<");
-		nextPuzzleButton = new JButton(">");
+		activateSpecialButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Activate.png"));
+		
+		prevPuzzleButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Left.png"));
+		nextPuzzleButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Right.png"));
+		
 		prevPuzzleButton.setEnabled(false);
 		nextPuzzleButton.setEnabled(false);
 		
@@ -66,9 +84,9 @@ public class GamePanel extends JPanel{
 		solutionCountLabel = new JLabel("");
 		solutionCountLabel.setVisible(false);
 		
-		checkerButton = new JButton("Check");
-		resetButton = new JButton("Reset");
-		solverButton = new JButton("Solve");
+		checkerButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Check.png"));
+		resetButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Reset.png"));
+		solverButton = createButtonImage(new ImageIcon("./resources/images/Buttons/Button_Solve.png"));
 
 		layout.setAutoCreateGaps(true);
 		layout.setAutoCreateContainerGaps(true);
@@ -138,8 +156,17 @@ public class GamePanel extends JPanel{
 		);
 	}
 	
+	public void paintComponent(Graphics g){
+		try {
+			super.paintComponent(g);
+			BufferedImage image = ImageIO.read(new File("./resources/images/BG_1.jpg"));
+			g.drawImage(image, 0, 0, this);
+		} catch (IOException e) {
+			System.out.println("[ Error reading background.png ]");
+		}
+	}
+	
 	public String computeDuration(int timeLength) {
-		// TODO Auto-generated method stub
 		int hour, min, sec;
 		sec = timeLength%60;
 		timeLength /= 60;
